@@ -17,40 +17,62 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
 import javax.swing.*;
+import main.Personaje;
+
+
 public class Mavenproject1 {
 
-   ArrayList<Personaje> personajeLista = new ArrayList<>();
-
+    List<PersonajeEnJuego> personajes = new ArrayList<>();
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int option;
         Mavenproject1 lfpaTarea2_202300673 = new Mavenproject1();
         do{
             System.out.println("Menu principal");
-            System.out.println("1. Lectura de archivo");
-            System.out.println("2. Escritura de archivo");
-            System.out.println("3. Salir");
+            System.out.println("1. Cargar archivo");
+            System.out.println("2. Jugar");
+            System.out.println("3. Generar reporte de mayor ataque");
+            System.out.println("4. Generar reporte con mayor defensa");
+            System.out.println("5. Mostrar informacion del desarrollador");
+            System.out.println("7. Salir");
+            System.out.println("6. Pruebas xd");
             option = scanner.nextInt();
                       switch (option){
                 case 1:
                     lfpaTarea2_202300673.lecturaArchivo();
                     break;
                 case 2:
-                    lfpaTarea2_202300673.escrituraArchivo();
+                     lfpaTarea2_202300673.startBattle();
                     break;
                 case 3:
-                    System.out.println("Saliendo del sistema....");
+                    lfpaTarea2_202300673.lecturaArchivo();
                     break;
+                case 4:
+                    lfpaTarea2_202300673.lecturaArchivo();
+                    break;
+                case 5:
+                    System.out.println("Nombre: Alvaro Gabriel Ceballos Gil");
+                    System.out.println("Carnet: 202300673");
+                    System.out.println("Lenguajes Formales de Programacion, seccion A-");
+                    break;
+                case 6:
+                    System.out.println("Saliendo del sistema....");
+                    break;     
+                case 7:
+
+                    break;
+                
                 default:
                     System.out.println("Opción no encontrada");
                     break;
             }
             
-        }while(option!=3);
+        }while(option!=7);
     }
         public void lecturaArchivo(){
         JFileChooser fileChooser = new JFileChooser();
@@ -61,65 +83,102 @@ public class Mavenproject1 {
             File archivoSeleccionado = fileChooser.getSelectedFile();
             String ruta = archivoSeleccionado.getAbsolutePath();
             
-            try{
-                File archivo = new File(ruta);
+            personajes = leerPersonajes(ruta);
+            System.out.println("Lista de personajes particiapntes: ");
+            for(PersonajeEnJuego personajeIteracion : personajes){
+                System.out.println(personajeIteracion);
                 
-                if(archivo.exists()){
-                    BufferedReader br = new BufferedReader(new FileReader(archivo));
-                    String linea;
-                    br.readLine();
-
-                    while((linea = br.readLine())!=null){
-                        System.out.println(linea);
-                         String[] datos = linea.split("\\|");
+            }
+            
+           
+            
+          // List<PersonajeEnJuego> personajeReportes = new ArrayList<>();
+        //for (PersonajeEnJuego iterarPersonajeReporte : personaje) {
+            //personajeReportes.add(iterarPersonajeReporte.clone());
+        //}
+            
+        }else{
+            System.out.println("No se seleccionó ningún archivo");
+        }
+    }
+        
+        
+    public List<PersonajeEnJuego> leerPersonajes(String ruta){
+        List<PersonajeEnJuego> personajeLista2 = new ArrayList<>();
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(ruta))){
+        
+            String linea;
+            br.readLine();//Leyendo los encabezados
+            
+            while((linea = br.readLine())!=null){
+                String[] datos = linea.split("\\|");
                         
                         //Encontrando los datos
                         String nombre = datos[0].trim();
                         int salud = Integer.parseInt(datos[1].trim());
                         int ataque = Integer.parseInt(datos[2].trim());
                         int defensa = Integer.parseInt(datos[3].trim());
+
                         
-                        Personaje personaje = new Personaje(nombre, salud, ataque, defensa);
-                        personajeLista.add(personaje);
+   
                         
-                    }
-                }else{
-                    System.out.println("Error: el archivo no existe :(");
-                }
-            }catch (IOException e){
-                System.out.println("Error al leer el archivo "+e.getMessage());
+                        PersonajeEnJuego personajeJuego = new PersonajeEnJuego(nombre, salud, ataque, defensa);
+                        personajeLista2.add(personajeJuego);
             }
-            
-        }else{
-            System.out.println("No se seleccionó ningún archivo");
+           
+        }catch(IOException e){
+            System.out.println("Error al leer el archivo: "+e.getMessage());
         }
+        
+        return personajeLista2;
     }
     
-    public void escrituraArchivo() {
-        String contenido = "<html>";
-        contenido+="<table border=\"solid\">";
-        contenido+="<tr>";
-        contenido+="<th>Nombre</th><th>Salud</th><th>Ataque</th><th>Defensa</th>";
-        contenido+="</tr>";
-        
-        
-        for(Personaje personajeIteracion : personajeLista){
-            contenido+="<tr>";
-            contenido+="<td>"+personajeIteracion.nombre+"</td>";
-            contenido+="<td>"+personajeIteracion.salud+"</td>";
-            contenido+="<td>"+personajeIteracion.ataque+"</td>";
-            contenido+="<td>"+personajeIteracion.defensa+"</td>";
-            contenido+="</tr>";
-        }
-        contenido+="</table>";
-        try (BufferedWriter escritor = new BufferedWriter(new FileWriter("C:\\Users\\aceba\\OneDrive\\Desktop\\Tareas\\Tareas 5\\Lfp\\Lab\\reporte.html"))) {
-            escritor.write(contenido);
-            System.out.println("El archivo se ha escrito correctamente.");
-        } catch (IOException e) {
-            System.out.println("Error al escribir en el archivo: " + e.getMessage());
-        }
+ public void startBattle(){
+     System.out.println("INICIA EL COMBATE");
+     List<PersonajeEnJuego> listaConcursante = new ArrayList<>(personajes);
 
-        contenido.concat("<html>");
+     while (listaConcursante.size() > 1){
+             List<PersonajeEnJuego> listaSobrevivientes = new ArrayList<>();
+         System.out.println("NUEVA RONDA");
+         for(int i=0; i< listaConcursante.size(); i+=2){
+             if( i+1 < listaConcursante.size()){
+                 
+                PersonajeEnJuego player1  = listaConcursante.get(i);
+                PersonajeEnJuego player2  = listaConcursante.get(i+1);
+                
+                 System.out.println("Enfrentamiento de "+player1.nombre+" y " +player2.nombre);
+                 
+                 while (player1.vidaInicial > 0 && player2.vidaInicial > 0) {
+                 int danioj1 = Math.max(0, player1.ataque - player2.defensa);
+                 int danioj2 = Math.max(0, player2.ataque - player1.defensa);
+                 
+                 System.out.println(player2.vidaInicial+" de "+ player2.nombre);
+                 player2.vidaInicial -= danioj1;
+                 System.out.println(player1.vidaInicial+" de "+ player1.nombre);
+                 player1.vidaInicial -= danioj2;
+                 
+                 System.out.println("El concursante "+player1.nombre + " hizo " + danioj1 + " de daño a " + player2.nombre);
+                    System.out.println("El concursante "+player2.nombre + " hizo " + danioj2 + " de daño a " + player1.nombre);
+                 
+                 }
+                 
+                 
+                 if (player1.vidaInicial > 0) {
+                        listaSobrevivientes.add(player1);
+                        System.out.println("Ganador de la ronda: " + player1.nombre);
+                    } else {
+                        listaSobrevivientes.add(player2);
+                        System.out.println("Ganador de la ronda: " + player2.nombre);
+                    }
+           
+                 } else {
+                    listaSobrevivientes.add(listaConcursante.get(i));
+                }
+            }
+            listaConcursante = listaSobrevivientes;
+        }
+        System.out.println("\nEL GANADOR DEL TORNEO ES: " + listaConcursante.get(0).nombre);
     }
 }
     

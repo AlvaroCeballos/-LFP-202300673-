@@ -22,4 +22,13 @@ public class Personaje {
         this.defensa=defensa;
     }
     
+    @Override
+    public String toString(){
+        return nombre + "(Salud: "+salud+" Ataque: "+ataque+" Defensa: "+defensa+")";
+    }
+        
+     /*Recomendación:
+    Crear un método que devuelva una línea html con los datos del personaje para los reportes
+     */
+
 }
