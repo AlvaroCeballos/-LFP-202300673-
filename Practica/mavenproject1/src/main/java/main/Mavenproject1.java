@@ -15,6 +15,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,8 +40,7 @@ public class Mavenproject1 {
             System.out.println("3. Generar reporte de mayor ataque");
             System.out.println("4. Generar reporte con mayor defensa");
             System.out.println("5. Mostrar informacion del desarrollador");
-            System.out.println("7. Salir");
-            System.out.println("6. Pruebas xd");
+            System.out.println("6. Salir");
             option = scanner.nextInt();
                       switch (option){
                 case 1:
@@ -50,7 +50,7 @@ public class Mavenproject1 {
                      lfpaTarea2_202300673.startBattle();
                     break;
                 case 3:
-                    lfpaTarea2_202300673.lecturaArchivo();
+                    lfpaTarea2_202300673.generarTop5MayorAtaqueHTML();
                     break;
                 case 4:
                     lfpaTarea2_202300673.lecturaArchivo();
@@ -61,7 +61,7 @@ public class Mavenproject1 {
                     System.out.println("Lenguajes Formales de Programacion, seccion A-");
                     break;
                 case 6:
-                    System.out.println("Saliendo del sistema....");
+                    System.out.println("Has cerrado el programa");
                     break;     
                 case 7:
 
@@ -91,11 +91,7 @@ public class Mavenproject1 {
             }
             
            
-            
-          // List<PersonajeEnJuego> personajeReportes = new ArrayList<>();
-        //for (PersonajeEnJuego iterarPersonajeReporte : personaje) {
-            //personajeReportes.add(iterarPersonajeReporte.clone());
-        //}
+          
             
         }else{
             System.out.println("No se seleccionó ningún archivo");
@@ -134,6 +130,42 @@ public class Mavenproject1 {
         return personajeLista2;
     }
     
+    
+ 
+    
+ public void generarTop5MayorAtaqueHTML() {
+        
+        List<PersonajeEnJuego> copiaPersonajes = new ArrayList<>(personajes);
+        int n = copiaPersonajes.size();
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (copiaPersonajes.get(j).ataque < copiaPersonajes.get(j + 1).ataque) {
+                    Collections.swap(copiaPersonajes, j, j + 1);
+                }
+            }
+        }
+        
+        StringBuilder contenido = new StringBuilder();
+        contenido.append("<html><head><title>Top 5 Mayor Ataque</title></head><body>");
+        contenido.append("<h2>Top 5 Personajes con Mayor Ataque</h2>");
+        contenido.append("<table border='1'><tr><th>Posición</th><th>Nombre</th><th>Ataque</th></tr>");
+        
+        for (int i = 0; i < Math.min(5, copiaPersonajes.size()); i++) {
+            contenido.append("<tr><td>").append(i + 1).append("</td>");
+            contenido.append("<td>").append(copiaPersonajes.get(i).nombre).append("</td>");
+            contenido.append("<td>").append(copiaPersonajes.get(i).ataque).append("</td></tr>");
+        }
+        
+        contenido.append("</table></body></html>");
+        
+        try (BufferedWriter escritor = new BufferedWriter(new FileWriter("Top5MayorAtaque.html"))) {
+            escritor.write(contenido.toString());
+            System.out.println("Reporte HTML generado correctamente: Top5MayorAtaque.html");
+        } catch (IOException e) {
+            System.out.println("Error al escribir el archivo HTML: " + e.getMessage());
+        }
+    }
+    
  public void startBattle(){
      System.out.println("INICIA EL COMBATE");
      List<PersonajeEnJuego> listaConcursante = new ArrayList<>(personajes);
@@ -166,10 +198,10 @@ public class Mavenproject1 {
                  
                  if (player1.vidaInicial > 0) {
                         listaSobrevivientes.add(player1);
-                        System.out.println("Ganador de la ronda: " + player1.nombre);
+                        System.out.println(player1.nombre + " HA GANADO LA RONODA -----------------------------");
                     } else {
                         listaSobrevivientes.add(player2);
-                        System.out.println("Ganador de la ronda: " + player2.nombre);
+                        System.out.println(player2.nombre+ " HA GANADO LA RONODA -----------------------------");
                     }
            
                  } else {
@@ -178,7 +210,7 @@ public class Mavenproject1 {
             }
             listaConcursante = listaSobrevivientes;
         }
-        System.out.println("\nEL GANADOR DEL TORNEO ES: " + listaConcursante.get(0).nombre);
+        System.out.println("\nEL CAMPEON DEL TONREO ES: " + listaConcursante.get(0).nombre+" APLAUSOS--------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
 }
     
