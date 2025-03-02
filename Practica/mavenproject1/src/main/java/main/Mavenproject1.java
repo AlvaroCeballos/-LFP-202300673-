@@ -145,26 +145,32 @@ public class Mavenproject1 {
             }
         }
         
-        StringBuilder contenido = new StringBuilder();
-        contenido.append("<html><head><title>Top 5 Mayor Ataque</title></head><body>");
-        contenido.append("<h2>Top 5 Personajes con Mayor Ataque</h2>");
-        contenido.append("<table border='1'><tr><th>Posición</th><th>Nombre</th><th>Ataque</th></tr>");
+        String contenido = "<html>";
+        contenido+="<table border=\"solid\">";
+        contenido+="<tr>";
+        contenido+=("<h2>Top 5 Personajes con Mayor Ataque</h2>");
+        contenido+="<th>Nombre</th><th>Ataque</th>";
+        contenido+="</tr>";
         
-        for (int i = 0; i < Math.min(5, copiaPersonajes.size()); i++) {
-            contenido.append("<tr><td>").append(i + 1).append("</td>");
-            contenido.append("<td>").append(copiaPersonajes.get(i).nombre).append("</td>");
-            contenido.append("<td>").append(copiaPersonajes.get(i).ataque).append("</td></tr>");
+        
+        for(PersonajeEnJuego personajeIteracion : copiaPersonajes){
+            contenido+="<tr>";
+            contenido+="<td>"+personajeIteracion.nombre+"</td>";
+            contenido+="<td>"+personajeIteracion.ataque+"</td>";
+            contenido+="</tr>";
         }
+        contenido+="</table>";
         
-        contenido.append("</table></body></html>");
         
-        try (BufferedWriter escritor = new BufferedWriter(new FileWriter("Top5MayorAtaque.html"))) {
-            escritor.write(contenido.toString());
-            System.out.println("Reporte HTML generado correctamente: Top5MayorAtaque.html");
+        try (BufferedWriter escritor = new BufferedWriter(new FileWriter("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Practica\\mavenproject1\\reporteAtaque.html"))) {
+            escritor.write(contenido);
+            System.out.println("El archivo se ha escrito correctamente.");
         } catch (IOException e) {
-            System.out.println("Error al escribir el archivo HTML: " + e.getMessage());
+            System.out.println("Error al escribir en el archivo: " + e.getMessage());
         }
+        contenido.concat("<html>");
     }
+    
     
  public void startBattle(){
      System.out.println("INICIA EL COMBATE");
