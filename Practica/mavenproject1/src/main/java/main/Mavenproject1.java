@@ -50,29 +50,22 @@ public class Mavenproject1 {
                      lfpaTarea2_202300673.startBattle();
                     break;
                 case 3:
-                    lfpaTarea2_202300673.generarTop5MayorAtaqueHTML();
+                    lfpaTarea2_202300673.reporteAtaque();
                     break;
                 case 4:
-                    lfpaTarea2_202300673.lecturaArchivo();
+                    lfpaTarea2_202300673.reporteDefensa();
                     break;
                 case 5:
                     System.out.println("Nombre: Alvaro Gabriel Ceballos Gil");
                     System.out.println("Carnet: 202300673");
                     System.out.println("Lenguajes Formales de Programacion, seccion A-");
-                    break;
-                case 6:
-                    System.out.println("Has cerrado el programa");
-                    break;     
-                case 7:
-
-                    break;
-                
+                    break;    
                 default:
-                    System.out.println("Opción no encontrada");
+                    System.out.println("Has cerrado el programa");
                     break;
             }
             
-        }while(option!=7);
+        }while(option!=6);
     }
         public void lecturaArchivo(){
         JFileChooser fileChooser = new JFileChooser();
@@ -133,7 +126,7 @@ public class Mavenproject1 {
     
  
     
- public void generarTop5MayorAtaqueHTML() {
+ public void reporteAtaque() {
         
         List<PersonajeEnJuego> copiaPersonajes = new ArrayList<>(personajes);
         int n = copiaPersonajes.size();
@@ -149,51 +142,98 @@ public class Mavenproject1 {
         contenido+="<table border=\"solid\">";
         contenido+="<tr>";
         contenido+=("<h2>Top 5 Personajes con Mayor Ataque</h2>");
-        contenido+="<th>Nombre</th><th>Ataque</th>";
+        contenido+="<th>Numero</th><th>Nombre</th><th>Ataque</th>";
         contenido+="</tr>";
         
-        
-        for(PersonajeEnJuego personajeIteracion : copiaPersonajes){
+       int i=1;
+       for(PersonajeEnJuego personajeIteracion : copiaPersonajes){
+           if (i>5) break;
             contenido+="<tr>";
+            contenido+="<td>"+i+"</td>";
             contenido+="<td>"+personajeIteracion.nombre+"</td>";
             contenido+="<td>"+personajeIteracion.ataque+"</td>";
             contenido+="</tr>";
-        }
+         i++;
+         
+     }
+        
         contenido+="</table>";
         
         
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Practica\\mavenproject1\\reporteAtaque.html"))) {
             escritor.write(contenido);
-            System.out.println("El archivo se ha escrito correctamente.");
+            System.out.println("El archivo de ataque se ha escrito correctamente");
         } catch (IOException e) {
-            System.out.println("Error al escribir en el archivo: " + e.getMessage());
+            System.out.println("Ha ocirrdo del siguiente error: " + e.getMessage());
         }
         contenido.concat("<html>");
     }
     
-    
+   
+ public void reporteDefensa() {
+        
+        List<PersonajeEnJuego> copiaPersonajes = new ArrayList<>(personajes);
+        int n = copiaPersonajes.size();
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (copiaPersonajes.get(j).defensa < copiaPersonajes.get(j + 1).defensa) {
+                    Collections.swap(copiaPersonajes, j, j + 1);
+                }
+            }
+        }
+        
+        String contenido = "<html>";
+        contenido+="<table border=\"solid\">";
+        contenido+="<tr>";
+        contenido+=("<h2>Top 5 Personajes con Mayor Defensa</h2>");
+        contenido+="<th>Numero</th><th>Nombre</th><th>Defensa</th>";
+        contenido+="</tr>";
+        
+        int i=1;
+        for(PersonajeEnJuego personajeIteracion : copiaPersonajes){
+            if (i>5) break;
+            contenido+="<tr>";
+            contenido+="<td>"+i+"</td>";
+            contenido+="<td>"+personajeIteracion.nombre+"</td>";
+            contenido+="<td>"+personajeIteracion.defensa+"</td>";
+            contenido+="</tr>";
+            i++;
+        }
+        contenido+="</table>";
+        
+        
+        try (BufferedWriter escritor = new BufferedWriter(new FileWriter("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Practica\\mavenproject1\\reporteDefensa.html"))) {
+            escritor.write(contenido);
+            System.out.println("El archivo de defensa se ha escrito correctamente");
+        } catch (IOException e) {
+            System.out.println("Ha ocirrdo del siguiente error: " + e.getMessage());
+        }
+        contenido.concat("<html>");
+    }
+ 
+ 
  public void startBattle(){
-     System.out.println("INICIA EL COMBATE");
+     System.out.println("EL COMBATE HA COMENZADO");
      List<PersonajeEnJuego> listaConcursante = new ArrayList<>(personajes);
 
      while (listaConcursante.size() > 1){
              List<PersonajeEnJuego> listaSobrevivientes = new ArrayList<>();
-         System.out.println("NUEVA RONDA");
+         System.out.println("NUEVA RONDA HA INICIADO");
          for(int i=0; i< listaConcursante.size(); i+=2){
              if( i+1 < listaConcursante.size()){
                  
                 PersonajeEnJuego player1  = listaConcursante.get(i);
                 PersonajeEnJuego player2  = listaConcursante.get(i+1);
                 
-                 System.out.println("Enfrentamiento de "+player1.nombre+" y " +player2.nombre);
+                 System.out.println("Ha comenzado la batalla de "+player1.nombre+" y " +player2.nombre);
                  
                  while (player1.vidaInicial > 0 && player2.vidaInicial > 0) {
                  int danioj1 = Math.max(0, player1.ataque - player2.defensa);
                  int danioj2 = Math.max(0, player2.ataque - player1.defensa);
                  
-                 System.out.println(player2.vidaInicial+" de "+ player2.nombre);
+                 System.out.println("Vida actual: "+player2.vidaInicial+", de "+ player2.nombre);
                  player2.vidaInicial -= danioj1;
-                 System.out.println(player1.vidaInicial+" de "+ player1.nombre);
+                 System.out.println("Vida actual: "+player1.vidaInicial+", de "+ player1.nombre);
                  player1.vidaInicial -= danioj2;
                  
                  System.out.println("El concursante "+player1.nombre + " hizo " + danioj1 + " de daño a " + player2.nombre);
