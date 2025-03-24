@@ -7,7 +7,7 @@ package main;
 /**
  *
  * @author aceba
- */
+ */  
 public class Tokens {
     
     private String lexema;
@@ -20,6 +20,11 @@ public class Tokens {
         this.tipoToken = tipoToken;
         this.posX = posX;
         this.posY = posY;
+    }
+    
+   @Override
+    public String toString(){
+        return("Token: "+this.tipoToken+" Lexema: "+this.lexema+" Linea: "+posX+" Columna: "+posY);
     }
     
 }

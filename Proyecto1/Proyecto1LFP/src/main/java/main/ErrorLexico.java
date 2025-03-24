@@ -9,5 +9,20 @@ package main;
  * @author aceba
  */
 public class ErrorLexico {
+    private String descripcion;
+    private String caracter;
+    private int posX;
+    private int posY;
     
+    public ErrorLexico(String caracter, String descripcion, int posX, int posY){
+        this.caracter = caracter;
+        this.descripcion= descripcion;
+        this.posX = posX;
+        this.posY = posY;
+    }
+    
+    @Override
+    public String toString(){
+        return( this.descripcion+" Linea: "+posX+" Columna: "+posY);
+    }
 }
