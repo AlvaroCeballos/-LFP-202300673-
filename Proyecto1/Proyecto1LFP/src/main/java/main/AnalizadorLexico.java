@@ -15,8 +15,8 @@ import java.util.List;
 public class AnalizadorLexico {
     private List<Tokens> ListaTokens;
     private List<ErrorLexico> ListaErrores;
-    private int linea;
-    private int columna;
+    private int posX;
+    private int posY;
     private String buffer;
     private int bandera;
     private int iArchivo;
@@ -30,6 +30,22 @@ public class AnalizadorLexico {
     public void agregarToken(String caracter, String token, int linea, int columna){
         this.ListaTokens.add(new Tokens(caracter, token, linea, columna));
         this.buffer = "";
+    }
+    
+    
+    public void agregarError(String caracter, int linea, int columna){
+        this.ListaErrores.add(new ErrorLexico(caracter, "Caracter "+caracter+" no reconocido en el lenguaje", linea, columna));
+        this.buffer = "";
+    }
+    
+    public void analizarArchivo(StringBuilder cadena){
+        this.ListaTokens.clear();
+        this.ListaErrores.clear();
+        this.bandera = 0;
+        this.iArchivo = 0;
+        this.buffer = "";
+        
+        
     }
     
 }
