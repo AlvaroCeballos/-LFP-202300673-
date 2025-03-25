@@ -67,7 +67,7 @@ public class AutomataIndividual {
              String infoDot = "";
              
              for(Map.Entry<String, Map<String, String>> entry : this.transiciones.entrySet()){
-                 String estadoInicialT = entry.getKey();
+                 String TranEinicial = entry.getKey();
              }
         
 }catch (IOException e) {

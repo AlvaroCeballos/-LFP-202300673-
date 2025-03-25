@@ -24,9 +24,9 @@ public class Proyecto1LFP {
         AnalizadorLexico analizadorLexico = new AnalizadorLexico(); 
         automata = new HashMap<>();
         
-        
+        //
         try {
-    File archivo = new File("C:\\Users\\aceba\\OneDrive\\Desktop\\Tareas\\Proyectos\\LFP\\entradaPruebaGraficando.txt");
+    File archivo = new File("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\Proyecto1LFP\\archivoEntradaPruebaProyecto1.txt");
     StringBuilder content = new StringBuilder();
     if (archivo.exists()) {
         BufferedReader br = new BufferedReader(new FileReader(archivo));
