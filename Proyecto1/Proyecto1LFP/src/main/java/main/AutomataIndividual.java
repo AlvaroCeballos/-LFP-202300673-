@@ -62,6 +62,13 @@ public class AutomataIndividual {
              writer.write("rankdir=LR;\n"); 
              writer.write("}"); //Fin
              writer.close();
+             
+             String transicionesDot = "";
+             String infoDot = "";
+             
+             for(Map.Entry<String, Map<String, String>> entry : this.transiciones.entrySet()){
+                 String estadoInicialT = entry.getKey();
+             }
         
 }catch (IOException e) {
             System.out.println("Error al escribir el archivo.");
