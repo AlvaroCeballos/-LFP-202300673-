@@ -59,21 +59,18 @@ for (int j = 0; j < tokensAnalizados.size(); j++) {
         while(i < tokensAnalizados.size()){
 
                     
-                   if(tokensAnalizados.get(i).getTipoToken().equals("Identificador") 
+   if(tokensAnalizados.get(i).getTipoToken().equals("Identificador") 
        && i+2 < tokensAnalizados.size() 
        && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")
        && tokensAnalizados.get(i+2).getTipoToken().equals("LlaveAbrir")) {
-                      
-                        String nombre = tokensAnalizados.get(i).getLexema();
-                        nombresAutomatas.add(nombre);
+        
+        String nombre = tokensAnalizados.get(i).getLexema();
+        nombresAutomatas.add(nombre);
                         AutomataIndividual afd = new AutomataIndividual(nombre);
                         
                         System.out.println("Automata encontrado: " + nombre);
  
                         i+=3; 
-                        
-           
-       
                          /*
                        
                         if(i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("inicial") && i+2 < tokensAnalizados.size() && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
@@ -176,17 +173,17 @@ for (Map.Entry<String, AutomataIndividual> entry : automata.entrySet()) {
 
                          
                          
-    
+  
     }else{
-                       i++;
-                   }
+       i++;
+   }
 }
                 
              
-       System.out.println("\nAutómatas encontrados (" + nombresAutomatas.size() + "):");
+             System.out.println("\nAutómatas encontrados (" + nombresAutomatas.size() + "):");
     for(String nombreIterado : nombresAutomatas) {
         System.out.println("- " + nombreIterado);
-}         
+}     
 
         
     } else {
@@ -198,5 +195,4 @@ for (Map.Entry<String, AutomataIndividual> entry : automata.entrySet()) {
         }
     }
 }
-    
 
