@@ -4,6 +4,8 @@
  */
 package main;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +56,19 @@ public class AutomataIndividual {
         String pngFile = "C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\AFD.png";
         
         try{
+            FileWriter writer = new FileWriter(dotFile);
+            
+            writer.write("digraph G {\n");
+             writer.write("rankdir=LR;\n"); 
+             writer.write("}"); //Fin
+             writer.close();
+        
+}catch (IOException e) {
+            System.out.println("Error al escribir el archivo.");
+            e.printStackTrace();
+        }
+
 }
-    
+}
+
 

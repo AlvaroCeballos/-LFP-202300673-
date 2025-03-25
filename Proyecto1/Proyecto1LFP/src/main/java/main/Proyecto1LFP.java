@@ -127,29 +127,23 @@ public class Proyecto1LFP {
                 }
                    i++;
         }
+        automata.get("AFD1").graficar();
                 
-
-System.out.println("\n=== RESUMEN COMPLETO ===");
-
-// Primero: Nombres de autómatas
 System.out.println("\nAutómatas encontrados (" + nombresAutomatas.size() + "):");
 for(String nombre : nombresAutomatas) {
     System.out.println("- " + nombre);
 }
 
-// Segundo: Estados iniciales
 System.out.println("\nEstados iniciales encontrados (" + estadosIniciales.size() + "):");
 for(String estado : estadosIniciales) {
     System.out.println("- " + estado);
 }
 
-// Tercero: Estados finales
 System.out.println("\nEstados finales encontrados (" + estadosFinales.size() + "):");
 for(String estado : estadosFinales) {
     System.out.println("- " + estado);
 }
 
-// Cuarto: Transiciones (la parte nueva)
 System.out.println("\nTransiciones encontradas:");
 for (Map.Entry<String, AutomataIndividual> entry : automata.entrySet()) {
     String nombreAutomata = entry.getKey();
@@ -157,8 +151,7 @@ for (Map.Entry<String, AutomataIndividual> entry : automata.entrySet()) {
     
     System.out.println("\nAutómata: " + nombreAutomata);
     System.out.println("Transiciones:");
-    
-    // Iteramos sobre las transiciones del autómata actual
+
     for (Map.Entry<String, Map<String, String>> transicion : afd.getTransiciones().entrySet()) {
         String estadoActual = transicion.getKey();
         Map<String, String> destinos = transicion.getValue();
