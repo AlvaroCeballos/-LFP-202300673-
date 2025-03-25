@@ -48,6 +48,12 @@ public class AutomataIndividual {
         return this.transiciones;
     }
     
+      public void graficar(){
+        String dotFile = "C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\AFD.dot";
+        
+        String pngFile = "C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\AFD.png";
+        
+        try{
 }
     
 
