@@ -24,7 +24,7 @@ public class Tokens {
     
    @Override
     public String toString(){
-        return("Token: "+this.tipoToken+" Lexema: "+this.lexema+" Linea: "+posX+" Columna: "+posY);
+        return("Token: '"+this.tipoToken+"'" +" Lexema: '"+this.lexema+"'" +" Linea: '"+posX+"'" +" Columna: '" +posY+"'");
     }
     
 }

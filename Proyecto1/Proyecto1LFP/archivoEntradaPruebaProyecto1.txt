@@ -1,6 +1,6 @@
 {
     AFD1: {
-        descripción: "Este autómata reconoce cadenas numéricas.",
+        descripcion: "Este autómata reconoce cadenas numéricas.",
         estados: [S0, S1, S2, S3, S4, S5, S6, S7, S8],
         alfabeto: ["1", "2", "3"],
         inicial: S0,

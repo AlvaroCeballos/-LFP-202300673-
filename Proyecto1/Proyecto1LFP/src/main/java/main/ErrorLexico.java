@@ -25,4 +25,7 @@ public class ErrorLexico {
     public String toString(){
         return( this.descripcion+" Linea: "+posX+" Columna: "+posY);
     }
+    
+    
+    
 }
