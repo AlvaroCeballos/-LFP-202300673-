@@ -37,7 +37,9 @@ public class Proyecto1LFP {
         
         List<Tokens> tokensAnalizados = analizadorLexico.getTokens();
         List<String> nombresAutomatas = new ArrayList<>();
-                List<String> estadosIniciales = new ArrayList<>();
+        List<String> estadosIniciales = new ArrayList<>();
+        List<String> estadosFinales = new ArrayList<>();
+        List<String> TransicionesLista = new ArrayList<>();
         
          int i = 0;
         while(i < tokensAnalizados.size()){
@@ -63,15 +65,57 @@ public class Proyecto1LFP {
                                 
                                 System.out.println("Estado inicial encontrado: " + estadoInicial + " para autómata " + nombre);
                                 
-                                i+=2; // Avanzamos al siguiente token después del estado inicial
+                                i+=2; 
                             }
                         }
                         
+                if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("finales")){
+                    i+=3;
+                    while(!tokensAnalizados.get(i).getTipoToken().equals("ParentesisCerrar")){
+                        afd.agregarEstadoFinal(tokensAnalizados.get(i).getLexema());
+                        estadosFinales.add(tokensAnalizados.get(i).getLexema());
                         
-                    } else {
-                        i++; // Solo avanzamos si no encontramos un patrón válido
+                        
+                        if(tokensAnalizados.get(i+1).getTipoToken().equals("Coma")){
+                            i+=2;
+                        }else{
+                            i++;
+                        }
+                    }
+                    
+                }
+                i+=2;
+                if(tokensAnalizados.get(i).getTipoToken().equals("palabraReservada") && tokensAnalizados.get(i).getLexema().equals("transiciones")){
+                    i+=1;
+                    
+                    while(!tokensAnalizados.get(i+1).getTipoToken().equals("llaveCierre")){
+                        i+=2;
+                        
+                        String estadoActual = tokensAnalizados.get(i).getLexema();
+                        
+                        i+=3;
+                        
+                        while(!tokensAnalizados.get(i).getTipoToken().equals("ParentesisCerrar")){
+                            String entrada = tokensAnalizados.get(i).getLexema();
+                            
+                            i+=2;
+                            String estadoDestino = tokensAnalizados.get(i).getLexema();
+                            
+                            afd.agregarTransicion(estadoActual, entrada, estadoDestino);
+                            
+                            if(tokensAnalizados.get(i+1).getTipoToken().equals("Coma")){
+                                i+=2;
+                            }else{
+                                i++;
+                            }
+                        }
+                        }
+                        
+                     
                     }
                 }
+                   i++;
+        }
                 
 
                 System.out.println("Autómatas encontrados (" + nombresAutomatas.size() + "):");
@@ -81,6 +125,16 @@ public class Proyecto1LFP {
                 
                 System.out.println("\nEstados iniciales encontrados (" + estadosIniciales.size() + "):");
                 for(String estado : estadosIniciales) {
+                    System.out.println("- " + estado);
+                }
+                
+                System.out.println("\nEstados finales encontrados (" + estadosFinales.size() + "):");
+                for(String estado : estadosFinales) {
+                    System.out.println("- " + estado);
+                }
+                
+                System.out.println("\nTransiciones encontradas (" + estadosFinales.size() + "):");
+                for(String estado : estadosFinales) {
                     System.out.println("- " + estado);
                 }
 
