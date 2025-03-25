@@ -44,4 +44,25 @@ public class AutomataIndividual {
         
     }
     
+        public Map<String, Map<String, String>> getTransiciones() {
+        return this.transiciones;
+    }
+    
+    public String obtenerTransicionesFormateadas() {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, Map<String, String>> entryEstado : transiciones.entrySet()) {
+            String estadoActual = entryEstado.getKey();
+            Map<String, String> transicionesEstado = entryEstado.getValue();
+            
+            for (Map.Entry<String, String> entryTransicion : transicionesEstado.entrySet()) {
+                String entrada = entryTransicion.getKey();
+                String estadoDestino = entryTransicion.getValue();
+                
+                sb.append(String.format("%s --[%s]--> %s%n", estadoActual, entrada, estadoDestino));
+            }
+        }
+        return sb.toString();
+    }
 }
+    
+

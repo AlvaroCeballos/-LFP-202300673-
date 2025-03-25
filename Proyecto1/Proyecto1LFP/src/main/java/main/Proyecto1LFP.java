@@ -36,7 +36,7 @@ public class Proyecto1LFP {
             }
 
         analizadorLexico.analizarArchivo(content);        
-        analizadorLexico.imprimirTokens();
+        //analizadorLexico.imprimirTokens();
         System.out.println("");
         analizadorLexico.imprimirErrores();
         
@@ -91,10 +91,10 @@ public class Proyecto1LFP {
                     
                 }
                 i+=2;
-                if(tokensAnalizados.get(i).getTipoToken().equals("palabraReservada") && tokensAnalizados.get(i).getLexema().equals("transiciones")){
+                if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("transiciones")){
                     i+=1;
                     
-                    while(!tokensAnalizados.get(i+1).getTipoToken().equals("llaveCierre")){
+                    while(!tokensAnalizados.get(i+1).getTipoToken().equals("LlaveCerrar")){
                         i+=2;
                         
                         String estadoActual = tokensAnalizados.get(i).getLexema();
@@ -107,7 +107,9 @@ public class Proyecto1LFP {
                             i+=2;
                             String estadoDestino = tokensAnalizados.get(i).getLexema();
                             
+                            System.out.println("Estado actual :"+estadoActual + "Entrada: " +entrada + "EstadoDestino: "+estadoDestino);
                             afd.agregarTransicion(estadoActual, entrada, estadoDestino);
+                            
                             
                             if(tokensAnalizados.get(i+1).getTipoToken().equals("Coma")){
                                 i+=2;
@@ -117,6 +119,9 @@ public class Proyecto1LFP {
                         }
                         }
                         
+                    automata.put(nombre, afd);
+                    
+                    
                      
                     }
                 }
@@ -139,10 +144,31 @@ public class Proyecto1LFP {
                     System.out.println("- " + estado);
                 }
                 
-                System.out.println("\nTransiciones encontradas (" + estadosFinales.size() + "):");
-                for(String estado : estadosFinales) {
-                    System.out.println("- " + estado);
-                }
+                
+                
+                System.out.println("\n=== RESUMEN DE AUTÓMATAS ===");
+for (Map.Entry<String, AutomataIndividual> entry : automata.entrySet()) {
+    String nombreAutomata = entry.getKey();
+    AutomataIndividual afd = entry.getValue();
+    
+    System.out.println("\nAutómata: " + nombreAutomata);
+    
+    System.out.println("\nTransiciones:");
+    System.out.println(afd.obtenerTransicionesFormateadas());
+    
+    // O alternativa para más control:
+    System.out.println("\nTransiciones (formato alternativo):");
+    Map<String, Map<String, String>> transiciones = afd.getTransiciones();
+    for (String estadoActual : transiciones.keySet()) {
+        Map<String, String> transicionesEstado = transiciones.get(estadoActual);
+        for (String entrada : transicionesEstado.keySet()) {
+            String estadoDestino = transicionesEstado.get(entrada);
+            System.out.printf("%s --[%s]--> %s%n", estadoActual, entrada, estadoDestino);
+        }
+    }
+}
+                
+                
 
         
     } else {
