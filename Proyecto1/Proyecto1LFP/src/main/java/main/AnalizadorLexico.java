@@ -193,4 +193,8 @@ public class AnalizadorLexico {
         }
     }
     
+    public List<Tokens> getTokens(){
+        return this.ListaTokens;
+    }
+    
 }
