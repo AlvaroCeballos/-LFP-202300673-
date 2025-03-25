@@ -129,44 +129,49 @@ public class Proyecto1LFP {
         }
                 
 
-                System.out.println("Autómatas encontrados (" + nombresAutomatas.size() + "):");
-                for(String nombre : nombresAutomatas) {
-                    System.out.println("- " + nombre);
-                }
-                
-                System.out.println("\nEstados iniciales encontrados (" + estadosIniciales.size() + "):");
-                for(String estado : estadosIniciales) {
-                    System.out.println("- " + estado);
-                }
-                
-                System.out.println("\nEstados finales encontrados (" + estadosFinales.size() + "):");
-                for(String estado : estadosFinales) {
-                    System.out.println("- " + estado);
-                }
-                
-                
-                
-                System.out.println("\n=== RESUMEN DE AUTÓMATAS ===");
+System.out.println("\n=== RESUMEN COMPLETO ===");
+
+// Primero: Nombres de autómatas
+System.out.println("\nAutómatas encontrados (" + nombresAutomatas.size() + "):");
+for(String nombre : nombresAutomatas) {
+    System.out.println("- " + nombre);
+}
+
+// Segundo: Estados iniciales
+System.out.println("\nEstados iniciales encontrados (" + estadosIniciales.size() + "):");
+for(String estado : estadosIniciales) {
+    System.out.println("- " + estado);
+}
+
+// Tercero: Estados finales
+System.out.println("\nEstados finales encontrados (" + estadosFinales.size() + "):");
+for(String estado : estadosFinales) {
+    System.out.println("- " + estado);
+}
+
+// Cuarto: Transiciones (la parte nueva)
+System.out.println("\nTransiciones encontradas:");
 for (Map.Entry<String, AutomataIndividual> entry : automata.entrySet()) {
     String nombreAutomata = entry.getKey();
     AutomataIndividual afd = entry.getValue();
     
     System.out.println("\nAutómata: " + nombreAutomata);
+    System.out.println("Transiciones:");
     
-    System.out.println("\nTransiciones:");
-    System.out.println(afd.obtenerTransicionesFormateadas());
-    
-    // O alternativa para más control:
-    System.out.println("\nTransiciones (formato alternativo):");
-    Map<String, Map<String, String>> transiciones = afd.getTransiciones();
-    for (String estadoActual : transiciones.keySet()) {
-        Map<String, String> transicionesEstado = transiciones.get(estadoActual);
-        for (String entrada : transicionesEstado.keySet()) {
-            String estadoDestino = transicionesEstado.get(entrada);
-            System.out.printf("%s --[%s]--> %s%n", estadoActual, entrada, estadoDestino);
+    // Iteramos sobre las transiciones del autómata actual
+    for (Map.Entry<String, Map<String, String>> transicion : afd.getTransiciones().entrySet()) {
+        String estadoActual = transicion.getKey();
+        Map<String, String> destinos = transicion.getValue();
+        
+        for (Map.Entry<String, String> destino : destinos.entrySet()) {
+            String entrada = destino.getKey();
+            String estadoDestino = destino.getValue();
+            System.out.printf("- %s --[%s]--> %s%n", estadoActual, entrada, estadoDestino);
         }
     }
 }
+                
+             
                 
                 
 
