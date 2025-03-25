@@ -36,7 +36,8 @@ public class Proyecto1LFP {
             }
 
         analizadorLexico.analizarArchivo(content);        
-        analizadorLexico.imprimirTokens();
+        //analizadorLexico.imprimirTokens();
+        
         System.out.println("");
         analizadorLexico.imprimirErrores();
         
@@ -47,11 +48,21 @@ public class Proyecto1LFP {
         List<String> estadosFinales = new ArrayList<>();
         List<String> TransicionesLista = new ArrayList<>();
         
+        // Agrega esto para depuración:
+System.out.println("\n=== TOKENS DETALLADOS ===");
+for (int j = 0; j < tokensAnalizados.size(); j++) {
+    System.out.println(j + ": " + tokensAnalizados.get(j).getTipoToken() + 
+                       " - '" + tokensAnalizados.get(j).getLexema() + "'");
+}
+        
          int i = 0;
         while(i < tokensAnalizados.size()){
 
                     
-                   if(tokensAnalizados.get(i).getTipoToken().equals("Identificador") && i+1 < tokensAnalizados.size() && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
+                   if(tokensAnalizados.get(i).getTipoToken().equals("Identificador") 
+       && i+2 < tokensAnalizados.size() 
+       && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")
+       && tokensAnalizados.get(i+2).getTipoToken().equals("LlaveAbrir")) {
                       
                         String nombre = tokensAnalizados.get(i).getLexema();
                         nombresAutomatas.add(nombre);
@@ -59,7 +70,10 @@ public class Proyecto1LFP {
                         
                         System.out.println("Automata encontrado: " + nombre);
  
-                        i+=2; 
+                        i+=3; 
+                        
+           
+       
                          /*
                        
                         if(i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("inicial") && i+2 < tokensAnalizados.size() && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
@@ -162,15 +176,17 @@ for (Map.Entry<String, AutomataIndividual> entry : automata.entrySet()) {
 
                          
                          
-    System.out.println("\nAutómatas encontrados (" + nombresAutomatas.size() + "):");
-    for(String nombreIterado : nombresAutomatas) {
-        System.out.println("- " + nombreIterado);
-}
-    }
+    
+    }else{
+                       i++;
+                   }
 }
                 
              
-                
+       System.out.println("\nAutómatas encontrados (" + nombresAutomatas.size() + "):");
+    for(String nombreIterado : nombresAutomatas) {
+        System.out.println("- " + nombreIterado);
+}         
 
         
     } else {
