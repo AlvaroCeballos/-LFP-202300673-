@@ -36,7 +36,7 @@ public class Proyecto1LFP {
             }
 
         analizadorLexico.analizarArchivo(content);        
-        //analizadorLexico.imprimirTokens();
+        analizadorLexico.imprimirTokens();
         System.out.println("");
         analizadorLexico.imprimirErrores();
         
@@ -52,7 +52,7 @@ public class Proyecto1LFP {
 
                     
                    if(tokensAnalizados.get(i).getTipoToken().equals("Identificador") && i+1 < tokensAnalizados.size() && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
-                        
+                      
                         String nombre = tokensAnalizados.get(i).getLexema();
                         nombresAutomatas.add(nombre);
                         AutomataIndividual afd = new AutomataIndividual(nombre);
@@ -60,6 +60,7 @@ public class Proyecto1LFP {
                         System.out.println("Automata encontrado: " + nombre);
  
                         i+=2; 
+                         /*
                        
                         if(i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("inicial") && i+2 < tokensAnalizados.size() && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
                             i+=2;
@@ -75,7 +76,7 @@ public class Proyecto1LFP {
                             }
                         }
                         
-                if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("finales")){
+               if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("finales")){
                     i+=3;
                     while(!tokensAnalizados.get(i).getTipoToken().equals("ParentesisCerrar")){
                         afd.agregarEstadoFinal(tokensAnalizados.get(i).getLexema());
@@ -129,10 +130,7 @@ public class Proyecto1LFP {
         }
         automata.get("AFD1").graficar();
                 
-System.out.println("\nAutómatas encontrados (" + nombresAutomatas.size() + "):");
-for(String nombre : nombresAutomatas) {
-    System.out.println("- " + nombre);
-}
+
 
 System.out.println("\nEstados iniciales encontrados (" + estadosIniciales.size() + "):");
 for(String estado : estadosIniciales) {
@@ -160,12 +158,18 @@ for (Map.Entry<String, AutomataIndividual> entry : automata.entrySet()) {
             String entrada = destino.getKey();
             String estadoDestino = destino.getValue();
             System.out.printf("- %s --[%s]--> %s%n", estadoActual, entrada, estadoDestino);
-        }
+        }                */
+
+                         
+                         
+    System.out.println("\nAutómatas encontrados (" + nombresAutomatas.size() + "):");
+    for(String nombreIterado : nombresAutomatas) {
+        System.out.println("- " + nombreIterado);
+}
     }
 }
                 
              
-                
                 
 
         
