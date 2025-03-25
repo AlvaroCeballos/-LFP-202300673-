@@ -9,16 +9,22 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author aceba
  */
 public class Proyecto1LFP {
+    private static Map<String, AutomataIndividual> automata;
 
     public static void main(String[] args) {
-        AnalizadorLexico analizadorLexico = new AnalizadorLexico();       
+        AnalizadorLexico analizadorLexico = new AnalizadorLexico(); 
+        automata = new HashMap<>();
+        
+        
         try {
     File archivo = new File("C:\\Users\\aceba\\OneDrive\\Desktop\\Tareas\\Proyectos\\LFP\\entradaPruebaGraficando.txt");
     StringBuilder content = new StringBuilder();
