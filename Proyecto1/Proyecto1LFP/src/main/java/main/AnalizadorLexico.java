@@ -4,6 +4,8 @@
  */
 package main;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -196,5 +198,68 @@ public class AnalizadorLexico {
     public List<Tokens> getTokens(){
         return this.ListaTokens;
     }
+    
+    
+    
+    public void generarReporteHTML(String rutaArchivo) {
+    try {
+        FileWriter writer = new FileWriter(rutaArchivo);
+        
+        // Escribimos el encabezado HTML
+        writer.write("<!DOCTYPE html>\n");
+        writer.write("<html>\n");
+        writer.write("<head>\n");
+        writer.write("<title>Reporte de Tokens</title>\n");
+        writer.write("<style>\n");
+        writer.write("body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1e1e2e; color: #ffffff; margin: 20px; text-align: center; }\n");
+        writer.write("h1 { color: #00ff7f; text-align: center; text-shadow: 2px 2px 5px rgba(0, 255, 127, 0.5); }\n");
+        writer.write("table { width: 80%; margin: 20px auto; border-collapse: collapse; background-color: #2a2a3a; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); }\n");
+        writer.write("th, td { padding: 12px; text-align: center; border: 2px solid #00ff7f; transition: all 0.3s ease-in-out; }\n");
+        writer.write("th { background-color: #00ff7f; color: #1e1e2e; font-weight: bold; text-transform: uppercase; }\n");
+        writer.write("td { background-color: #2a2a3a; color: #ffffff; }\n");
+        writer.write("tr:hover { background-color: #3a3a4a; transform: scale(1.02); }\n");
+        writer.write("tr:nth-child(even) { background-color: #2f2f3f; }\n");
+        writer.write("</style>\n");
+        writer.write("</head>\n");
+        writer.write("<body>\n");
+        writer.write("<h1>Reporte de Tokens</h1>\n");
+        writer.write("<table>\n");
+        writer.write("<tr><th>Token</th><th>Lexema</th><th>Línea</th><th>Columna</th></tr>\n");
+        
+        // Escribimos los datos de cada token
+        for (Tokens token : this.ListaTokens) {
+            writer.write("<tr>");
+            writer.write("<td>" + escapeHtml(token.getTipoToken()) + "</td>");
+            writer.write("<td>" + escapeHtml(token.getLexema()) + "</td>");
+            writer.write("<td>" + (token.getPosX() + 1) + "</td>"); // +1 porque las líneas suelen empezar en 1
+            writer.write("<td>" + (token.getPosY() + 1) + "</td>"); // +1 porque las columnas suelen empezar en 1
+            writer.write("</tr>\n");
+        }
+        
+        // Cerramos el HTML
+        writer.write("</table>\n");
+        writer.write("</body>\n");
+        writer.write("</html>");
+        
+        writer.close();
+        System.out.println("Reporte HTML generado exitosamente en: " + rutaArchivo);
+    } catch (IOException e) {
+        System.err.println("Error al generar el reporte HTML: " + e.getMessage());
+    }
+}
+
+/**
+ * Método auxiliar para escapar caracteres HTML
+ */
+private String escapeHtml(String input) {
+    if (input == null) {
+        return "";
+    }
+    return input.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;");
+}
     
 }

@@ -36,10 +36,11 @@ public class Proyecto1LFP {
             }
 
         analizadorLexico.analizarArchivo(content);        
-        //analizadorLexico.imprimirTokens();
+        analizadorLexico.imprimirTokens();
         
         System.out.println("");
         analizadorLexico.imprimirErrores();
+        analizadorLexico.generarReporteHTML("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\Proyecto1LFP\\reporte_tokens.html");
         
         
         List<Tokens> tokensAnalizados = analizadorLexico.getTokens();
@@ -50,13 +51,15 @@ public class Proyecto1LFP {
         List<String> estadosIniciales = new ArrayList<>();
         List<String> estadosFinales = new ArrayList<>();
         List<String> TransicionesLista = new ArrayList<>();
-        
+        /*
         // Agrega esto para depuración:
 System.out.println("\n=== TOKENS DETALLADOS ===");
 for (int j = 0; j < tokensAnalizados.size(); j++) {
     System.out.println(j + ": " + tokensAnalizados.get(j).getTipoToken() + 
                        " - '" + tokensAnalizados.get(j).getLexema() + "'");
 }
+        
+        */
         // I VA EN 0
          int i = 0;
         while(i < tokensAnalizados.size()){
