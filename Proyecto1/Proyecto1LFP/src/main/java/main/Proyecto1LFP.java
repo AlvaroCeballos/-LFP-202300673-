@@ -70,7 +70,7 @@ for (int j = 0; j < tokensAnalizados.size(); j++) {
         String nombre = tokensAnalizados.get(i).getLexema();
         nombresAutomatas.add(nombre);
                         AutomataIndividual afd = new AutomataIndividual(nombre);
-                        
+                        estadosGlobales.clear();
                         System.out.println("Automata encontrado: " + nombre);
                         //I VA EN 1
  
@@ -93,38 +93,47 @@ for (int j = 0; j < tokensAnalizados.size(); j++) {
                 //I VA EN 8
             }
             
-            else if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") 
-            && tokensAnalizados.get(i).getLexema().equals("estados")
-            && i+2 < tokensAnalizados.size()
-            && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
-        i += 2; // Avanzamos más allá de "estados" y ":"
-        // I VA EN 10
-        if (i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("CorcheteAbrir")) {
-            i++; // Avanzamos al primer estado
-            // I VA EN 11
-         while (i < tokensAnalizados.size() && !tokensAnalizados.get(i).getTipoToken().equals("CorcheteCerrar")) {
-                if (tokensAnalizados.get(i).getTipoToken().equals("Identificador")) {
-                    estadosGlobales.add(tokensAnalizados.get(i).getLexema());
-                    System.out.println("Estado encontrado: " + tokensAnalizados.get(i).getLexema());
-                }
+if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") 
+        && tokensAnalizados.get(i).getLexema().equals("estados")
+        && i+2 < tokensAnalizados.size()
+        && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
+    i += 2; // Avanzamos más allá de "estados" y ":"
+    
+    if (i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("CorcheteAbrir")) {
+        i++; // Avanzamos al primer estado
+        
+        // Creamos un Set temporal para verificar duplicados
+        java.util.Set<String> estadosUnicos = new java.util.HashSet<>();
+        
+        while (i < tokensAnalizados.size() && !tokensAnalizados.get(i).getTipoToken().equals("CorcheteCerrar")) {
+            if (tokensAnalizados.get(i).getTipoToken().equals("Identificador")) {
+                String estadoActual = tokensAnalizados.get(i).getLexema();
                 
-                if (i+1 < tokensAnalizados.size() && tokensAnalizados.get(i+1).getTipoToken().equals("Coma")) {
-                    i++; // Saltamos la coma
+                // Verificamos si el estado ya existe
+                if (!estadosUnicos.contains(estadoActual)) {
+                    estadosUnicos.add(estadoActual);
+                    estadosGlobales.add(estadoActual);
+                    System.out.println("Estado encontrado: " + estadoActual);
+                } else {
+                    System.out.println("Estado duplicado ignorado: " + estadoActual);
                 }
-                // I VA EN 12
-                i+= 1; // Siguiente token
-                // I VA EN 13
             }
-
-            System.out.println("\n=== Lista de Estados ===");
-            for (String estado : estadosGlobales) {
-                System.out.println("- " + estado);
+            
+            if (i+1 < tokensAnalizados.size() && tokensAnalizados.get(i+1).getTipoToken().equals("Coma")) {
+                i++; // Saltamos la coma
             }
-            System.out.println(i);
-            i+=2;
-            System.out.println(i);
+            
+            i++; // Siguiente token
         }
-            }
+
+        System.out.println("\n=== Lista de Estados Únicos ===");
+        for (String estado : estadosGlobales) {
+            System.out.println("- " + estado);
+        }
+        System.out.println("Posición final después de estados: " + i);
+        i += 2; // Ajuste de posición después del corchete de cierre
+    }
+}
             
             
             
@@ -168,20 +177,34 @@ for (int j = 0; j < tokensAnalizados.size(); j++) {
     }
 }
            
-           
-            if(i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("inicial") && i+2 < tokensAnalizados.size() && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
-                            i+=2;
                             
-                            if(i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("Identificador")) {
-                                String estadoInicial = tokensAnalizados.get(i).getLexema();
-                                estadosIniciales.add(estadoInicial);
-                                afd.agregarEstadoInicial(estadoInicial);
-                                
-                                System.out.println("Estado inicial encontrado: " + estadoInicial + " para autómata " + nombre);
-                                
-                                i+=2; 
-                            }
-                        }
+                        i++;
+                           
+           if(i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") 
+    && tokensAnalizados.get(i).getLexema().equals("inicial") 
+    && i+2 < tokensAnalizados.size() 
+    && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
+    
+    i += 2; // Avanzamos más allá de "inicial" y ":"
+    
+    if(i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("Identificador")) {
+        String estadoInicial = tokensAnalizados.get(i).getLexema();
+        estadosIniciales.add(estadoInicial);
+        afd.agregarEstadoInicial(estadoInicial);
+        
+        System.out.println("Estado inicial encontrado: " + estadoInicial + " para autómata " + nombre);
+        
+        // Avanzamos al siguiente token después del estado inicial
+        i++;
+        
+        // Verificamos si hay una coma después (y la saltamos)
+        if(i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("Coma")) {
+            i++;
+        }
+    }
+}
+           
+               
             
             
             
@@ -284,6 +307,7 @@ for (Map.Entry<String, AutomataIndividual> entry : automata.entrySet()) {
                         }
     else{
        i++;
+       System.out.println(i+ "FINAL"); 
    }
 }
 
