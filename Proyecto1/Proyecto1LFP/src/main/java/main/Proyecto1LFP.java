@@ -45,6 +45,7 @@ public class Proyecto1LFP {
         List<Tokens> tokensAnalizados = analizadorLexico.getTokens();
         List<String> nombresAutomatas = new ArrayList<>();
         List<String> descripcionesLista = new ArrayList<>();
+        List<String> estadosGlobales = new ArrayList<>();
         List<String> estadosIniciales = new ArrayList<>();
         List<String> estadosFinales = new ArrayList<>();
         List<String> TransicionesLista = new ArrayList<>();
@@ -55,7 +56,7 @@ for (int j = 0; j < tokensAnalizados.size(); j++) {
     System.out.println(j + ": " + tokensAnalizados.get(j).getTipoToken() + 
                        " - '" + tokensAnalizados.get(j).getLexema() + "'");
 }
-        
+        // I VA EN 0
          int i = 0;
         while(i < tokensAnalizados.size()){
 
@@ -70,8 +71,10 @@ for (int j = 0; j < tokensAnalizados.size(); j++) {
                         AutomataIndividual afd = new AutomataIndividual(nombre);
                         
                         System.out.println("Automata encontrado: " + nombre);
+                        //I VA EN 1
  
                         i+=3;
+                        //I VA EN 4
                         
                         
                         
@@ -85,10 +88,41 @@ for (int j = 0; j < tokensAnalizados.size(); j++) {
                 String descripcionActual = tokensAnalizados.get(i+2).getLexema();
                 descripcionesLista.add(descripcionActual);
                 System.out.println("Descripcion del automata "+ descripcionActual);
-                
+                i +=4;
+                //I VA EN 8
             }
-            i++;
+            
+            else if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") 
+            && tokensAnalizados.get(i).getLexema().equals("estados")
+            && i+2 < tokensAnalizados.size()
+            && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
+        i += 2; // Avanzamos más allá de "estados" y ":"
+        // I VA EN 10
+        if (i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("CorcheteAbrir")) {
+            i++; // Avanzamos al primer estado
+            // I VA EN 11
+         while (i < tokensAnalizados.size() && !tokensAnalizados.get(i).getTipoToken().equals("CorcheteCerrar")) {
+                if (tokensAnalizados.get(i).getTipoToken().equals("Identificador")) {
+                    estadosGlobales.add(tokensAnalizados.get(i).getLexema());
+                    System.out.println("Estado encontrado: " + tokensAnalizados.get(i).getLexema());
+                }
+                
+                if (i+1 < tokensAnalizados.size() && tokensAnalizados.get(i+1).getTipoToken().equals("Coma")) {
+                    i++; // Saltamos la coma
+                }
+                // I VA EN 12
+                i++; // Siguiente token
+                // I VA EN 13
+            }
+            
+            System.out.println("\n=== Lista de Estados ===");
+            for (String estado : estadosGlobales) {
+                System.out.println("- " + estado);
+            }
+        }
+            }
                         }
+                        
                          /*
                        
                         if(i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("inicial") && i+2 < tokensAnalizados.size() && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
@@ -191,17 +225,12 @@ for (Map.Entry<String, AutomataIndividual> entry : automata.entrySet()) {
 
                          
                          
-  
-    }else{
+                        }
+    else{
        i++;
    }
 }
-                
-             
-             System.out.println("\nAutómatas encontrados (" + nombresAutomatas.size() + "):");
-    for(String nombreIterado : nombresAutomatas) {
-        System.out.println("- " + nombreIterado);
-}     
+
 
         
     } else {

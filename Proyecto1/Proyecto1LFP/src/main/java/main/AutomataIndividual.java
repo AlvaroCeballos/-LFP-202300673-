@@ -18,8 +18,11 @@ import java.util.Map;
 public class AutomataIndividual {
     
     private String nombreAutomata;
+        private List<String> estadosGlobales;
+    private List<String> alfabeto;
     private String estadoInicial;
     private List<String> estadosFinales;
+    
     private Map<String, Map<String, String>> transiciones;
     
     
