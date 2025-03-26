@@ -4,6 +4,8 @@
  */
 package main;
 
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -25,10 +28,14 @@ import javax.swing.JOptionPane;
 public class Menu extends javax.swing.JFrame {
     
     private javax.swing.JButton btnAnalizar;
+    private javax.swing.JButton btnGenerarReporte;
+    private javax.swing.JButton btnGenerarGrafico;
+    private javax.swing.JComboBox<String> selectAutomata;
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JTextArea txtResultados;
     private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JPanel panelGrafico;
      private AnalizadorLexico analizadorLexico;
     private Map<String, AutomataIndividual> automata;
 
@@ -55,43 +62,62 @@ public class Menu extends javax.swing.JFrame {
         setTitle("Analizador Léxico de Autómatas");
         
         // Creación de componentes
-        btnAnalizar = new javax.swing.JButton();
+        btnAnalizar = new javax.swing.JButton("Analizar Archivo");
+        btnGenerarReporte = new javax.swing.JButton("Generar Reporte");
+        btnGenerarGrafico = new javax.swing.JButton("Generar Gráfico");
+        selectAutomata = new javax.swing.JComboBox<>();
         fileChooser = new javax.swing.JFileChooser();
         txtResultados = new javax.swing.JTextArea();
         scrollPane = new javax.swing.JScrollPane(txtResultados);
         tabbedPane = new javax.swing.JTabbedPane();
+        panelGrafico = new javax.swing.JPanel();
         
         // Configuración de componentes
         btnAnalizar.setText("Analizar Archivo");
         btnAnalizar.addActionListener(this::btnAnalizarActionPerformed);
+        btnGenerarReporte.addActionListener(this::btnGenerarReporteActionPerformed);
+        btnGenerarGrafico.addActionListener(this::btnGenerarGraficoActionPerformed);
         
         txtResultados.setEditable(false);
         txtResultados.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 12));
         
-        // Organización del layout
+       panelGrafico.setBorder(BorderFactory.createTitledBorder("Visualización del Autómata"));
+       panelGrafico.setPreferredSize(new Dimension(600, 400));
+        //Organización del layout
         tabbedPane.addTab("Resultados", scrollPane);
+        tabbedPane.addTab("Gráfico", panelGrafico);
         
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tabbedPane)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAnalizar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(tabbedPane)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnAnalizar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnGenerarReporte)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(selectAutomata, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnGenerarGrafico)
+                            .addGap(0, 0, Short.MAX_VALUE)))
+                    .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnAnalizar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabbedPane)
-                .addContainerGap())
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAnalizar)
+                        .addComponent(btnGenerarReporte)
+                        .addComponent(selectAutomata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnGenerarGrafico))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(tabbedPane)
+                    .addContainerGap())
         );
         
         pack();
@@ -427,8 +453,7 @@ for(String estado : estadosIniciales) {
             
             // Generar reportes HTML
             String directorio = archivo.getParent();
-            analizadorLexico.generarReporteHTML(directorio + "/reporte_tokens.html");
-            analizadorLexico.generarReporteErroresHTML(directorio + "/reporte_errores.html");
+            
             
             // Procesar autómatas
             procesarAutomata(analizadorLexico.getTokens());
@@ -518,6 +543,16 @@ for(String estado : estadosIniciales) {
 }
             
         });
+    }
+
+    private void btnGenerarReporteActionPerformed(ActionEvent e) {
+         // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+   analizadorLexico.generarReporteHTML("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\Proyecto1LFP\\reporteTokensBoton.html");
+            analizadorLexico.generarReporteErroresHTML("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\Proyecto1LFP\\reporteErroresBoton.html");
+    }
+
+    private void btnGenerarGraficoActionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
