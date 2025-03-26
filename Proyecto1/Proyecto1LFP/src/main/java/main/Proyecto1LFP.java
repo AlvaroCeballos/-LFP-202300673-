@@ -71,6 +71,7 @@ for (int j = 0; j < tokensAnalizados.size(); j++) {
         nombresAutomatas.add(nombre);
                         AutomataIndividual afd = new AutomataIndividual(nombre);
                         estadosGlobales.clear();
+                        estadosFinales.clear();
                         System.out.println("Automata encontrado: " + nombre);
                         //I VA EN 1
  
@@ -202,39 +203,62 @@ if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada")
             i++;
         }
     }
-}
-           
-               
-            
-            
-            
-            
-            
-            
-            
-                        }
-                        
-                         
-                       
-                       /*
-                        
-               if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("finales")){
-                    i+=3;
-                    while(!tokensAnalizados.get(i).getTipoToken().equals("ParentesisCerrar")){
-                        afd.agregarEstadoFinal(tokensAnalizados.get(i).getLexema());
-                        estadosFinales.add(tokensAnalizados.get(i).getLexema());
-                        
-                        
-                        if(tokensAnalizados.get(i+1).getTipoToken().equals("Coma")){
-                            i+=2;
-                        }else{
-                            i++;
-                        }
-                    }
-                    
+} if(i < tokensAnalizados.size() && 
+   tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && 
+   tokensAnalizados.get(i).getLexema().equals("finales") &&
+   i+2 < tokensAnalizados.size() && 
+   tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
+    
+    i += 2; // Avanzamos más allá de "finales" y ":"
+    
+    if (i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("CorcheteAbrir")) {
+        i++; // Avanzamos al primer estado final
+        
+        while (i < tokensAnalizados.size() && !tokensAnalizados.get(i).getTipoToken().equals("CorcheteCerrar")) {
+            if (tokensAnalizados.get(i).getTipoToken().equals("Identificador")) {
+                String estadoFinal = tokensAnalizados.get(i).getLexema();
+                
+                // Verificamos que el estado exista en estadosGlobales
+                if (estadosGlobales.contains(estadoFinal)) {
+                    estadosFinales.add(estadoFinal);
+                    afd.agregarEstadoFinal(estadoFinal);
+                    System.out.println("Estado final encontrado: " + estadoFinal);
+                } else {
+                    System.out.println("ADVERTENCIA: El estado final " + estadoFinal + 
+                                     " no existe en los estados globales");
                 }
-                i+=2;
-                if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("transiciones")){
+            }
+            
+            // Manejo de comas
+            if (i+1 < tokensAnalizados.size() && tokensAnalizados.get(i+1).getTipoToken().equals("Coma")) {
+                i++; // Saltamos la coma
+            }
+            
+            i++; // Siguiente token
+        }
+        
+        // Avanzamos más allá del CorcheteCerrar
+        if (i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("CorcheteCerrar")) {
+            i++;
+        }
+        
+        // Verificamos si hay una coma después
+        if (i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("Coma")) {
+            i++;
+        }
+        
+        System.out.println("\n=== Estados Finales del Autómata ===");
+        for (String estado : estadosFinales) {
+            System.out.println("- " + estado);
+        }
+    }
+}
+             
+            
+            
+            
+            
+            if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("transiciones")){
                     i+=1;
                     
                     while(!tokensAnalizados.get(i+1).getTipoToken().equals("LlaveCerrar")){
@@ -267,6 +291,22 @@ if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada")
                     
                      
                     }
+            
+
+
+
+
+
+            
+                        }
+                        
+                         
+                       
+                       
+                      
+              
+                /*
+                
                 }
                    i++;
         }
@@ -279,10 +319,25 @@ for(String estado : estadosIniciales) {
     System.out.println("- " + estado);
 }
 
+
+
+                */
+
+                         
+                         
+                        }
+    else{
+       i++;
+       System.out.println(i+ "FINAL"); 
+   }
+}
+
 System.out.println("\nEstados finales encontrados (" + estadosFinales.size() + "):");
 for(String estado : estadosFinales) {
     System.out.println("- " + estado);
 }
+
+
 
 System.out.println("\nTransiciones encontradas:");
 for (Map.Entry<String, AutomataIndividual> entry : automata.entrySet()) {
@@ -300,19 +355,9 @@ for (Map.Entry<String, AutomataIndividual> entry : automata.entrySet()) {
             String entrada = destino.getKey();
             String estadoDestino = destino.getValue();
             System.out.printf("- %s --[%s]--> %s%n", estadoActual, entrada, estadoDestino);
-        }                */
-
-                         
-                         
-                        }
-    else{
-       i++;
-       System.out.println(i+ "FINAL"); 
-   }
+        }
+    }
 }
-
-
-        
     } else {
         System.out.println("El archivo no existe.");
     }
