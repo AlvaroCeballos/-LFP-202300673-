@@ -8,12 +8,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+
 
 /**
  *
@@ -33,11 +36,19 @@ public class Menu extends javax.swing.JFrame {
      * Creates new form Menu
      */
     public Menu() {
-        initComponents();
         initComponents2();
+        redirectSystemOutput();
         analizadorLexico = new AnalizadorLexico();
         automata = new HashMap<>();
     }
+    
+    private void redirectSystemOutput() {
+    // Redirige System.out
+    System.setOut(new PrintStream(new TextAreaOutputStream(txtResultados), true));
+    
+    // Redirige System.err (errores) - Opcional
+    System.setErr(new PrintStream(new TextAreaOutputStream(txtResultados), true));
+}
      private void initComponents2() {
         // Configuración básica del JFrame
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -131,7 +142,7 @@ for (int j = 0; j < tokensAnalizados.size(); j++) {
                         AutomataIndividual afd = new AutomataIndividual(nombre);
                         estadosGlobales.clear();
                         estadosFinales.clear();
-                        System.out.println("Automata encontrado: " + nombre);
+                        txtResultados.append("Automata encontrado: " + nombre);
                         //I VA EN 1
  
                         i+=3;
@@ -148,7 +159,7 @@ for (int j = 0; j < tokensAnalizados.size(); j++) {
                ) {
                 String descripcionActual = tokensAnalizados.get(i+2).getLexema();
                 descripcionesLista.add(descripcionActual);
-                System.out.println("Descripcion del automata "+ descripcionActual);
+                System.out.println("Descripcion del automata "+ descripcionActual + "\n");
                 i +=4;
                 //I VA EN 8
             }
@@ -493,7 +504,7 @@ for(String estado : estadosIniciales) {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Menu().setVisible(true);
+
                 try {
         javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
     } catch (Exception ex) {
@@ -512,3 +523,4 @@ for(String estado : estadosIniciales) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }
+//PROCESAMIENTO DE AUTÓMATAS
