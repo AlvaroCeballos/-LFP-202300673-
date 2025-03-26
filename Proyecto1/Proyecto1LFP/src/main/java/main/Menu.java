@@ -119,9 +119,9 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(tabbedPane)
                     .addContainerGap())
         );
-        
+
         pack();
-        setSize(800, 600); // Tamaño inicial adecuado
+        setSize(800, 600);
     }
     
     private void btnAnalizarActionPerformed(java.awt.event.ActionEvent evt) {
@@ -383,7 +383,7 @@ if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada")
                         }
                         
                     automata.put(nombre, afd);
-                    
+                    actualizarComboBoxAutomatas(nombresAutomatas);
                     
                      
                     }
@@ -430,6 +430,28 @@ for(String estado : estadosIniciales) {
     }
     
     
+    private void actualizarComboBoxAutomatas(List<String> nombresAutomatas) {
+    // Limpiar el combo box antes de agregar nuevos elementos
+    selectAutomata.removeAllItems();
+    
+    // Agregar cada nombre de autómata al combo box
+    for (String nombre : nombresAutomatas) {
+        selectAutomata.addItem(nombre);
+    }
+    
+    // Opcional: seleccionar el primer elemento por defecto
+    if (selectAutomata.getItemCount() > 0) {
+        selectAutomata.setSelectedIndex(0);
+    }
+    
+    // Mensaje de depuración
+    System.out.println("Autómatas cargados en el combo box: " + nombresAutomatas);
+}
+    
+    private AutomataIndividual getAutomataSeleccionado() {
+    String nombre = (String) selectAutomata.getSelectedItem();
+    return automata.get(nombre);
+}
     
     private void analizarArchivo(File archivo) {
         try {
@@ -552,8 +574,21 @@ for(String estado : estadosIniciales) {
     }
 
     private void btnGenerarGraficoActionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       if (selectAutomata.getSelectedItem() != null) {
+        String nombreAutomata = (String) selectAutomata.getSelectedItem();
+        AutomataIndividual automataSeleccionado = automata.get(nombreAutomata);
+        
+        if (automataSeleccionado != null) {
+            automataSeleccionado.graficar();
+            System.out.println("Gráfico generado para: " + nombreAutomata);
+        } else {
+            System.out.println("No se encontró el autómata seleccionado");
+        }
+    } else {
+        System.out.println("No hay autómatas cargados");
     }
+}
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
