@@ -329,7 +329,7 @@ for(String estado : estadosIniciales) {
 
                          
                          
-                        }
+                        } //**
     else{
        i++;
        System.out.println(i+ "FINAL"); 
