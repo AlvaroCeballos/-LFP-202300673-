@@ -34,7 +34,7 @@
     }
 },
 	numero: {
-    descripcion: "Este autómata reconoce cadenas numéricas con o sin punto decimal.",
+    descripcion: "Este autómata reconoce cadenas numéricas con o sin punto decimal xd.",
     estados: [S0, S1, S2, S3],
     alfabeto: ["digit", "."],
     inicial: S0,

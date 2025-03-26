@@ -44,6 +44,7 @@ public class Proyecto1LFP {
         
         List<Tokens> tokensAnalizados = analizadorLexico.getTokens();
         List<String> nombresAutomatas = new ArrayList<>();
+        List<String> descripcionesLista = new ArrayList<>();
         List<String> estadosIniciales = new ArrayList<>();
         List<String> estadosFinales = new ArrayList<>();
         List<String> TransicionesLista = new ArrayList<>();
@@ -70,7 +71,24 @@ for (int j = 0; j < tokensAnalizados.size(); j++) {
                         
                         System.out.println("Automata encontrado: " + nombre);
  
-                        i+=3; 
+                        i+=3;
+                        
+                        
+                        
+                        while(i < tokensAnalizados.size() && !tokensAnalizados.get(i).getTipoToken().equals("LlaveCerrar")) {
+            // Buscar descripción
+            if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") 
+               && tokensAnalizados.get(i).getLexema().equals("descripcion")
+               && i+2 < tokensAnalizados.size()
+               && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")
+               ) {
+                String descripcionActual = tokensAnalizados.get(i+2).getLexema();
+                descripcionesLista.add(descripcionActual);
+                System.out.println("Descripcion del automata "+ descripcionActual);
+                
+            }
+            i++;
+                        }
                          /*
                        
                         if(i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("inicial") && i+2 < tokensAnalizados.size() && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
