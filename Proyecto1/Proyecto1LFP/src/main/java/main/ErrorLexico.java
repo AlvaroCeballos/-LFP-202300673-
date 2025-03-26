@@ -27,5 +27,19 @@ public class ErrorLexico {
     }
     
     
+    public String getCaracter() {
+        return caracter;
+    }
     
+    public String getDescripcion() {
+        return descripcion;
+    }
+    
+    public int getPosX() {
+        return posX;
+    }
+    
+    public int getPosY() {
+        return posY;
+    }
 }

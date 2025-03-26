@@ -40,7 +40,8 @@ public class Proyecto1LFP {
         
         System.out.println("");
         analizadorLexico.imprimirErrores();
-        analizadorLexico.generarReporteHTML("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\Proyecto1LFP\\reporte_tokens.html");
+        analizadorLexico.generarReporteHTML("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\Proyecto1LFP\\reporte de tokens.html");
+        analizadorLexico.generarReporteErroresHTML("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\Proyecto1LFP\\reporte de errores lexicos.html");
         
         
         List<Tokens> tokensAnalizados = analizadorLexico.getTokens();
