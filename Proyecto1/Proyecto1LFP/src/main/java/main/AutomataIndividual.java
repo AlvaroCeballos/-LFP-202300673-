@@ -32,7 +32,9 @@ public class AutomataIndividual {
         this.transiciones = new HashMap<>();
     }
     
-    
+    public void agregarAlfabeto(List<String> alfabeto) {
+    this.alfabeto = new ArrayList<>(alfabeto);
+}
     
     public void agregarEstadoInicial(String eInicial)
     {

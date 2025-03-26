@@ -46,6 +46,7 @@ public class Proyecto1LFP {
         List<String> nombresAutomatas = new ArrayList<>();
         List<String> descripcionesLista = new ArrayList<>();
         List<String> estadosGlobales = new ArrayList<>();
+        List<String> alfabeto = new ArrayList<>();
         List<String> estadosIniciales = new ArrayList<>();
         List<String> estadosFinales = new ArrayList<>();
         List<String> TransicionesLista = new ArrayList<>();
@@ -111,21 +112,64 @@ for (int j = 0; j < tokensAnalizados.size(); j++) {
                     i++; // Saltamos la coma
                 }
                 // I VA EN 12
-                i++; // Siguiente token
+                i+= 1; // Siguiente token
                 // I VA EN 13
             }
-            
+
             System.out.println("\n=== Lista de Estados ===");
             for (String estado : estadosGlobales) {
                 System.out.println("- " + estado);
             }
+            System.out.println(i);
+            i+=2;
+            System.out.println(i);
         }
             }
-                        }
-                        
-                         /*
+            
+            
+            
                        
-                        if(i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("inicial") && i+2 < tokensAnalizados.size() && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
+           if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") 
+        && tokensAnalizados.get(i).getLexema().equals("alfabeto")
+        && i+2 < tokensAnalizados.size()
+        && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
+    
+    i += 2; // Avanzamos más allá de "alfabeto" y ":"
+    
+    if (i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("CorcheteAbrir")) {
+        i++; // Avanzamos al primer elemento del alfabeto
+        
+        alfabeto.clear(); // Limpiamos la lista para este autómata
+        
+        while (i < tokensAnalizados.size() && !tokensAnalizados.get(i).getTipoToken().equals("CorcheteCerrar")) {
+            if (tokensAnalizados.get(i).getTipoToken().equals("Cadena de texto")) {
+                // Eliminamos las comillas de los símbolos
+                String simbolo = tokensAnalizados.get(i).getLexema();
+                alfabeto.add(simbolo);
+                System.out.println("Símbolo del alfabeto encontrado: " + simbolo);
+            }
+            
+            if (i+1 < tokensAnalizados.size() && tokensAnalizados.get(i+1).getTipoToken().equals("Coma")) {
+                i++; // Saltamos la coma
+            }
+            
+            i++; // Siguiente token
+        }
+        
+        // Avanzamos más allá del CorcheteCerrar
+        if (i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("CorcheteCerrar")) {
+            i++;
+        }
+        
+        System.out.println("\n=== Alfabeto del Autómata ===");
+        for (String simbolo : alfabeto) {
+            System.out.println("- " + simbolo);
+        }
+    }
+}
+           
+           
+            if(i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("inicial") && i+2 < tokensAnalizados.size() && tokensAnalizados.get(i+1).getTipoToken().equals("DosPuntos")) {
                             i+=2;
                             
                             if(i < tokensAnalizados.size() && tokensAnalizados.get(i).getTipoToken().equals("Identificador")) {
@@ -138,6 +182,18 @@ for (int j = 0; j < tokensAnalizados.size(); j++) {
                                 i+=2; 
                             }
                         }
+            
+            
+            
+            
+            
+            
+            
+                        }
+                        
+                         
+                       
+                       /*
                         
                if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("finales")){
                     i+=3;
@@ -242,4 +298,3 @@ for (Map.Entry<String, AutomataIndividual> entry : automata.entrySet()) {
         }
     }
 }
-
