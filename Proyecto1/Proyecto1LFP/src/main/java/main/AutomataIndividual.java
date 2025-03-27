@@ -102,6 +102,21 @@ public class AutomataIndividual {
             System.out.println("Error al escribir el archivo.");
             e.printStackTrace();
         }
+        String[] comando = {"dot", "-Tpng", dotFile, "-o", pngFile};
+        try{
+            ProcessBuilder builder = new ProcessBuilder(comando);
+            builder.inheritIO();
+            Process proceso = builder.start();
+            int exitCode = proceso.waitFor();
+            
+            if(exitCode == 0){
+                System.out.println("Conversion completada");
+            }else{
+                System.err.println("Error en la conversion de codigo");
+            }
+        }catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
 }
 }
 
