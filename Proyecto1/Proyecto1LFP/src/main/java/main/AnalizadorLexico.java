@@ -203,44 +203,39 @@ public class AnalizadorLexico {
     
     public void generarReporteHTML(String rutaArchivo) {
     try {
-        FileWriter writer = new FileWriter(rutaArchivo);
+        FileWriter escritorHTMLToken = new FileWriter(rutaArchivo);
         
-        writer.write("<!DOCTYPE html>\n");
-        writer.write("<html>\n");
-        writer.write("<head>\n");
-        writer.write("<title>Reporte de Tokens</title>\n");
-        writer.write("<style>\n");
-        writer.write("body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1e1e2e; color: #ffffff; margin: 20px; text-align: center; }\n");
-        writer.write("h1 { color: #00ff7f; text-align: center; text-shadow: 2px 2px 5px rgba(0, 255, 127, 0.5); }\n");
-        writer.write("table { width: 80%; margin: 20px auto; border-collapse: collapse; background-color: #2a2a3a; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); }\n");
-        writer.write("th, td { padding: 12px; text-align: center; border: 2px solid #00ff7f; transition: all 0.3s ease-in-out; }\n");
-        writer.write("th { background-color: #00ff7f; color: #1e1e2e; font-weight: bold; text-transform: uppercase; }\n");
-        writer.write("td { background-color: #2a2a3a; color: #ffffff; }\n");
-        writer.write("tr:hover { background-color: #3a3a4a; transform: scale(1.02); }\n");
-        writer.write("tr:nth-child(even) { background-color: #2f2f3f; }\n");
-        writer.write("</style>\n");
-        writer.write("</head>\n");
-        writer.write("<body>\n");
-        writer.write("<h1>Reporte de Tokens</h1>\n");
-        writer.write("<table>\n");
-        writer.write("<tr><th>Token</th><th>Lexema</th><th>Línea</th><th>Columna</th></tr>\n");
-        
-        // Escribimos los datos de cada token
+        escritorHTMLToken.write("<!DOCTYPE html>\n");
+        escritorHTMLToken.write("<html>\n");
+        escritorHTMLToken.write("<head>\n");
+        escritorHTMLToken.write("<title>Reporte de Tokens</title>\n");
+        escritorHTMLToken.write("<style>\n");
+        escritorHTMLToken.write("body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1e1e2e; color: #ffffff; margin: 20px; text-align: center; }\n");
+        escritorHTMLToken.write("h1 { color: #00ff7f; text-align: center; text-shadow: 2px 2px 5px rgba(0, 255, 127, 0.5); }\n");
+        escritorHTMLToken.write("table { width: 80%; margin: 20px auto; border-collapse: collapse; background-color: #2a2a3a; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); }\n");
+        escritorHTMLToken.write("th, td { padding: 12px; text-align: center; border: 2px solid #00ff7f; transition: all 0.3s ease-in-out; }\n");
+        escritorHTMLToken.write("th { background-color: #00ff7f; color: #1e1e2e; font-weight: bold; text-transform: uppercase; }\n");
+        escritorHTMLToken.write("td { background-color: #2a2a3a; color: #ffffff; }\n");
+        escritorHTMLToken.write("tr:hover { background-color: #3a3a4a; transform: scale(1.02); }\n");
+        escritorHTMLToken.write("tr:nth-child(even) { background-color: #2f2f3f; }\n");
+        escritorHTMLToken.write("</style>\n");
+        escritorHTMLToken.write("</head>\n");
+        escritorHTMLToken.write("<body>\n");
+        escritorHTMLToken.write("<h1>Reporte de Tokens</h1>\n");
+        escritorHTMLToken.write("<table>\n");
+        escritorHTMLToken.write("<tr><th>Token</th><th>Lexema</th><th>Línea</th><th>Columna</th></tr>\n");
         for (Tokens token : this.ListaTokens) {
-            writer.write("<tr>");
-            writer.write("<td>" + escapeHtml(token.getTipoToken()) + "</td>");
-            writer.write("<td>" + escapeHtml(token.getLexema()) + "</td>");
-            writer.write("<td>" + (token.getPosX() + 1) + "</td>"); // +1 porque las líneas suelen empezar en 1
-            writer.write("<td>" + (token.getPosY() + 1) + "</td>"); // +1 porque las columnas suelen empezar en 1
-            writer.write("</tr>\n");
+            escritorHTMLToken.write("<tr>");
+            escritorHTMLToken.write("<td>" + descripHTML(token.getTipoToken()) + "</td>");
+            escritorHTMLToken.write("<td>" + descripHTML(token.getLexema()) + "</td>");
+            escritorHTMLToken.write("<td>" + (token.getPosX() + 1) + "</td>"); 
+            escritorHTMLToken.write("<td>" + (token.getPosY() + 1) + "</td>"); 
+            escritorHTMLToken.write("</tr>\n");
         }
-        
-        // Cerramos el HTML
-        writer.write("</table>\n");
-        writer.write("</body>\n");
-        writer.write("</html>");
-        
-        writer.close();
+        escritorHTMLToken.write("</table>\n");
+        escritorHTMLToken.write("</body>\n");
+        escritorHTMLToken.write("</html>");
+        escritorHTMLToken.close();
         System.out.println("Reporte HTML generado exitosamente en: " + rutaArchivo);
     } catch (IOException e) {
         System.err.println("Error al generar el reporte HTML: " + e.getMessage());
@@ -252,56 +247,49 @@ public class AnalizadorLexico {
     
     public void generarReporteErroresHTML(String rutaArchivo) {
     try {
-        FileWriter writer = new FileWriter(rutaArchivo);
+        FileWriter escritorError = new FileWriter(rutaArchivo);
         
-        writer.write("<!DOCTYPE html>\n");
-        writer.write("<html>\n");
-        writer.write("<head>\n");
-        writer.write("<title>Reporte de Tokens</title>\n");
-        writer.write("<style>\n");
-        writer.write("body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1e1e2e; color: #ffffff; margin: 20px; text-align: center; }\n");
-        writer.write("h1 { color: #00ff7f; text-align: center; text-shadow: 2px 2px 5px rgba(0, 255, 127, 0.5); }\n");
-        writer.write("table { width: 80%; margin: 20px auto; border-collapse: collapse; background-color: #2a2a3a; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); }\n");
-        writer.write("th, td { padding: 12px; text-align: center; border: 2px solid #00ff7f; transition: all 0.3s ease-in-out; }\n");
-        writer.write("th { background-color: #00ff7f; color: #1e1e2e; font-weight: bold; text-transform: uppercase; }\n");
-        writer.write("td { background-color: #2a2a3a; color: #ffffff; }\n");
-        writer.write("tr:hover { background-color: #3a3a4a; transform: scale(1.02); }\n");
-        writer.write("tr:nth-child(even) { background-color: #2f2f3f; }\n");
-        writer.write("</style>\n");
-        writer.write("</head>\n");
-        writer.write("<body>\n");
-        writer.write("<h1>Reporte de Tokens</h1>\n");
-        writer.write("<table>\n");
-        writer.write("<h1>Reporte de Errores Léxicos</h1>\n");
-        
-        // Resumen de errores
-        writer.write("<p>Total de errores encontrados: " + this.ListaErrores.size() + "</p>\n");
-        
-        writer.write("<table>\n");
-        writer.write("<tr><th>Carácter</th><th>Línea</th><th>Columna</th><th>Descripción</th></tr>\n");
-        
-        // Datos de cada error
+        escritorError.write("<!DOCTYPE html>\n");
+        escritorError.write("<html>\n");
+        escritorError.write("<head>\n");
+        escritorError.write("<title>Reporte de Tokens</title>\n");
+        escritorError.write("<style>\n");
+        escritorError.write("body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1e1e2e; color: #ffffff; margin: 20px; text-align: center; }\n");
+        escritorError.write("h1 { color: #00ff7f; text-align: center; text-shadow: 2px 2px 5px rgba(0, 255, 127, 0.5); }\n");
+        escritorError.write("table { width: 80%; margin: 20px auto; border-collapse: collapse; background-color: #2a2a3a; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); }\n");
+        escritorError.write("th, td { padding: 12px; text-align: center; border: 2px solid #00ff7f; transition: all 0.3s ease-in-out; }\n");
+        escritorError.write("th { background-color: #00ff7f; color: #1e1e2e; font-weight: bold; text-transform: uppercase; }\n");
+        escritorError.write("td { background-color: #2a2a3a; color: #ffffff; }\n");
+        escritorError.write("tr:hover { background-color: #3a3a4a; transform: scale(1.02); }\n");
+        escritorError.write("tr:nth-child(even) { background-color: #2f2f3f; }\n");
+        escritorError.write("</style>\n");
+        escritorError.write("</head>\n");
+        escritorError.write("<body>\n");
+        escritorError.write("<h1>Reporte de Tokens</h1>\n");
+        escritorError.write("<table>\n");
+        escritorError.write("<h1>Reporte de Errores Léxicos</h1>\n");
+        escritorError.write("<p>Total de errores encontrados: " + this.ListaErrores.size() + "</p>\n");
+        escritorError.write("<table>\n");
+        escritorError.write("<tr><th>Carácter</th><th>Línea</th><th>Columna</th><th>Descripción</th></tr>\n");
         for (ErrorLexico error : this.ListaErrores) {
-            writer.write("<tr>");
-            writer.write("<td class='error-char'>" + escapeHtml(error.getCaracter()) + "</td>");
-            writer.write("<td>" + (error.getPosX() + 1) + "</td>"); // Línea (+1 para numeración humana)
-            writer.write("<td>" + (error.getPosY() + 1) + "</td>"); // Columna (+1 para numeración humana)
-            writer.write("<td>" + escapeHtml(error.getDescripcion()) + "</td>");
-            writer.write("</tr>\n");
+            escritorError.write("<tr>");
+            escritorError.write("<td class='error-char'>" + descripHTML(error.getCaracter()) + "</td>");
+            escritorError.write("<td>" + (error.getPosX() + 1) + "</td>"); 
+            escritorError.write("<td>" + (error.getPosY() + 1) + "</td>"); 
+            escritorError.write("<td>" + descripHTML(error.getDescripcion()) + "</td>");
+            escritorError.write("</tr>\n");
         }
-        
-        writer.write("</table>\n");
-        writer.write("</body>\n");
-        writer.write("</html>");
-        
-        writer.close();
+        escritorError.write("</table>\n");
+        escritorError.write("</body>\n");
+        escritorError.write("</html>");
+        escritorError.close();
         System.out.println("Reporte de errores HTML generado exitosamente en: " + rutaArchivo);
     } catch (IOException e) {
         System.err.println("Error al generar el reporte de errores HTML: " + e.getMessage());
     }
 }
     
-private String escapeHtml(String input) {
+private String descripHTML(String input) {
     if (input == null) {
         return "";
     }

@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,6 +24,7 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JSplitPane;
 
 /**
  *
@@ -41,11 +43,17 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPanel panelGrafico;
     private AnalizadorLexico analizadorLexico;
     private Map<String, AutomataIndividual> automata;
+    
+    
 
     /**
      * Creates new form Menu
      */
     public Menu() {
+        
+        this.setSize(1000, 1000); 
+        this.setPreferredSize(new Dimension(1000, 1000));
+        this.setLocationRelativeTo(null);
         initComponentsManuak();
         redirectSystemOutput();
         analizadorLexico = new AnalizadorLexico();
@@ -66,69 +74,72 @@ public class Menu extends javax.swing.JFrame {
     }
 
     private void initComponentsManuak() {
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Analizador Léxico de Autómatas");
+    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+    setTitle("Graficador de automata");
+    setSize(1800, 700);
 
-        btnAnalizar = new javax.swing.JButton("Analizar Archivo");
-        btn2Reportes = new javax.swing.JButton("Generar Reporte");
-        btnGenerarGrafico = new javax.swing.JButton("Graficar");
-        JCBNombreAutomata = new javax.swing.JComboBox<>();
-        fileChooser = new javax.swing.JFileChooser();
-        txtResultados = new javax.swing.JTextArea();
-        scrollPane = new javax.swing.JScrollPane(txtResultados);
-        tabbedPane = new javax.swing.JTabbedPane();
-        panelGrafico = new javax.swing.JPanel();
+    btnAnalizar = new javax.swing.JButton("Analizar Archivo");
+    btn2Reportes = new javax.swing.JButton("Generar Reporte");
+    btnGenerarGrafico = new javax.swing.JButton("Graficar");
+    JCBNombreAutomata = new javax.swing.JComboBox<>();
+    fileChooser = new javax.swing.JFileChooser();
+    txtResultados = new javax.swing.JTextArea();
+    scrollPane = new javax.swing.JScrollPane(txtResultados);
+    panelGrafico = new javax.swing.JPanel();
 
-        btnAnalizar.setText("Analizar Archivo");
-        btnAnalizar.addActionListener(this::btnAnalizarActionPerformed);
-        btn2Reportes.addActionListener(this::btnGenerarReporteActionPerformed);
-        btnGenerarGrafico.addActionListener(this::btnGenerarGraficoActionPerformed);
-        txtResultados.setEditable(false);
-        txtResultados.setFont(new java.awt.Font("Monospaced", java.awt.Font.CENTER_BASELINE, 15));
+    btnAnalizar.setBackground(new java.awt.Color(51, 66, 255));
+    btn2Reportes.setBackground(new java.awt.Color(51, 66, 255)); 
+    btnGenerarGrafico.setBackground(new java.awt.Color(51, 66, 255));
+    
+    btnAnalizar.addActionListener(this::btnAnalizarActionPerformed);
+    btn2Reportes.addActionListener(this::btnGenerarReporteActionPerformed);
+    btnGenerarGrafico.addActionListener(this::btnGenerarGraficoActionPerformed);
+    
+    txtResultados.setEditable(false);
+    txtResultados.setFont(new java.awt.Font("Monospaced", java.awt.Font.CENTER_BASELINE, 15));
+    
+    panelGrafico.setBorder(BorderFactory.createTitledBorder("Visualización del Autómata"));
+    panelGrafico.setLayout(new java.awt.BorderLayout());
+    
+    JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPane, panelGrafico);
+    splitPane.setDividerLocation(900);
+    splitPane.setResizeWeight(0.5);
+    
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+    getContentPane().setLayout(layout);
+    layout.setHorizontalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(splitPane)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(btnAnalizar)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(btn2Reportes)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(JCBNombreAutomata, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(btnGenerarGrafico)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addContainerGap())
+    );
+    layout.setVerticalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(btnAnalizar)
+                .addComponent(btn2Reportes)
+                .addComponent(JCBNombreAutomata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnGenerarGrafico))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(splitPane)
+            .addContainerGap())
+    );
 
-        panelGrafico.setBorder(BorderFactory.createTitledBorder("Visualización del Autómata"));
-        panelGrafico.setLayout(new java.awt.BorderLayout());
-        panelGrafico.setPreferredSize(new Dimension(1800, 1800));
-        //Organización del layout
-        tabbedPane.addTab("Archivo Analizado", scrollPane);
-        tabbedPane.addTab("Automata Graficado", panelGrafico);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(tabbedPane)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(btnAnalizar)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(btn2Reportes)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(JCBNombreAutomata, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(btnGenerarGrafico)
-                                                .addGap(0, 0, Short.MAX_VALUE)))
-                                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(btnAnalizar)
-                                        .addComponent(btn2Reportes)
-                                        .addComponent(JCBNombreAutomata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(btnGenerarGrafico))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tabbedPane)
-                                .addContainerGap())
-        );
-
-        pack();
-        setSize(800, 600);
-    }
+    pack();
+}
 
     private void btnAnalizarActionPerformed(java.awt.event.ActionEvent evt) {
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
