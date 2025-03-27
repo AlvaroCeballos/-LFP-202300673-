@@ -26,7 +26,7 @@ public class Proyecto1LFP {
         
         //
         try {
-    File archivo = new File("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\Proyecto1LFP\\archivoEntradaPruebaProyecto1.txt");
+    File archivo = new File("C:\\Users\\aceba\\OneDrive\\Desktop\\Tareas\\Entrada1.lfp");
     StringBuilder content = new StringBuilder();
     if (archivo.exists()) {
         BufferedReader br = new BufferedReader(new FileReader(archivo));
@@ -337,7 +337,7 @@ for(String estado : estadosIniciales) {
        System.out.println("PRUEBA DEQUE SI SIRVE ESTE MAIN");
    }
 }
-        automata.get("AFD1").graficar();
+        automata.get("AFD2").graficar();
 
 System.out.println("\nEstados finales encontrados (" + estadosFinales.size() + "):");
 for(String estado : estadosFinales) {

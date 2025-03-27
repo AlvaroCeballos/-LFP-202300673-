@@ -560,6 +560,10 @@ for(String estado : estadosIniciales) {
         if (automataSeleccionado != null) {
             automataSeleccionado.graficar();
             System.out.println("Gráfico generado para: " + nombreAutomata);
+            
+            txtResultados.append("\nGráfico generado para: " + nombreAutomata + "\n");
+            txtResultados.append("Archivo DOT: AFD.dot\n");
+            txtResultados.append("Imagen PNG: AFD.png\n");
         } else {
             System.out.println("No se encontró el autómata seleccionado");
         }
