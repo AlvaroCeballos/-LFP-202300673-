@@ -18,8 +18,8 @@ import java.util.Map;
 public class AutomataIndividual {
     
     private String nombreAutomata;
-        private List<String> estadosGlobales;
-    private List<String> alfabeto;
+    //private List<String> estadosGlobales;
+    // private List<String> alfabeto;
     private String estadoInicial;
     private List<String> estadosFinales;
     
@@ -32,10 +32,10 @@ public class AutomataIndividual {
         this.transiciones = new HashMap<>();
     }
     
-    public void agregarAlfabeto(List<String> alfabeto) {
+    /*public void agregarAlfabeto(List<String> alfabeto) {
     this.alfabeto = new ArrayList<>(alfabeto);
 }
-    
+    */
     public void agregarEstadoInicial(String eInicial)
     {
         this.estadoInicial = eInicial;
@@ -73,7 +73,30 @@ public class AutomataIndividual {
              
              for(Map.Entry<String, Map<String, String>> entry : this.transiciones.entrySet()){
                  String TranEinicial = entry.getKey();
+                 if(this.estadosFinales.contains(TranEinicial)){
+                     infoDot+=TranEinicial+"[shape=doublecircle]\n";
+                 }else{
+                      infoDot+=TranEinicial+"[shape=circle]\n";
+                 }
+                 
+                  Map<String, String> transicion = entry.getValue();
+                  
+                   for(Map.Entry<String, String> entry2: transicion.entrySet()){
+                     String etiqueta = entry2.getKey();
+                     
+                     String estadoFinal = entry2.getValue();
+                     
+                     transicionesDot+=TranEinicial+"->"+estadoFinal+"[label="+etiqueta+"]\n";
+                     
+                     if(this.estadosFinales.contains(estadoFinal)){
+                        infoDot+=estadoFinal+"[shape=doublecircle]\n";
+                    }else{
+                        infoDot+=estadoFinal+"[shape=circle]\n";
+                    }
+                 }
+
              }
+             
         
 }catch (IOException e) {
             System.out.println("Error al escribir el archivo.");

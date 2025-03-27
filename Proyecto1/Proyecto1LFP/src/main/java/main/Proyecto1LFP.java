@@ -332,7 +332,8 @@ for(String estado : estadosIniciales) {
                         } //**
     else{
        i++;
-       System.out.println(i+ "FINAL"); 
+       System.out.println(i+ "FINAL");
+       System.out.println("PRUEBA DEQUE SI SIRVE ESTE MAIN");
    }
 }
 

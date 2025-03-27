@@ -350,57 +350,40 @@ if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada")
     }
 }
              
-            
-            
-            
-            
-            if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("transiciones")){
-                    i+=1;
-                    
-                    while(!tokensAnalizados.get(i+1).getTipoToken().equals("LlaveCerrar")){
-                        i+=2;
-                        
-                        String estadoActual = tokensAnalizados.get(i).getLexema();
-                        
-                        i+=3;
-                        
-                        while(!tokensAnalizados.get(i).getTipoToken().equals("ParentesisCerrar")){
-                            String entrada = tokensAnalizados.get(i).getLexema();
-                            
-                            i+=2;
-                            String estadoDestino = tokensAnalizados.get(i).getLexema();
-                            
-                            System.out.println("Estado actual :"+estadoActual + "Entrada: " +entrada + "EstadoDestino: "+estadoDestino);
-                            afd.agregarTransicion(estadoActual, entrada, estadoDestino);
-                            
-                            
-                            if(tokensAnalizados.get(i+1).getTipoToken().equals("Coma")){
-                                i+=2;
-                            }else{
-                                i++;
+                    if (tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada") && tokensAnalizados.get(i).getLexema().equals("transiciones")) {
+                        i += 1;
+
+                        while (!tokensAnalizados.get(i + 1).getTipoToken().equals("LlaveCerrar")) {
+                            i += 2;
+
+                            String estadoActual = tokensAnalizados.get(i).getLexema();
+
+                            i += 3;
+
+                            while (!tokensAnalizados.get(i).getTipoToken().equals("ParentesisCerrar")) {
+                                String entrada = tokensAnalizados.get(i).getLexema();
+
+                                i += 2;
+                                String estadoDestino = tokensAnalizados.get(i).getLexema();
+
+                                System.out.println("Estado actual :" + estadoActual + "Entrada: " + entrada + "EstadoDestino: " + estadoDestino);
+                                afd.agregarTransicion(estadoActual, entrada, estadoDestino);
+
+                                if (tokensAnalizados.get(i + 1).getTipoToken().equals("Coma")) {
+                                    i += 2;
+                                } else {
+                                    i++;
+                                }
                             }
                         }
-                        }
-                        
-                    automata.put(nombre, afd);
-                    actualizarComboBoxAutomatas(nombresAutomatas);
-                    
-                     
+
+                        automata.put(nombre, afd);
+                        actualizarComboBoxAutomatas(nombresAutomatas);
+
                     }
-            
 
+                }
 
-
-
-
-            
-                        }
-                        
-                         
-                       
-                       
-                      
-              
                 /*
                 
                 }
@@ -417,15 +400,11 @@ for(String estado : estadosIniciales) {
 
 
 
-                */
+                 */
+            } else {
+                i++;
 
-                         
-                         
-                        }
-   else{
-       i++;
-       
-   }
+            }
         }
     }
     
