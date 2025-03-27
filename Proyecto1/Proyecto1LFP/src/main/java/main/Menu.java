@@ -33,9 +33,9 @@ import javax.swing.JOptionPane;
 public class Menu extends javax.swing.JFrame {
     
     private javax.swing.JButton btnAnalizar;
-    private javax.swing.JButton btnGenerarReporte;
+    private javax.swing.JButton btn2Reportes;
     private javax.swing.JButton btnGenerarGrafico;
-    private javax.swing.JComboBox<String> selectAutomata;
+    private javax.swing.JComboBox<String> JCBNombreAutomata;
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JTextArea txtResultados;
     private javax.swing.JTabbedPane tabbedPane;
@@ -48,37 +48,33 @@ public class Menu extends javax.swing.JFrame {
      * Creates new form Menu
      */
     public Menu() {
-        initComponents2();
+        initComponentsManuak();
         redirectSystemOutput();
         analizadorLexico = new AnalizadorLexico();
         automata = new HashMap<>();
         
         this.addComponentListener(new java.awt.event.ComponentAdapter() {
         public void componentResized(java.awt.event.ComponentEvent evt) {
-            if (selectAutomata.getSelectedItem() != null) {
-                mostrarImagenAutomata((String) selectAutomata.getSelectedItem());
+            if (JCBNombreAutomata.getSelectedItem() != null) {
+                mostrarImagenAutomata((String) JCBNombreAutomata.getSelectedItem());
             }
         }
     });
     }
     
     private void redirectSystemOutput() {
-    // Redirige System.out
     System.setOut(new PrintStream(new TextAreaOutputStream(txtResultados), true));
-    
-    // Redirige System.err (errores) - Opcional
     System.setErr(new PrintStream(new TextAreaOutputStream(txtResultados), true));
 }
-     private void initComponents2() {
-        // Configuración básica del JFrame
+     private void initComponentsManuak() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Analizador Léxico de Autómatas");
         
         // Creación de componentes
         btnAnalizar = new javax.swing.JButton("Analizar Archivo");
-        btnGenerarReporte = new javax.swing.JButton("Generar Reporte");
+        btn2Reportes = new javax.swing.JButton("Generar Reporte");
         btnGenerarGrafico = new javax.swing.JButton("Generar Gráfico");
-        selectAutomata = new javax.swing.JComboBox<>();
+        JCBNombreAutomata = new javax.swing.JComboBox<>();
         fileChooser = new javax.swing.JFileChooser();
         txtResultados = new javax.swing.JTextArea();
         scrollPane = new javax.swing.JScrollPane(txtResultados);
@@ -88,7 +84,7 @@ public class Menu extends javax.swing.JFrame {
         // Configuración de componentes
         btnAnalizar.setText("Analizar Archivo");
         btnAnalizar.addActionListener(this::btnAnalizarActionPerformed);
-        btnGenerarReporte.addActionListener(this::btnGenerarReporteActionPerformed);
+        btn2Reportes.addActionListener(this::btnGenerarReporteActionPerformed);
         btnGenerarGrafico.addActionListener(this::btnGenerarGraficoActionPerformed);
         
         txtResultados.setEditable(false);
@@ -112,9 +108,9 @@ public class Menu extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(btnAnalizar)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnGenerarReporte)
+                            .addComponent(btn2Reportes)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(selectAutomata, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JCBNombreAutomata, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnGenerarGrafico)
                             .addGap(0, 0, Short.MAX_VALUE)))
@@ -126,8 +122,8 @@ public class Menu extends javax.swing.JFrame {
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnAnalizar)
-                        .addComponent(btnGenerarReporte)
-                        .addComponent(selectAutomata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn2Reportes)
+                        .addComponent(JCBNombreAutomata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnGenerarGrafico))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(tabbedPane)
@@ -425,16 +421,16 @@ for(String estado : estadosIniciales) {
     
     private void actualizarComboBoxAutomatas(List<String> nombresAutomatas) {
     // Limpiar el combo box antes de agregar nuevos elementos
-    selectAutomata.removeAllItems();
+    JCBNombreAutomata.removeAllItems();
     
     // Agregar cada nombre de autómata al combo box
     for (String nombre : nombresAutomatas) {
-        selectAutomata.addItem(nombre);
+        JCBNombreAutomata.addItem(nombre);
     }
     
     // Opcional: seleccionar el primer elemento por defecto
-    if (selectAutomata.getItemCount() > 0) {
-        selectAutomata.setSelectedIndex(0);
+    if (JCBNombreAutomata.getItemCount() > 0) {
+        JCBNombreAutomata.setSelectedIndex(0);
     }
     
     // Mensaje de depuración
@@ -442,7 +438,7 @@ for(String estado : estadosIniciales) {
 }
     
     private AutomataIndividual getAutomataSeleccionado() {
-    String nombre = (String) selectAutomata.getSelectedItem();
+    String nombre = (String) JCBNombreAutomata.getSelectedItem();
     return automata.get(nombre);
 }
     
@@ -599,8 +595,8 @@ for(String estado : estadosIniciales) {
     }
 
     private void btnGenerarGraficoActionPerformed(ActionEvent e) {
-       if (selectAutomata.getSelectedItem() != null) {
-        String nombreAutomata = (String) selectAutomata.getSelectedItem();
+       if (JCBNombreAutomata.getSelectedItem() != null) {
+        String nombreAutomata = (String) JCBNombreAutomata.getSelectedItem();
         AutomataIndividual automataSeleccionado = automata.get(nombreAutomata);
         
         if (automataSeleccionado != null) {
