@@ -77,7 +77,7 @@ public class Menu extends javax.swing.JFrame {
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     setTitle("Graficador de automata");
     setSize(1800, 700);
-
+    getContentPane().setBackground(new java.awt.Color(196, 255, 51));
     btnAnalizar = new javax.swing.JButton("Analizar Archivo");
     btn2Reportes = new javax.swing.JButton("Generar Reporte");
     btnGenerarGrafico = new javax.swing.JButton("Graficar");
