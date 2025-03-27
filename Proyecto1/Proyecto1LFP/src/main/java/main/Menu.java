@@ -4,6 +4,11 @@
  */
 package main;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
@@ -47,6 +52,14 @@ public class Menu extends javax.swing.JFrame {
         redirectSystemOutput();
         analizadorLexico = new AnalizadorLexico();
         automata = new HashMap<>();
+        
+        this.addComponentListener(new java.awt.event.ComponentAdapter() {
+        public void componentResized(java.awt.event.ComponentEvent evt) {
+            if (selectAutomata.getSelectedItem() != null) {
+                mostrarImagenAutomata((String) selectAutomata.getSelectedItem());
+            }
+        }
+    });
     }
     
     private void redirectSystemOutput() {
@@ -82,6 +95,7 @@ public class Menu extends javax.swing.JFrame {
         txtResultados.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 12));
         
        panelGrafico.setBorder(BorderFactory.createTitledBorder("Visualización del Autómata"));
+       panelGrafico.setLayout(new java.awt.BorderLayout()); 
        panelGrafico.setPreferredSize(new Dimension(600, 400));
         //Organización del layout
         tabbedPane.addTab("Resultados", scrollPane);
@@ -465,6 +479,38 @@ for(String estado : estadosIniciales) {
         }
     }
     
+    private void mostrarImagenAutomata(String nombreAutomata) {
+    try {
+        // Limpiar el panel antes de agregar nueva imagen
+        panelGrafico.removeAll();
+        
+        // Cargar la imagen generada
+        String rutaImagen = "C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\AFD.png";
+        BufferedImage imagen = ImageIO.read(new File(rutaImagen));
+        
+        // Escalar la imagen si es muy grande
+        Image imagenEscalada = imagen.getScaledInstance(
+            panelGrafico.getWidth() - 20, 
+            panelGrafico.getHeight() - 20, 
+            Image.SCALE_SMOOTH);
+        
+        // Crear un JLabel con la imagen
+        JLabel labelImagen = new JLabel(new ImageIcon(imagenEscalada));
+        panelGrafico.add(labelImagen);
+        
+        // Actualizar la interfaz
+        panelGrafico.revalidate();
+        panelGrafico.repaint();
+        
+        // Cambiar a la pestaña de gráfico automáticamente
+        tabbedPane.setSelectedIndex(1);
+        
+    } catch (IOException e) {
+        txtResultados.append("\nError al cargar la imagen: " + e.getMessage());
+    }
+}
+    
+    
     private void mostrarTokensEnGUI() {
         StringBuilder sb = new StringBuilder();
         sb.append("=== TOKENS ENCONTRADOS ===\n");
@@ -559,6 +605,7 @@ for(String estado : estadosIniciales) {
         
         if (automataSeleccionado != null) {
             automataSeleccionado.graficar();
+            mostrarImagenAutomata(nombreAutomata);
             System.out.println("Gráfico generado para: " + nombreAutomata);
             
             txtResultados.append("\nGráfico generado para: " + nombreAutomata + "\n");

@@ -117,6 +117,7 @@ public class AutomataIndividual {
         }catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        
 }
 }
 
