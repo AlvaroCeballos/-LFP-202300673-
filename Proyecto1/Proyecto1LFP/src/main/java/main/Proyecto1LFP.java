@@ -314,7 +314,7 @@ if(tokensAnalizados.get(i).getTipoToken().equals("Palabra Reservada")
                 }
                    i++;
         }
-        automata.get("AFD1").graficar();
+       
                 
 
 
@@ -329,13 +329,15 @@ for(String estado : estadosIniciales) {
 
                          
                          
-                        } //**
+        
+   } //**
     else{
        i++;
        System.out.println(i+ "FINAL");
        System.out.println("PRUEBA DEQUE SI SIRVE ESTE MAIN");
    }
 }
+        automata.get("AFD1").graficar();
 
 System.out.println("\nEstados finales encontrados (" + estadosFinales.size() + "):");
 for(String estado : estadosFinales) {

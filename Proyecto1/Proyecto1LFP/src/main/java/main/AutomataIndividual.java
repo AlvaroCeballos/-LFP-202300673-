@@ -26,7 +26,7 @@ public class AutomataIndividual {
     private Map<String, Map<String, String>> transiciones;
     
     
-    public AutomataIndividual(String nombre){
+    public AutomataIndividual(String nombreAutomata){
         this.nombreAutomata = nombreAutomata;
         this.estadosFinales = new ArrayList<>();
         this.transiciones = new HashMap<>();
@@ -62,47 +62,46 @@ public class AutomataIndividual {
         
         try{
             FileWriter writer = new FileWriter(dotFile);
-            
-            writer.write("digraph G {\n");
-             writer.write("rankdir=LR;\n"); 
-             writer.write("}"); //Fin
-             writer.close();
-             
-             String transicionesDot = "";
-             String infoDot = "";
+             writer.write("digraph G {\n");
+             writer.write("rankdir=LR;\n");
+                
+             String transicionesTexto ="";
+             String propiedadesTexto = "";
              
              for(Map.Entry<String, Map<String, String>> entry : this.transiciones.entrySet()){
-                 String TranEinicial = entry.getKey();
-                 if(this.estadosFinales.contains(TranEinicial)){
-                     infoDot+=TranEinicial+"[shape=doublecircle]\n";
+                 String sInicial = entry.getKey();
+                 if(this.estadosFinales.contains(sInicial)){
+                     propiedadesTexto+=sInicial+"[shape=doublecircle]\n";
                  }else{
-                      infoDot+=TranEinicial+"[shape=circle]\n";
+                      propiedadesTexto+=sInicial+"[shape=circle]\n";
                  }
                  
-                  Map<String, String> transicion = entry.getValue();
-                  
-                   for(Map.Entry<String, String> entry2: transicion.entrySet()){
+                 Map<String, String> transicion = entry.getValue();
+                 
+                 for(Map.Entry<String, String> entry2: transicion.entrySet()){
                      String etiqueta = entry2.getKey();
                      
                      String estadoFinal = entry2.getValue();
                      
-                     transicionesDot+=TranEinicial+"->"+estadoFinal+"[label="+etiqueta+"]\n";
+                     transicionesTexto+=sInicial+"->"+estadoFinal+"[label="+etiqueta+"]\n";
                      
                      if(this.estadosFinales.contains(estadoFinal)){
-                        infoDot+=estadoFinal+"[shape=doublecircle]\n";
+                        propiedadesTexto+=estadoFinal+"[shape=doublecircle]\n";
                     }else{
-                        infoDot+=estadoFinal+"[shape=circle]\n";
+                        propiedadesTexto+=estadoFinal+"[shape=circle]\n";
                     }
                  }
 
              }
-             
+             writer.write(transicionesTexto);
+             writer.write(propiedadesTexto);
+             writer.write("}"); //Fin
+             writer.close();
         
-}catch (IOException e) {
+        }catch (IOException e) {
             System.out.println("Error al escribir el archivo.");
             e.printStackTrace();
         }
-
 }
 }
 
