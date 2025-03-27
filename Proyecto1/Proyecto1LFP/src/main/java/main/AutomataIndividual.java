@@ -55,27 +55,27 @@ public class AutomataIndividual {
         return this.transiciones;
     }
     
-      public void graficar(){
-        String dotFile = "C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\AFD.dot";
-        
-        String pngFile = "C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\AFD.png";
+      public void GraficandoAutomata(){
+        String ArchivoDOTGenerado = "C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\AFD.dot";
+        String ArchivoPNGGenerado = "C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\AFD.png";
         
         try{
-            FileWriter writer = new FileWriter(dotFile);
-             writer.write("digraph G {\n");
-             writer.write("rankdir=LR;\n");
-                
-             String transicionesTexto ="";
-             String propiedadesTexto = "";
+            FileWriter escritorArchivoDOT = new FileWriter(ArchivoDOTGenerado);
+             escritorArchivoDOT.write("digraph G {\n");
+             escritorArchivoDOT.write("rankdir=LR;\n"); 
+             escritorArchivoDOT.write("node [shape=circle];\n");
+             String transitionString ="";
+             String infoAuto = "";
              
              for(Map.Entry<String, Map<String, String>> entry : this.transiciones.entrySet()){
                  String sInicial = entry.getKey();
-                 if(this.estadosFinales.contains(sInicial)){
-                     propiedadesTexto+=sInicial+"[shape=doublecircle]\n";
-                 }else{
-                      propiedadesTexto+=sInicial+"[shape=circle]\n";
-                 }
-                 
+                 if (sInicial.equals(estadoInicial)) {
+                infoAuto += "invisible_start [shape=point, width=0.1, height=0.1]\n";
+                infoAuto += "invisible_start -> " + sInicial + " [style=bold]\n";
+            }
+            if (this.estadosFinales.contains(sInicial)) {
+                infoAuto += sInicial + " [shape=doublecircle]\n";
+            }
                  Map<String, String> transicion = entry.getValue();
                  
                  for(Map.Entry<String, String> entry2: transicion.entrySet()){
@@ -83,26 +83,26 @@ public class AutomataIndividual {
                      
                      String estadoFinal = entry2.getValue();
                      
-                     transicionesTexto+=sInicial+"->"+estadoFinal+"[label="+etiqueta+"]\n";
+                     transitionString += sInicial + "->" + estadoFinal + "[label="+etiqueta+"]\n";
                      
                      if(this.estadosFinales.contains(estadoFinal)){
-                        propiedadesTexto+=estadoFinal+"[shape=doublecircle]\n";
+                        infoAuto+=estadoFinal+"[shape=doublecircle]\n";
                     }else{
-                        propiedadesTexto+=estadoFinal+"[shape=circle]\n";
+                        infoAuto+=estadoFinal+"[shape=circle]\n";
                     }
                  }
 
              }
-             writer.write(transicionesTexto);
-             writer.write(propiedadesTexto);
-             writer.write("}"); //Fin
-             writer.close();
+             escritorArchivoDOT.write(transitionString);
+             escritorArchivoDOT.write(infoAuto);
+             escritorArchivoDOT.write("}");
+             escritorArchivoDOT.close();
         
         }catch (IOException e) {
             System.out.println("Error al escribir el archivo.");
             e.printStackTrace();
         }
-        String[] comando = {"dot", "-Tpng", dotFile, "-o", pngFile};
+        String[] comando = {"dot", "-Tpng", ArchivoDOTGenerado, "-o", ArchivoPNGGenerado};
         try{
             ProcessBuilder builder = new ProcessBuilder(comando);
             builder.inheritIO();

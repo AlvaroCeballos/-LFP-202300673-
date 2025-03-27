@@ -457,7 +457,7 @@ public class Menu extends javax.swing.JFrame {
             AutomataIndividual automataSeleccionado = automata.get(nombreAutomata);
 
             if (automataSeleccionado != null) {
-                automataSeleccionado.graficar();
+                automataSeleccionado.GraficandoAutomata();
                 mostrarImagenAutomata(nombreAutomata);
                 System.out.println("Gráfico generado para: " + nombreAutomata);
 
