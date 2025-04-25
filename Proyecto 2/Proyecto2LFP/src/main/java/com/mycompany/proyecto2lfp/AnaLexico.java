@@ -124,18 +124,27 @@ public class AnaLexico {
 }
      
      public void q3(char caracter){
-         if(Character.isDigit(caracter)){
+    if(Character.isDigit(caracter)) {
         this.buffer += caracter;
         this.posY++;
     } else {
-        // Al encontrar algo que no es dígito, generamos el token con lo que teníamos acumulado
-        this.nuevoToken(buffer, "Numero", this.posX, this.posY);
+        // Calculamos la posición inicial del número
+        // La posición actual menos la longitud del buffer
+        int tokenPosY = this.posY - buffer.length();
+        
+        // Creamos el token con la posición inicial correcta
+        this.nuevoToken(buffer, "Numero", this.posX, tokenPosY);
+        
         // Volvemos al estado inicial para procesar el nuevo carácter
         this.estado = 0;
+        
+        // Importante: No retrocedemos en la posición Y
+        // porque el carácter actual necesita su propia posición
+        
         // Procesamos el carácter actual como si estuviéramos en el estado 0
         this.iArchivo--; // Retrocedemos para que el bucle principal procese este carácter nuevamente
     }
-     }
+}
      
      public void imprimirTokens(){
         for(Token token: this.ListaTokens){
