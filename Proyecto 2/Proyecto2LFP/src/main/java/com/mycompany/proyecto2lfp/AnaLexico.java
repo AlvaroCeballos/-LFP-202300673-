@@ -50,12 +50,13 @@ public class AnaLexico {
             else if(this.estado == 3){
                 q3(cadena.charAt(this.iArchivo));
             }
-            /*
+           
             else if(this.estado == 2){
-                q1(cadena.charAt(this.iArchivo));
+                q2(cadena.charAt(this.iArchivo));
             }
+             /*
             else if(this.estado == 1){
-                q3(cadena.charAt(this.iArchivo));
+                q1(cadena.charAt(this.iArchivo));
             }
 */
             iArchivo++;
@@ -100,11 +101,12 @@ public class AnaLexico {
             this.posY++;
             this.estado = 3;
         }
-    /*else if (Character.isLetter(caracter)) {
+    else if (Character.isLetter(caracter)) {
         this.buffer += caracter;
         this.posY++;
         this.estado = 2;
-    } else if (caracter == '"') {
+    } 
+    /*else if (caracter == '"') {
         this.buffer += caracter;
         this.posY++;
         this.estado = 1;
@@ -128,23 +130,34 @@ public class AnaLexico {
         this.buffer += caracter;
         this.posY++;
     } else {
-        // Calculamos la posición inicial del número
-        // La posición actual menos la longitud del buffer
         int tokenPosY = this.posY - buffer.length();
-        
-        // Creamos el token con la posición inicial correcta
         this.nuevoToken(buffer, "Numero", this.posX, tokenPosY);
-        
-        // Volvemos al estado inicial para procesar el nuevo carácter
         this.estado = 0;
-        
-        // Importante: No retrocedemos en la posición Y
-        // porque el carácter actual necesita su propia posición
-        
-        // Procesamos el carácter actual como si estuviéramos en el estado 0
-        this.iArchivo--; // Retrocedemos para que el bucle principal procese este carácter nuevamente
+        this.iArchivo--;
     }
 }
+     
+     public void q2(char caracter){
+        if( Character.isDigit(caracter) ||Character.isLetter(caracter) ){
+            this.buffer+= caracter;
+            this.posY+=1;
+        }else{
+            
+            if(this.buffer.equals("world") || this.buffer.equals("place") || this.buffer.equals("place") || this.buffer.equals("at") ||this.buffer.equals("connect") || this.buffer.equals("to")|| this.buffer.equals("with") ||this.buffer.equals("object")){
+               this.nuevoToken(this.buffer, "Palabra Reservada", posX, posY); 
+               this.estado = 0;
+            this.posY+=1;
+            this.iArchivo -= 1;
+            }else{
+                this.nuevoToken(this.buffer, "Identificador", posX, posY);
+            this.estado = 0;
+            this.posY+=1;
+            this.iArchivo -= 1;
+            }
+            
+            
+    }
+    }
      
      public void imprimirTokens(){
         for(Token token: this.ListaTokens){
