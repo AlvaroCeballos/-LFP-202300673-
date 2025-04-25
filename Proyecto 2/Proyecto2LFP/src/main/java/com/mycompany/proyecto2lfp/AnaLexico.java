@@ -43,6 +43,23 @@ public class AnaLexico {
         this.buffer = "";
         this.iArchivo = 0;
         
+        while(this.iArchivo < cadena.length()){
+            if(this.estado == 0){
+                q0q4(cadena.charAt(this.iArchivo));
+            } 
+           /* else if(this.estado == 4){
+                q4(cadena.charAt(this.iArchivo));
+            }
+            else if(this.estado == 1){
+                q1(cadena.charAt(this.iArchivo));
+            }
+            else if(this.estado == 3){
+                q3(cadena.charAt(this.iArchivo));
+            }
+*/
+            iArchivo++;
+        }
+        
      }
      public void q0q4(char caracter){
          if (caracter == '{') {
@@ -63,8 +80,40 @@ public class AnaLexico {
     } else if (caracter == ')') {
         this.nuevoToken(String.valueOf(caracter), "ParentesisCerrar", this.posX, this.posY);
         this.posY++;
-     }
+     } else if (caracter == '\n') {
+        this.posX++;
+        this.posY = 0;
+    } else if (caracter == ' ') {
+        this.posY++;
+    } else if (caracter == '\t') {
+        this.posY += 4;
+    } else {
+        this.buffer += caracter;
+        String mensajeError = "Carácter no válido: '" + caracter + "'";
+        this.nuevoError(String.valueOf(caracter), this.posX, this.posY, "Error de tipo lexico");
+        this.posY++;
+        this.buffer = "";
+        System.out.println(mensajeError);
+    }
+         
+         
 }
+     
+     public void imprimirTokens(){
+        for(Token token: this.ListaTokens){
+            System.out.println(token);
+        }
+    }
+    
+    public void imprimirErrores(){
+        for(ErrorSL error: this.ListaErrores){
+            System.out.println(error);
+        }
+    }
+    
+    public List<Token> getTokens(){
+        return this.ListaTokens;
+    }
 }
 
 
