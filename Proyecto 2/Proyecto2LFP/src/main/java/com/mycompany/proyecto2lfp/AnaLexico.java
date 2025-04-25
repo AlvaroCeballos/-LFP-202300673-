@@ -54,11 +54,11 @@ public class AnaLexico {
             else if(this.estado == 2){
                 q2(cadena.charAt(this.iArchivo));
             }
-             /*
+            
             else if(this.estado == 1){
                 q1(cadena.charAt(this.iArchivo));
             }
-*/
+
             iArchivo++;
             
         }
@@ -106,13 +106,13 @@ public class AnaLexico {
         this.posY++;
         this.estado = 2;
     } 
-    /*else if (caracter == '"') {
+    else if (caracter == '"') {
         this.buffer += caracter;
         this.posY++;
         this.estado = 1;
         
     } 
-*/
+
     else {
         this.buffer += caracter;
         String mensajeError = "Carácter no válido: '" + caracter + "'";
@@ -158,6 +158,20 @@ public class AnaLexico {
             
     }
     }
+     
+     public void q1(char caracter){
+            if(caracter != '"'){
+                this.buffer+=caracter;
+                this.posY+=1;
+                
+                
+            }else{
+                this.buffer+=caracter;
+                this.nuevoToken(this.buffer, "Cadena de texto", posX, posY);
+                this.posY+=1;
+                this.estado=0;
+            }
+        }
      
      public void imprimirTokens(){
         for(Token token: this.ListaTokens){
