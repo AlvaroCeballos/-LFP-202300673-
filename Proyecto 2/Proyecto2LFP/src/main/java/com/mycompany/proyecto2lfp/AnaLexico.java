@@ -40,10 +40,31 @@ public class AnaLexico {
         this.ListaTokens.clear();
         this.ListaErrores.clear();
         this.estado = 0;
-        this.iArchivo = 0;
         this.buffer = "";
+        this.iArchivo = 0;
         
      }
+     public void q0q4(char caracter){
+         if (caracter == '{') {
+        this.nuevoToken(String.valueOf(caracter), "LlaveAbrir", this.posX, this.posY);
+        this.posY++;
+    } else if (caracter == '}') {
+        this.nuevoToken(String.valueOf(caracter), "LlaveCerrar", this.posX, this.posY);
+        this.posY++;
+    } else if (caracter == ':') {
+        this.nuevoToken(String.valueOf(caracter), "DosPuntos", this.posX, this.posY);
+        this.posY++;
+    } else if (caracter == ',') {
+        this.nuevoToken(String.valueOf(caracter), "Coma", this.posX, this.posY);
+        this.posY++;
+    } else if (caracter == '(') {
+        this.nuevoToken(String.valueOf(caracter), "ParentesisAbrir", this.posX, this.posY);
+        this.posY++;
+    } else if (caracter == ')') {
+        this.nuevoToken(String.valueOf(caracter), "ParentesisCerrar", this.posX, this.posY);
+        this.posY++;
+     }
+}
 }
 
 
