@@ -137,27 +137,76 @@ public class AnaLexico {
     }
 }
      
-     public void q2(char caracter){
-        if( Character.isDigit(caracter) ||Character.isLetter(caracter) ){
-            this.buffer+= caracter;
-            this.posY+=1;
-        }else{
-            
-            if(this.buffer.equals("world") || this.buffer.equals("place") || this.buffer.equals("place") || this.buffer.equals("at") ||this.buffer.equals("connect") || this.buffer.equals("to")|| this.buffer.equals("with") ||this.buffer.equals("object")){
-               this.nuevoToken(this.buffer, "Palabra Reservada", posX, posY); 
-               this.estado = 0;
-            this.posY+=1;
-            this.iArchivo -= 1;
-            }else{
-                this.nuevoToken(this.buffer, "Identificador", posX, posY);
+public void q2(char caracter) {
+    if (Character.isDigit(caracter) || Character.isLetter(caracter)) {
+        this.buffer += caracter;
+        this.posY += 1;
+    } else {
+        if (this.buffer.equals("world")) {
+            this.nuevoToken(this.buffer, "PRWorld", posX, posY); 
             this.estado = 0;
-            this.posY+=1;
+            this.posY += 1;
             this.iArchivo -= 1;
-            }
+        } else if (this.buffer.equals("place")) {
+            this.nuevoToken(this.buffer, "PRPlace", posX, posY); 
+            this.estado = 0;
+            this.posY += 1;
+            this.iArchivo -= 1;
+        } else if (this.buffer.equals("at")) {
+            this.nuevoToken(this.buffer, "PRAt", posX, posY); 
+            this.estado = 0;
+            this.posY += 1;
+            this.iArchivo -= 1;
+        } else if (this.buffer.equals("playa") || this.buffer.equals("cueva") || 
+                  this.buffer.equals("templo") || this.buffer.equals("jungla") || 
+                  this.buffer.equals("montaña") || this.buffer.equals("pueblo") || 
+                  this.buffer.equals("isla") || this.buffer.equals("río") || 
+                  this.buffer.equals("volcán") || this.buffer.equals("pantalla")) {
+            this.nuevoToken(this.buffer, "PRLugar", posX, posY); // Cambiado a PRLugar
+            this.estado = 0;
+            this.posY += 1;
+            this.iArchivo -= 1;
+        } else if (this.buffer.equals("tesoro") || this.buffer.equals("llave") ||
+                  this.buffer.equals("arma") || this.buffer.equals("objeto-mágico") ||
+                  this.buffer.equals("poción") || this.buffer.equals("trampa") ||
+                  this.buffer.equals("libro") || this.buffer.equals("herramienta") ||
+                  this.buffer.equals("bandera") || this.buffer.equals("gema")) {
+            this.nuevoToken(this.buffer, "PRObjeto", posX, posY);
+            this.estado = 0;
+            this.posY += 1;
+            this.iArchivo -= 1;
+        }else if(this.buffer.equals("connect")){
+            this.nuevoToken(this.buffer, "PRConnect", posX, posY); 
+            this.estado = 0;
+            this.posY += 1;
+            this.iArchivo -= 1;
             
+        }else if(this.buffer.equals("to")){
+            this.nuevoToken(this.buffer, "PRTo", posX, posY); 
+            this.estado = 0;
+            this.posY += 1;
+            this.iArchivo -= 1;
             
+        }else if(this.buffer.equals("with")){
+            this.nuevoToken(this.buffer, "PRWith", posX, posY); 
+            this.estado = 0;
+            this.posY += 1;
+            this.iArchivo -= 1;
+            
+        }else if(this.buffer.equals("object")){
+            this.nuevoToken(this.buffer, "PalabraObjeto", posX, posY); 
+            this.estado = 0;
+            this.posY += 1;
+            this.iArchivo -= 1;
+            
+        }else {
+            this.nuevoToken(this.buffer, "Identificador", posX, posY);
+            this.estado = 0;
+            this.posY += 1;
+            this.iArchivo -= 1;
+        }
     }
-    }
+}
      
      public void q1(char caracter){
             if(caracter != '"'){
