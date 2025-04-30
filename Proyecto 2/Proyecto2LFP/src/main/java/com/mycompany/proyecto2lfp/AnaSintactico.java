@@ -46,6 +46,73 @@ public class AnaSintactico {
     
     public void MUNDOU(){
        System.out.println("MUNDO UNICO"); 
+       Token tokenTemporal = this.ListaTokens.removeFirst();
+       
+       if(tokenTemporal.getTipoToken().equals("PRWorld")){
+        //Continuamos
+            tokenTemporal = this.ListaTokens.removeFirst();
+            
+            if(tokenTemporal.getTipoToken().equals("Cadena de texto")){
+                tokenTemporal = this.ListaTokens.removeFirst();
+                
+                if(tokenTemporal.getTipoToken().equals("LlaveAbrir")){
+                    this.LPLACES();
+                    this.LCONNECTS();
+                    this.LOBJECTS();
+                    
+                    tokenTemporal = this.ListaTokens.removeFirst();
+                    
+                    if(tokenTemporal.getTipoToken().equals("LlaveCerrar")){
+                        //Continuo
+                        return;
+                    }else{
+                        //Agrego error
+                    }
+                }else{
+                    //Agrego error
+                }
+            }else{
+                //Agregar error
+            }
+        }else{
+        //AGregar error
+        }
+    }
+    public void LPLACES(){
+        
     }
     
+    public void LPLACESP(){
+        
+    }
+    
+    public void LPLACE(){
+        
+    }
+    
+    public void LCONNECTS(){
+        
+    }
+    
+    public void LCONNECTSP(){
+        
+    }
+    
+    public void LCONNECT(){
+        
+    }
+    
+    public void LOBJECTS(){
+        
+    }
+    
+    
+    public void LOBJECTSP(){
+        
+    }
+    
+    
+    public void LOBJECT(){
+        
+    }
 }
