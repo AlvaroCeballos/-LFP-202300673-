@@ -44,4 +44,8 @@ public class ErrorSL {
     public int getPosY() {
         return posY;
     }
+    
+    public String getTipoError() {
+        return tipoError;
+    }
 }
