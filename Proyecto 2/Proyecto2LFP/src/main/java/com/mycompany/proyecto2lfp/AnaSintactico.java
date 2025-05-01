@@ -36,8 +36,24 @@ public class AnaSintactico {
     
     public void MUNDOS(){
         System.out.println("MUNDOS");
-        this.MUNDOU();
-        this.MUNDOSP();
+        try{
+            Token tokenTemporal = this.ListaTokens.removeFirst();
+            if(tokenTemporal.getTipoToken().equals("coma")){
+                this.MUNDOU();
+                this.MUNDOSP();
+
+
+            }else{
+                //Agregar error
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        
+        }
+        
+        
+        
+        
     }
     
     public void MUNDOSP(){
@@ -79,40 +95,43 @@ public class AnaSintactico {
         }
     }
     public void LPLACES(){
+        System.out.println("LPLACES");
         
     }
     
     public void LPLACESP(){
+        System.out.println("LPLACESP()");
         
     }
     
     public void LPLACE(){
+        System.out.println("LPLACE()");
         
     }
     
     public void LCONNECTS(){
-        
+        System.out.println("LCONNECTS()");
     }
     
     public void LCONNECTSP(){
-        
+        System.out.println("LCONNECTSP()");
     }
     
     public void LCONNECT(){
-        
+        System.out.println("LCONNECT()");
     }
     
     public void LOBJECTS(){
-        
+        System.out.println("LOBJECTS()");
     }
     
     
     public void LOBJECTSP(){
-        
+        System.out.println("LOBJECTSP()");
     }
     
     
     public void LOBJECT(){
-        
+        System.out.println("LOBJECT()");
     }
 }

@@ -18,6 +18,8 @@ public class Proyecto2LFP {
     public static void main(String[] args) {
 
         AnaLexico analizador = new AnaLexico();
+        AnaSintactico analizadorSintactico = new AnaSintactico(analizador.getTokens());
+        analizadorSintactico.analizar();
        
        
        try {
