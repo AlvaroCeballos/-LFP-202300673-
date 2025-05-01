@@ -36,9 +36,16 @@ public class AnaSintactico {
     
     public void MUNDOS(){
         System.out.println("MUNDOS");
-        try{
-            Token tokenTemporal = this.ListaTokens.removeFirst();
-            if(tokenTemporal.getTipoToken().equals("coma")){
+        this.MUNDOU();
+        this.MUNDOSP();
+    }
+    
+    public void MUNDOSP(){
+       System.out.println("MUNDOS PRIMA");
+       try{
+            
+            if(this.ListaTokens.get(0).getTipoToken().equals("coma")){
+                this.ListaTokens.removeFirst();
                 this.MUNDOU();
                 this.MUNDOSP();
 
@@ -50,14 +57,6 @@ public class AnaSintactico {
             System.out.println(e.getMessage());
         
         }
-        
-        
-        
-        
-    }
-    
-    public void MUNDOSP(){
-       System.out.println("MUNDOS PRIMA");
     }
     
     public void MUNDOU(){
@@ -96,17 +95,99 @@ public class AnaSintactico {
     }
     public void LPLACES(){
         System.out.println("LPLACES");
-        
+        this.LPLACE();
+        this.LPLACESP();
     }
     
     public void LPLACESP(){
         System.out.println("LPLACESP()");
-        
+        if(this.ListaTokens.get(0).getTipoToken().equals("PRLugar")){
+            this.LPLACE();
+            this.LPLACESP();
+        }else{
+            return;
+        }
     }
     
-    public void LPLACE(){
+    public void LPLACE() {
         System.out.println("LPLACE()");
-        
+
+        Token tokenTemporal = this.ListaTokens.removeFirst();
+
+        if (tokenTemporal.getTipoToken().equals("PRPlace")) {
+
+            tokenTemporal = this.ListaTokens.removeFirst();
+
+            if (tokenTemporal.getTipoToken().equals("Identificador")) {
+
+                tokenTemporal = this.ListaTokens.removeFirst();
+
+                if (tokenTemporal.getTipoToken().equals("DosPuntos")) {
+
+                    tokenTemporal = this.ListaTokens.removeFirst();
+
+                    if (tokenTemporal.getTipoToken().equals("PRLugar")) {
+
+                        tokenTemporal = this.ListaTokens.removeFirst();
+
+                        if (tokenTemporal.getTipoToken().equals("PRAt")) {
+
+                            tokenTemporal = this.ListaTokens.removeFirst();
+
+                            if (tokenTemporal.getTipoToken().equals("ParentesisAbrir")) {
+
+                                tokenTemporal = this.ListaTokens.removeFirst();
+
+                                if (tokenTemporal.getTipoToken().equals("Numero")) {
+
+                                    tokenTemporal = this.ListaTokens.removeFirst();
+
+                                    if (tokenTemporal.getTipoToken().equals("Coma")) {
+
+                                        tokenTemporal = this.ListaTokens.removeFirst();
+
+                                        if (tokenTemporal.getTipoToken().equals("Numero")) {
+
+                                            tokenTemporal = this.ListaTokens.removeFirst();
+
+                                            if (tokenTemporal.getTipoToken().equals("ParentesisCerrar")) {
+
+                                                return;
+
+                                            } else {
+
+                                            }
+                                        } else {
+
+                                        }
+
+                                    } else {
+
+                                    }
+                                } else {
+
+                                }
+                            } else {
+
+                            }
+
+                        } else {
+
+                        }
+                    } else {
+
+                    }
+
+                } else {
+                    //Error
+                }
+            } else {
+                //Error
+            }
+        } else {
+            //Error
+        }
+
     }
     
     public void LCONNECTS(){
