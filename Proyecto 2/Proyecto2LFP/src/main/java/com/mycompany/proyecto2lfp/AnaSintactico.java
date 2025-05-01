@@ -44,7 +44,7 @@ public class AnaSintactico {
        System.out.println("MUNDOS PRIMA");
        try{
             
-            if(this.ListaTokens.get(0).getTipoToken().equals("coma")){
+            if(this.ListaTokens.get(0).getTipoToken().equals("Coma")){
                 this.ListaTokens.removeFirst();
                 this.MUNDOU();
                 this.MUNDOSP();
@@ -62,18 +62,18 @@ public class AnaSintactico {
     public void MUNDOU(){
        System.out.println("MUNDO UNICO"); 
        Token tokenTemporal = this.ListaTokens.removeFirst();
-       
        if(tokenTemporal.getTipoToken().equals("PRWorld")){
         //Continuamos
             tokenTemporal = this.ListaTokens.removeFirst();
             
             if(tokenTemporal.getTipoToken().equals("Cadena de texto")){
                 tokenTemporal = this.ListaTokens.removeFirst();
+
                 
                 if(tokenTemporal.getTipoToken().equals("LlaveAbrir")){
                     this.LPLACES();
-                    this.LCONNECTS();
-                    this.LOBJECTS();
+                    //this.LCONNECTS();
+                    //this.LOBJECTS();
                     
                     tokenTemporal = this.ListaTokens.removeFirst();
                     
@@ -100,8 +100,8 @@ public class AnaSintactico {
     }
     
     public void LPLACESP(){
-        System.out.println("LPLACESP()");
-        if(this.ListaTokens.get(0).getTipoToken().equals("PRLugar")){
+        System.out.println("LPLACESP");
+        if(this.ListaTokens.get(0).getTipoToken().equals("PRPlace")){
             this.LPLACE();
             this.LPLACESP();
         }else{
@@ -110,7 +110,7 @@ public class AnaSintactico {
     }
     
     public void LPLACE() {
-        System.out.println("LPLACE()");
+        System.out.println("LPLACE");
 
         Token tokenTemporal = this.ListaTokens.removeFirst();
 

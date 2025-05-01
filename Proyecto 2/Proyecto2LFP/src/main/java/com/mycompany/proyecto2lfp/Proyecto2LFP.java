@@ -19,11 +19,11 @@ public class Proyecto2LFP {
 
         AnaLexico analizador = new AnaLexico();
         AnaSintactico analizadorSintactico = new AnaSintactico(analizador.getTokens());
-        analizadorSintactico.analizar();
+        
        
        
        try {
-    File archivo = new File("C:\\Users\\aceba\\OneDrive\\Desktop\\Tareas\\archivoEntradaPrueba.txt");
+    File archivo = new File("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto 2\\xd.txt");
     StringBuilder content = new StringBuilder();
     if (archivo.exists()) {
         BufferedReader br = new BufferedReader(new FileReader(archivo));
@@ -38,6 +38,7 @@ public class Proyecto2LFP {
         analizador.imprimirTokens();
         System.out.println("");
         analizador.imprimirErrores();
+        analizadorSintactico.analizar();
     } else {
         System.out.println("El archivo no existe.");
     }

@@ -1,0 +1,7 @@
+world "Isla del Místico" {
+place Playa:playa at (0,0)
+place Cueva:cueva at (2,1)
+place Templo:templo at (3,3)
+place Isla:isla at (1,2)
+place Pueblo:pueblo at (4,1)
+}
