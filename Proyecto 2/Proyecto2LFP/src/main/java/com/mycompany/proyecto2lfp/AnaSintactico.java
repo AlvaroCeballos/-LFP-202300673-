@@ -35,7 +35,7 @@ public class AnaSintactico {
     }
     
     public void MUNDOS(){
-        System.out.println("MUNDOS");
+        System.out.println("MUNDOS()");
         this.MUNDOU();
         this.MUNDOSP();
     }
@@ -72,8 +72,8 @@ public class AnaSintactico {
                 
                 if(tokenTemporal.getTipoToken().equals("LlaveAbrir")){
                     this.LPLACES();
-                    //this.LCONNECTS();
-                    //this.LOBJECTS();
+                    this.LCONNECTS();
+                    this.LOBJECTS();
                     
                     tokenTemporal = this.ListaTokens.removeFirst();
                     
@@ -94,7 +94,7 @@ public class AnaSintactico {
         }
     }
     public void LPLACES(){
-        System.out.println("LPLACES");
+        System.out.println("LPLACES()");
         this.LPLACE();
         this.LPLACESP();
     }
@@ -192,14 +192,71 @@ public class AnaSintactico {
     
     public void LCONNECTS(){
         System.out.println("LCONNECTS()");
+        this.LCONNECT();
+        this.LCONNECTSP();
     }
     
     public void LCONNECTSP(){
-        System.out.println("LCONNECTSP()");
+        System.out.println("LCONNECTSP");
+        if(this.ListaTokens.get(0).getTipoToken().equals("PRConnect")){
+            this.LCONNECT();
+            this.LCONNECTSP();
+        }else{
+            return;
+        }
     }
     
     public void LCONNECT(){
-        System.out.println("LCONNECT()");
+        System.out.println("LCONNECT");
+        
+        Token tokenTemporal = this.ListaTokens.removeFirst();
+
+        if (tokenTemporal.getTipoToken().equals("PRConnect")) {
+
+            tokenTemporal = this.ListaTokens.removeFirst();
+
+            if (tokenTemporal.getTipoToken().equals("Identificador")) {
+
+                tokenTemporal = this.ListaTokens.removeFirst();
+
+                if (tokenTemporal.getTipoToken().equals("PRTo")) {
+
+                    tokenTemporal = this.ListaTokens.removeFirst();
+
+                    if (tokenTemporal.getTipoToken().equals("Identificador")) {
+
+                        tokenTemporal = this.ListaTokens.removeFirst();
+
+                        if (tokenTemporal.getTipoToken().equals("PRWith")) {
+
+                            tokenTemporal = this.ListaTokens.removeFirst();
+                            if (tokenTemporal.getTipoToken().equals("Cadena de texto")) {
+
+                                return;
+
+                            } else {
+
+                            }
+
+                        } else {
+
+                        }
+
+                    } else {
+
+                    }
+
+                } else {
+
+                }
+
+            } else {
+
+            }
+
+        } else {
+
+        }
     }
     
     public void LOBJECTS(){

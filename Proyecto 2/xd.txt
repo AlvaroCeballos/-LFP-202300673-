@@ -4,4 +4,16 @@ place Cueva:cueva at (2,1)
 place Templo:templo at (3,3)
 place Isla:isla at (1,2)
 place Pueblo:pueblo at (4,1)
-}
+
+connect Playa to Cueva with "sendero"
+connect Cueva to Templo with "puente"
+connect Isla to Playa with "lancha"
+connect Pueblo to Templo with "carretera"
+},
+world "Isla del Místico" {
+place Playa:playa at (0,0)
+place Cueva:cueva at (2,1)
+place Templo:templo at (3,3)
+place Isla:isla at (1,2)
+place Pueblo:pueblo at (4,1)
+},
