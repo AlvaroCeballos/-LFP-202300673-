@@ -261,15 +261,98 @@ public class AnaSintactico {
     
     public void LOBJECTS(){
         System.out.println("LOBJECTS()");
+        this.LOBJECT();
+        this.LOBJECTSP();
     }
     
     
     public void LOBJECTSP(){
-        System.out.println("LOBJECTSP()");
+        System.out.println("LOBJECTSP");
+         if(this.ListaTokens.get(0).getTipoToken().equals("PalabraObjeto")){
+            this.LOBJECT();
+            this.LOBJECTSP();
+        }else{
+            return;
+        }
+    }
+    
+    public void OBJECTCASE(){
+        
+         if (this.ListaTokens.get(0).getTipoToken().equals("Identificador")) {
+        // Camino 1: Es un identificador
+        Token tokenTemporal = this.ListaTokens.removeFirst();
+        // Aquí puedes almacenar el valor del identificador si lo necesitas
+             System.out.println("IDENTIFICADOR");
+        return;
+    } else if (this.ListaTokens.get(0).getTipoToken().equals("ParentesisAbrir")) {
+        // Camino 2: Es una coordenada
+        Token tokenTemporal = this.ListaTokens.removeFirst(); // Extraer '('
+        
+        tokenTemporal = this.ListaTokens.removeFirst(); // Extraer número
+        if (tokenTemporal.getTipoToken().equals("Numero")) {
+            tokenTemporal = this.ListaTokens.removeFirst(); // Extraer ','
+            
+            if (tokenTemporal.getTipoToken().equals("Coma")) {
+                tokenTemporal = this.ListaTokens.removeFirst(); // Extraer segundo número
+                
+                if (tokenTemporal.getTipoToken().equals("Numero")) {
+                    tokenTemporal = this.ListaTokens.removeFirst(); // Extraer ')'
+                    
+                    if (tokenTemporal.getTipoToken().equals("ParentesisCerrar")) {
+                        System.out.println("POSNUM");
+                        return;
+                    } else {
+                        // Error: se esperaba paréntesis de cierre
+                    }
+                } else {
+                    // Error: se esperaba un número
+                }
+            } else {
+                // Error: se esperaba una coma
+            }
+        } else {
+            // Error: se esperaba un número
+        }
+    } else {
+        // Error: token inesperado
+    }
     }
     
     
     public void LOBJECT(){
-        System.out.println("LOBJECT()");
+        System.out.println("LOBJECT");
+        Token tokenTemporal = this.ListaTokens.removeFirst();
+    
+    if (tokenTemporal.getTipoToken().equals("PalabraObjeto")) {
+        tokenTemporal = this.ListaTokens.removeFirst();
+        
+        if (tokenTemporal.getTipoToken().equals("Cadena de texto")) {
+            tokenTemporal = this.ListaTokens.removeFirst();
+            
+            if (tokenTemporal.getTipoToken().equals("DosPuntos")) {
+                tokenTemporal = this.ListaTokens.removeFirst();
+                
+                if (tokenTemporal.getTipoToken().equals("PRObjeto")) {
+                    tokenTemporal = this.ListaTokens.removeFirst();
+                    
+                    if (tokenTemporal.getTipoToken().equals("PRAt")) {
+                        // Ahora llama a POSCASE para manejar la alternativa
+                        this.OBJECTCASE();
+                        return;
+                    } else {
+                        // Error: se esperaba 'at'
+                    }
+                } else {
+                    // Error: se esperaba un tipo de objeto válido
+                }
+            } else {
+                // Error: se esperaban dos puntos
+            }
+        } else {
+            // Error: se esperaba una cadena de texto
+        }
+    } else {
+        // Error: se esperaba la palabra 'object'
+    }
     }
 }
