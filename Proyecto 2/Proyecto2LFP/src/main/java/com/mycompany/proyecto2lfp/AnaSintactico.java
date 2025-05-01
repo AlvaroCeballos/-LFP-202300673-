@@ -5,6 +5,7 @@
 package com.mycompany.proyecto2lfp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -14,10 +15,15 @@ import java.util.List;
 public class AnaSintactico {
     private List<Token> ListaTokens;
     private List<ErrorSL> ListaErrores;
+    HashMap<String, MundoCls> HMmundo;
+    
+    String nombreMundoA;
     
  public AnaSintactico(List<Token> ListaTokens){
         this.ListaTokens = ListaTokens;
         this.ListaErrores = new ArrayList<>();
+        this.HMmundo = new HashMap<>();
+        this.nombreMundoA = "";
     }
  
  public void agregarError(Token token){
@@ -67,6 +73,7 @@ public class AnaSintactico {
             tokenTemporal = this.ListaTokens.removeFirst();
             
             if(tokenTemporal.getTipoToken().equals("Cadena de texto")){
+                this.nombreMundoA = tokenTemporal.getLexema();
                 tokenTemporal = this.ListaTokens.removeFirst();
 
                 
@@ -111,6 +118,10 @@ public class AnaSintactico {
     
     public void LPLACE() {
         System.out.println("LPLACE");
+        String nombreLugar;
+        String tipo;
+        String LposX;
+        String LposY;
 
         Token tokenTemporal = this.ListaTokens.removeFirst();
 
@@ -119,7 +130,7 @@ public class AnaSintactico {
             tokenTemporal = this.ListaTokens.removeFirst();
 
             if (tokenTemporal.getTipoToken().equals("Identificador")) {
-
+               nombreLugar = tokenTemporal.getLexema();
                 tokenTemporal = this.ListaTokens.removeFirst();
 
                 if (tokenTemporal.getTipoToken().equals("DosPuntos")) {
@@ -127,7 +138,7 @@ public class AnaSintactico {
                     tokenTemporal = this.ListaTokens.removeFirst();
 
                     if (tokenTemporal.getTipoToken().equals("PRLugar")) {
-
+                        tipo = tokenTemporal.getLexema();
                         tokenTemporal = this.ListaTokens.removeFirst();
 
                         if (tokenTemporal.getTipoToken().equals("PRAt")) {

@@ -159,18 +159,21 @@ public void q2(char caracter) {
             this.iArchivo -= 1;
         } else if (this.buffer.equals("playa") || this.buffer.equals("cueva") || 
                   this.buffer.equals("templo") || this.buffer.equals("jungla") || 
-                  this.buffer.equals("montaña") || this.buffer.equals("pueblo") || 
-                  this.buffer.equals("isla") || this.buffer.equals("río") || 
-                  this.buffer.equals("volcán") || this.buffer.equals("pantalla")) {
-            this.nuevoToken(this.buffer, "PRLugar", posX, posY); // Cambiado a PRLugar
+                  this.buffer.equals("montana") || this.buffer.equals("pueblo") || 
+                  this.buffer.equals("isla") || this.buffer.equals("rio") || 
+                  this.buffer.equals("volcan") || this.buffer.equals("pantalla")) {
+            
+            this.nuevoToken(this.buffer, "PRLugar", posX, posY); 
             this.estado = 0;
             this.posY += 1;
             this.iArchivo -= 1;
+            
         } else if (this.buffer.equals("tesoro") || this.buffer.equals("llave") ||
-                  this.buffer.equals("arma") || this.buffer.equals("objeto-mágico") ||
-                  this.buffer.equals("poción") || this.buffer.equals("trampa") ||
+                  this.buffer.equals("arma") || this.buffer.equals("objetomagico") ||
+                  this.buffer.equals("pocion") || this.buffer.equals("trampa") ||
                   this.buffer.equals("libro") || this.buffer.equals("herramienta") ||
                   this.buffer.equals("bandera") || this.buffer.equals("gema")) {
+            
             this.nuevoToken(this.buffer, "PRObjeto", posX, posY);
             this.estado = 0;
             this.posY += 1;
