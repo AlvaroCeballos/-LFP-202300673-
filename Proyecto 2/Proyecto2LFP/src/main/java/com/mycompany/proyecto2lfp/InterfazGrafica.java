@@ -251,6 +251,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
             // Análisis sintáctico
             analizadorSintactico = new AnaSintactico(analizadorLexico.getTokens());
             analizadorSintactico.analizar();
+            analizadorSintactico.generarReporteErroresHTML("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto 2\\reporteErroresBotonSintactico.html");
             
             // Actualizar el combobox con los nombres de los mundos
             actualizarComboBoxMundos();

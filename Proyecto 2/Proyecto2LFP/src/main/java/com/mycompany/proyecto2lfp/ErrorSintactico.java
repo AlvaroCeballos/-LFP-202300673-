@@ -9,16 +9,18 @@ package com.mycompany.proyecto2lfp;
  * @author aceba
  */
 public class ErrorSintactico {
-        private String descripcion;
+     private String descripcion;
     private String caracter;
     private int posX;
     private int posY;
+    private String tipoError;
     
-    public ErrorSintactico(String caracter, String descripcion, int posX, int posY){
+    public ErrorSintactico(String caracter, String descripcion, int posX, int posY, String tipoError){
         this.caracter = caracter;
         this.descripcion= descripcion;
         this.posX = posX;
         this.posY = posY;
+        this.tipoError = tipoError;
     }
     
     @Override
@@ -41,5 +43,9 @@ public class ErrorSintactico {
     
     public int getPosY() {
         return posY;
+    }
+    
+    public String getTipoError() {
+        return tipoError;
     }
 }

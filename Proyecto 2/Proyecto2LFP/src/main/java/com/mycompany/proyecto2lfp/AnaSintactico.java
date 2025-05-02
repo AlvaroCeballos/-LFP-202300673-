@@ -4,6 +4,8 @@
  */
 package com.mycompany.proyecto2lfp;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +17,10 @@ import java.util.Set;
  */
 public class AnaSintactico {
     private List<Token> ListaTokens;
-    private List<ErrorSL> ListaErrores;
+    private List<ErrorSintactico> ListaErrores;
     HashMap<String, MundoCls> HMmundo;
+    private int posX;
+    private int posY;
     
     String nombreMundoA;
     
@@ -25,11 +29,18 @@ public class AnaSintactico {
         this.ListaErrores = new ArrayList<>();
         this.HMmundo = new HashMap<>();
         this.nombreMundoA = "";
+            this.posX = 0;
+    this.posY = 0;
+    }
+ 
+ public void nuevoError(String caracter, int posX, int posY, String tipoError){
+        this.ListaErrores.add(new ErrorSintactico(caracter, "Caracter "+caracter+" no reconocido en el lenguaje", posX, posY, tipoError));
+
     }
  
  public void agregarError(Token token){
-     
-    // this.ListaErrores.add(new Error(token.getLexema(), "No se esperaba el token "+token.getLexema(), token.getPosY(), token.getPosX(), "Sintáctico", token.getTipoError()));  
+    this.nuevoError("No se esperaba el token "+token.getLexema(), token.getPosY(), token.getPosX(), "Error de tipo sintactico");   
+    
    }
  
     public void analizar(){
@@ -50,15 +61,15 @@ public class AnaSintactico {
     public void MUNDOSP(){
        System.out.println("MUNDOS PRIMA");
        try{
-            
-            if(this.ListaTokens.get(0).getTipoToken().equals("Coma")){
+            Token tokenTemporal = this.ListaTokens.get(0);
+            if(tokenTemporal.getTipoToken().equals("Coma")){
                 this.ListaTokens.removeFirst();
                 this.MUNDOU();
                 this.MUNDOSP();
 
 
             }else{
-                //Agregar error
+                 agregarErrorSintactico("Se esperaba una coma");
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -90,16 +101,16 @@ public class AnaSintactico {
                         //Continuo
                         return;
                     }else{
-                        //Agrego error
+                        agregarErrorSintactico("Se esperaba llave de cierre '}' pero se encontró: " + tokenTemporal.getLexema());
                     }
                 }else{
-                    //Agrego error
+                    agregarErrorSintactico("Se esperaba llave de apertura '}' pero se encontró: " + tokenTemporal.getLexema());
                 }
             }else{
-                //Agregar error
+                agregarErrorSintactico("Se esperaba cadena de texto, no: " + tokenTemporal.getLexema());
             }
         }else{
-        //AGregar error
+        agregarErrorSintactico("Se esperaba palabra world, no: " + tokenTemporal.getLexema());
         }
     }
     public void LPLACES(){
@@ -374,5 +385,86 @@ public class AnaSintactico {
     
     public Set<String> getNombresMundos() {
     return this.HMmundo.keySet();
+}
+    
+    public List<ErrorSintactico> getErrores() {
+    return this.ListaErrores;
+}
+    
+    private Token getTokenActual() {
+    if (!this.ListaTokens.isEmpty()) {
+        return this.ListaTokens.getFirst();
+    }
+    // Token ficticio para manejar el final del archivo
+    return new Token("EOF", "FinDeArchivo", this.posX, this.posY);
+}
+
+// Método simplificado para agregar errores
+public void agregarErrorSintactico(String mensajeError) {
+    Token tokenActual = getTokenActual();
+    this.ListaErrores.add(new ErrorSintactico(
+        tokenActual.getLexema(),
+        mensajeError,
+        tokenActual.getPosX(),
+        tokenActual.getPosY(),
+        "Error Sintáctico"
+    ));
+}
+
+        public void generarReporteErroresHTML(String rutaArchivo) {
+    try {
+        FileWriter escritorError = new FileWriter(rutaArchivo);
+        
+        escritorError.write("<!DOCTYPE html>\n");
+        escritorError.write("<html>\n");
+        escritorError.write("<head>\n");
+        escritorError.write("<title>Reporte de Tokens</title>\n");
+        escritorError.write("<style>\n");
+        escritorError.write("body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1e1e2e; color: #ffffff; margin: 20px; text-align: center; }\n");
+        escritorError.write("h1 { color: #00ff7f; text-align: center; text-shadow: 2px 2px 5px rgba(0, 255, 127, 0.5); }\n");
+        escritorError.write("table { width: 80%; margin: 20px auto; border-collapse: collapse; background-color: #2a2a3a; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); }\n");
+        escritorError.write("th, td { padding: 12px; text-align: center; border: 2px solid #00ff7f; transition: all 0.3s ease-in-out; }\n");
+        escritorError.write("th { background-color: #00ff7f; color: #1e1e2e; font-weight: bold; text-transform: uppercase; }\n");
+        escritorError.write("td { background-color: #2a2a3a; color: #ffffff; }\n");
+        escritorError.write("tr:hover { background-color: #3a3a4a; transform: scale(1.02); }\n");
+        escritorError.write("tr:nth-child(even) { background-color: #2f2f3f; }\n");
+        escritorError.write("</style>\n");
+        escritorError.write("</head>\n");
+        escritorError.write("<body>\n");
+        escritorError.write("<h1>Reporte de Tokens</h1>\n");
+        escritorError.write("<table>\n");
+        escritorError.write("<h1>Reporte de Errores Léxicos</h1>\n");
+        escritorError.write("<p>Total de errores encontrados: " + this.ListaErrores.size() + "</p>\n");
+        escritorError.write("<table>\n");
+        escritorError.write("<tr><th>Carácter</th><th>Línea</th><th>Columna</th><th>Descripción</th><th>Tipo de error</th></tr>\n");
+        for (ErrorSintactico error : this.ListaErrores) {
+            escritorError.write("<tr>");
+            escritorError.write("<td class='error-char'>" + descripHTML(error.getCaracter()) + "</td>");
+            escritorError.write("<td>" + (error.getPosX() + 1) + "</td>"); 
+            escritorError.write("<td>" + (error.getPosY() + 1) + "</td>"); 
+            escritorError.write("<td>" + descripHTML(error.getDescripcion()) + "</td>");
+            escritorError.write("<td>" + descripHTML(error.getTipoError()) + "</td>");
+            
+            escritorError.write("</tr>\n");
+        }
+        escritorError.write("</table>\n");
+        escritorError.write("</body>\n");
+        escritorError.write("</html>");
+        escritorError.close();
+        System.out.println("Reporte de errores HTML generado exitosamente en: " + rutaArchivo);
+    } catch (IOException e) {
+        System.err.println("Error al generar el reporte de errores HTML: " + e.getMessage());
+    }
+}
+    
+    private String descripHTML(String input) {
+    if (input == null) {
+        return "";
+    }
+    return input.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;");
 }
 }

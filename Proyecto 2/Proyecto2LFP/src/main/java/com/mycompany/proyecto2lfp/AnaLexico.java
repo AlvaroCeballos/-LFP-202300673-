@@ -44,7 +44,8 @@ public class AnaLexico {
         this.estado = 0;
         this.buffer = "";
         this.iArchivo = 0;
-        
+        this.posX = 0;
+        this.posY = 0;
         while(this.iArchivo < cadena.length()){
             if(this.estado == 0){
                 q0q4(cadena.charAt(this.iArchivo));
