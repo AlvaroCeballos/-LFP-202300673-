@@ -112,11 +112,11 @@ public class AnaSintactico {
                         return;
                     }else{
   
-                        agregarErrorEspecifico(tokenTemporal, "Se esperaba llave de apertura '}', no " + tokenTemporal.getLexema());
+                        agregarErrorEspecifico(tokenTemporal, "Se esperaba llave para cerrar '}', no " + tokenTemporal.getLexema());
                     }
                 }else{
 
-                    agregarErrorEspecifico(tokenTemporal, "Se esperaba llave de apertura '}', no " + tokenTemporal.getLexema());
+                    agregarErrorEspecifico(tokenTemporal, "Se esperaba llave de apertura '{', no " + tokenTemporal.getLexema());
                 }
             }else{
                 agregarErrorEspecifico(tokenTemporal, "Se esperaba cadena de texto, no " + tokenTemporal.getLexema());
@@ -331,14 +331,15 @@ public class AnaSintactico {
     }
     
     public void OBJECTCASE(){
+        Token tokenTemporali = this.ListaTokens.get(0);
         
-         if (this.ListaTokens.get(0).getTipoToken().equals("Identificador")) {
+         if (tokenTemporali.getTipoToken().equals("Identificador")) {
 
         Token tokenTemporal = this.ListaTokens.removeFirst();
 
              System.out.println("IDENTIFICADOR");
         return;
-    } else if (this.ListaTokens.get(0).getTipoToken().equals("ParentesisAbrir")) {
+    } else if (tokenTemporali.getTipoToken().equals("ParentesisAbrir")) {
 
         Token tokenTemporal = this.ListaTokens.removeFirst(); 
         
@@ -370,7 +371,7 @@ public class AnaSintactico {
             agregarErrorEspecifico(tokenTemporal, "Se esperaba un numero, no " + tokenTemporal.getLexema());
         }
     } else {
-        
+        agregarErrorEspecifico(tokenTemporali, "Se esperaba parentesis de apertura, no  " + tokenTemporali.getLexema());
     }
     }
     
