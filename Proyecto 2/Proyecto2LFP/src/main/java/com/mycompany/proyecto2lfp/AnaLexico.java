@@ -4,6 +4,8 @@
  */
 package com.mycompany.proyecto2lfp;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -240,6 +242,58 @@ public void q2(char caracter) {
     public List<Token> getTokens(){
         return this.ListaTokens;
     }
+    
+    public void generarReporteHTML(String rutaArchivo) {
+    try {
+        FileWriter escritorHTMLToken = new FileWriter(rutaArchivo);
+        
+        escritorHTMLToken.write("<!DOCTYPE html>\n");
+        escritorHTMLToken.write("<html>\n");
+        escritorHTMLToken.write("<head>\n");
+        escritorHTMLToken.write("<title>Reporte de Tokens</title>\n");
+        escritorHTMLToken.write("<style>\n");
+        escritorHTMLToken.write("body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1e1e2e; color: #ffffff; margin: 20px; text-align: center; }\n");
+        escritorHTMLToken.write("h1 { color: #00ff7f; text-align: center; text-shadow: 2px 2px 5px rgba(0, 255, 127, 0.5); }\n");
+        escritorHTMLToken.write("table { width: 80%; margin: 20px auto; border-collapse: collapse; background-color: #2a2a3a; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0, 255, 127, 0.5); }\n");
+        escritorHTMLToken.write("th, td { padding: 12px; text-align: center; border: 2px solid #00ff7f; transition: all 0.3s ease-in-out; }\n");
+        escritorHTMLToken.write("th { background-color: #00ff7f; color: #1e1e2e; font-weight: bold; text-transform: uppercase; }\n");
+        escritorHTMLToken.write("td { background-color: #2a2a3a; color: #ffffff; }\n");
+        escritorHTMLToken.write("tr:hover { background-color: #3a3a4a; transform: scale(1.02); }\n");
+        escritorHTMLToken.write("tr:nth-child(even) { background-color: #2f2f3f; }\n");
+        escritorHTMLToken.write("</style>\n");
+        escritorHTMLToken.write("</head>\n");
+        escritorHTMLToken.write("<body>\n");
+        escritorHTMLToken.write("<h1>Reporte de Tokens</h1>\n");
+        escritorHTMLToken.write("<table>\n");
+        escritorHTMLToken.write("<tr><th>Token</th><th>Lexema</th><th>Línea</th><th>Columna</th></tr>\n");
+        for (Token token : this.ListaTokens) {
+            escritorHTMLToken.write("<tr>");
+            escritorHTMLToken.write("<td>" + descripHTML(token.getTipoToken()) + "</td>");
+            escritorHTMLToken.write("<td>" + descripHTML(token.getLexema()) + "</td>");
+            escritorHTMLToken.write("<td>" + (token.getPosX() + 1) + "</td>"); 
+            escritorHTMLToken.write("<td>" + (token.getPosY() + 1) + "</td>"); 
+            escritorHTMLToken.write("</tr>\n");
+        }
+        escritorHTMLToken.write("</table>\n");
+        escritorHTMLToken.write("</body>\n");
+        escritorHTMLToken.write("</html>");
+        escritorHTMLToken.close();
+        System.out.println("Reporte HTML generado exitosamente en: " + rutaArchivo);
+    } catch (IOException e) {
+        System.err.println("Error al generar el reporte HTML: " + e.getMessage());
+    }
+}
+    
+    private String descripHTML(String input) {
+    if (input == null) {
+        return "";
+    }
+    return input.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;");
+}
 }
 
 
