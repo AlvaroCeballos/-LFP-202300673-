@@ -43,6 +43,16 @@ public class AnaSintactico {
     
    }
  
+ public void agregarErrorEspecifico(Token token, String mensaje) {
+    this.ListaErrores.add(new ErrorSintactico(
+        token.getLexema(),
+        mensaje,
+        token.getPosX(),
+        token.getPosY(),
+        "Error Sintáctico"
+    ));
+}
+ 
     public void analizar(){
         this.INICIO();
     }
@@ -69,7 +79,7 @@ public class AnaSintactico {
 
 
             }else{
-                 agregarErrorSintactico("Se esperaba una coma");
+              
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -101,16 +111,18 @@ public class AnaSintactico {
                         //Continuo
                         return;
                     }else{
-                        agregarErrorSintactico("Se esperaba llave de cierre '}' pero se encontró: " + tokenTemporal.getLexema());
+  
+                        agregarErrorEspecifico(tokenTemporal, "Se esperaba llave de apertura '}', no " + tokenTemporal.getLexema());
                     }
                 }else{
-                    agregarErrorSintactico("Se esperaba llave de apertura '}' pero se encontró: " + tokenTemporal.getLexema());
+
+                    agregarErrorEspecifico(tokenTemporal, "Se esperaba llave de apertura '}', no " + tokenTemporal.getLexema());
                 }
             }else{
-                agregarErrorSintactico("Se esperaba cadena de texto, no: " + tokenTemporal.getLexema());
+                agregarErrorEspecifico(tokenTemporal, "Se esperaba cadena de texto, no " + tokenTemporal.getLexema());
             }
         }else{
-        agregarErrorSintactico("Se esperaba palabra world, no: " + tokenTemporal.getLexema());
+        agregarErrorEspecifico(tokenTemporal, "Se esperaba palabra world, no " + tokenTemporal.getLexema());
         }
     }
     public void LPLACES(){
@@ -181,37 +193,47 @@ public class AnaSintactico {
                                                 return;
 
                                             } else {
-
+                                                  
+                                                   agregarErrorEspecifico(tokenTemporal, "Se esperaba un parentesis de cierre, no " + tokenTemporal.getLexema());
                                             }
                                         } else {
-
+                 
+                                            agregarErrorEspecifico(tokenTemporal, "Se esperaba un numero, no " + tokenTemporal.getLexema());
                                         }
 
                                     } else {
-
+                                  
+                                       agregarErrorEspecifico(tokenTemporal, "\"Se esperaba una coma, no " + tokenTemporal.getLexema());
                                     }
                                 } else {
-
+                                    
+                                    agregarErrorEspecifico(tokenTemporal, "Se esperaba un numero, no " + tokenTemporal.getLexema());
                                 }
                             } else {
-
+                               
+                                agregarErrorEspecifico(tokenTemporal, "Se esperaba un parentesis de apertura, no " + tokenTemporal.getLexema());
                             }
 
                         } else {
-
+                           
+                            agregarErrorEspecifico(tokenTemporal, "Se esperaba la palabra at, no " + tokenTemporal.getLexema());
                         }
                     } else {
-
+                      
+                        agregarErrorEspecifico(tokenTemporal, "Se esperaba uno de los posibles lugares, no " + tokenTemporal.getLexema());
                     }
 
                 } else {
-                    //Error
+                
+                    agregarErrorEspecifico(tokenTemporal, "Se esperaban dos puntos, no " + tokenTemporal.getLexema());
                 }
             } else {
-                //Error
+             
+                agregarErrorEspecifico(tokenTemporal, "Se esperaba un identificador, no " + tokenTemporal.getLexema());
             }
         } else {
-            //Error
+          
+            agregarErrorEspecifico(tokenTemporal, "Se esperaba palabra place, no " + tokenTemporal.getLexema());
         }
 
     }
@@ -261,27 +283,33 @@ public class AnaSintactico {
                                 return;
 
                             } else {
-
+                              
+                                agregarErrorEspecifico(tokenTemporal, "Se esperaba una cadena de texto, no " + tokenTemporal.getLexema());
                             }
 
                         } else {
-
+                            
+                            agregarErrorEspecifico(tokenTemporal, "Se esperaba palabra with, no " + tokenTemporal.getLexema());
                         }
 
                     } else {
-
+                      
+                        agregarErrorEspecifico(tokenTemporal, "Se esperaba un identificador, no " + tokenTemporal.getLexema());
                     }
 
                 } else {
-
+                 
+                    agregarErrorEspecifico(tokenTemporal, "Se esperaba palabra to, no " + tokenTemporal.getLexema());
                 }
 
             } else {
-
+       
+                agregarErrorEspecifico(tokenTemporal, "Se esperaba un identificador, no " + tokenTemporal.getLexema());
             }
 
         } else {
-
+       
+            agregarErrorEspecifico(tokenTemporal, "Se esperaba palabra connect, no " + tokenTemporal.getLexema());
         }
     }
     
@@ -305,42 +333,44 @@ public class AnaSintactico {
     public void OBJECTCASE(){
         
          if (this.ListaTokens.get(0).getTipoToken().equals("Identificador")) {
-        // Camino 1: Es un identificador
+
         Token tokenTemporal = this.ListaTokens.removeFirst();
-        // Aquí puedes almacenar el valor del identificador si lo necesitas
+
              System.out.println("IDENTIFICADOR");
         return;
     } else if (this.ListaTokens.get(0).getTipoToken().equals("ParentesisAbrir")) {
-        // Camino 2: Es una coordenada
-        Token tokenTemporal = this.ListaTokens.removeFirst(); // Extraer '('
+
+        Token tokenTemporal = this.ListaTokens.removeFirst(); 
         
-        tokenTemporal = this.ListaTokens.removeFirst(); // Extraer número
+        tokenTemporal = this.ListaTokens.removeFirst(); 
         if (tokenTemporal.getTipoToken().equals("Numero")) {
-            tokenTemporal = this.ListaTokens.removeFirst(); // Extraer ','
+            tokenTemporal = this.ListaTokens.removeFirst(); 
             
             if (tokenTemporal.getTipoToken().equals("Coma")) {
-                tokenTemporal = this.ListaTokens.removeFirst(); // Extraer segundo número
+                tokenTemporal = this.ListaTokens.removeFirst(); 
                 
                 if (tokenTemporal.getTipoToken().equals("Numero")) {
-                    tokenTemporal = this.ListaTokens.removeFirst(); // Extraer ')'
+                    tokenTemporal = this.ListaTokens.removeFirst(); 
                     
                     if (tokenTemporal.getTipoToken().equals("ParentesisCerrar")) {
                         System.out.println("POSNUM");
                         return;
                     } else {
-                        // Error: se esperaba paréntesis de cierre
+                 
+                        agregarErrorEspecifico(tokenTemporal, "Se esperaba un parentesis de cierre, no " + tokenTemporal.getLexema());
                     }
                 } else {
-                    // Error: se esperaba un número
+                  
+                    agregarErrorEspecifico(tokenTemporal, "Se esperaba un numero, no " + tokenTemporal.getLexema());
                 }
             } else {
-                // Error: se esperaba una coma
+                agregarErrorEspecifico(tokenTemporal, "Se esperaba una coma, no " + tokenTemporal.getLexema());
             }
         } else {
-            // Error: se esperaba un número
+            agregarErrorEspecifico(tokenTemporal, "Se esperaba un numero, no " + tokenTemporal.getLexema());
         }
     } else {
-        // Error: token inesperado
+        
     }
     }
     
@@ -366,19 +396,23 @@ public class AnaSintactico {
                         this.OBJECTCASE();
                         return;
                     } else {
-                        // Error: se esperaba 'at'
+                      
+                        agregarErrorEspecifico(tokenTemporal, "Se esperaba palabra at, no " + tokenTemporal.getLexema());
                     }
                 } else {
-                    // Error: se esperaba un tipo de objeto válido
+          
+                    agregarErrorEspecifico(tokenTemporal, "Se esperaba uno de los posibles objetos, no " + tokenTemporal.getLexema());
                 }
             } else {
-                // Error: se esperaban dos puntos
+               
+                agregarErrorEspecifico(tokenTemporal, "Se esperaban dos puntos, no " + tokenTemporal.getLexema());
             }
         } else {
-            // Error: se esperaba una cadena de texto
+           
+            agregarErrorEspecifico(tokenTemporal, "Se esperaba una cadena de texto, no " + tokenTemporal.getLexema());
         }
     } else {
-        // Error: se esperaba la palabra 'object'
+       agregarErrorEspecifico(tokenTemporal, "Se esperaba palabra object, no " + tokenTemporal.getLexema());
     }
     }
     
