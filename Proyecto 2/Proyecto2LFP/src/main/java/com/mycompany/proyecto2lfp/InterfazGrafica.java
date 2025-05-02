@@ -208,35 +208,45 @@ public class InterfazGrafica extends javax.swing.JFrame {
     /**
      * Analiza el archivo cargado
      */
+    
     private void analizarArchivo() {
-        if (contenidoArchivo != null && contenidoArchivo.length() > 0) {
-            try {
-                // Análisis léxico
-                analizadorLexico.analizarArchivo(contenidoArchivo);
-                
-                // Análisis sintáctico
-                analizadorSintactico = new AnaSintactico(analizadorLexico.getTokens());
-                analizadorSintactico.analizar();
-                
-                // Mostrar mensaje de éxito
-                JOptionPane.showMessageDialog(this, 
-                        "Análisis completado exitosamente.",
-                        "Análisis Completado", 
-                        JOptionPane.INFORMATION_MESSAGE);
-                
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, 
-                        "Error durante el análisis: " + ex.getMessage(),
-                        "Error de Análisis", 
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
+    // Obtenemos el texto actual del área de texto
+    String textoActual = txtAreaContenido.getText();
+    
+    if (textoActual != null && !textoActual.isEmpty()) {
+        try {
+            // Actualizamos el contenidoArchivo con el texto modificado
+            contenidoArchivo = new StringBuilder(textoActual);
+            
+            // Análisis léxico con el texto actual
+            analizadorLexico.analizarArchivo(contenidoArchivo);
+            analizadorLexico.imprimirTokens();
+            System.out.println("");
+            analizadorLexico.imprimirErrores();
+            
+            // Análisis sintáctico
+            analizadorSintactico = new AnaSintactico(analizadorLexico.getTokens());
+            analizadorSintactico.analizar();
+            
+            // Mostrar mensaje de éxito
             JOptionPane.showMessageDialog(this, 
-                    "No hay contenido para analizar. Por favor cargue un archivo primero.",
-                    "Sin Contenido", 
-                    JOptionPane.WARNING_MESSAGE);
+                    "Análisis completado exitosamente.",
+                    "Análisis Completado", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, 
+                    "Error durante el análisis: " + ex.getMessage(),
+                    "Error de Análisis", 
+                    JOptionPane.ERROR_MESSAGE);
         }
+    } else {
+        JOptionPane.showMessageDialog(this, 
+                "No hay contenido para analizar. Por favor escriba o cargue texto primero.",
+                "Sin Contenido", 
+                JOptionPane.WARNING_MESSAGE);
     }
+}
     
     /**
      * Genera reportes HTML
