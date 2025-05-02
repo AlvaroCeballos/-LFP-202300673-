@@ -247,7 +247,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
             System.out.println("");
             analizadorLexico.imprimirErrores();
              analizadorLexico.generarReporteHTML("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto 2\\reporteTokensBoton.html");
-            
+            analizadorLexico.generarReporteErroresHTML("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto 2\\reporteErroresBoton.html");
             // Análisis sintáctico
             analizadorSintactico = new AnaSintactico(analizadorLexico.getTokens());
             analizadorSintactico.analizar();
@@ -279,9 +279,8 @@ public class InterfazGrafica extends javax.swing.JFrame {
      * Genera reportes HTML
      */
     private void generarReportes() {
-        // Esta funcionalidad se implementará más adelante
        
-        //analizadorLexico.generarReporteErroresHTML("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto1\\Proyecto1LFP\\reporteErroresBoton.html");
+        //
     }
 
     /**
