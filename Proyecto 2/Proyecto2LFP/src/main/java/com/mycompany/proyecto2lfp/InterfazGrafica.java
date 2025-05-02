@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.Set;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -88,7 +89,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         JPanel panelSuperior = new JPanel(new BorderLayout());
         
         // ComboBox para mundos
-        String[] mundos = {"Isla del místico", "Valle de las brujas", "Montaña de dragones"};
+        String[] mundos = {};
         comboMundos = new JComboBox<>(mundos);
         comboMundos.setPreferredSize(new Dimension(200, 30));
         panelSuperior.add(comboMundos, BorderLayout.EAST);
@@ -208,6 +209,28 @@ public class InterfazGrafica extends javax.swing.JFrame {
     /**
      * Analiza el archivo cargado
      */
+    private void actualizarComboBoxMundos() {
+    if (analizadorSintactico != null) {
+        Set<String> nombresMundos = analizadorSintactico.getNombresMundos();
+        
+        // Limpiar el combobox
+        comboMundos.removeAllItems();
+        
+        // Añadir los nombres de mundos (quitando las comillas)
+        for (String nombre : nombresMundos) {
+            // Eliminar comillas si existen
+            if (nombre.startsWith("\"") && nombre.endsWith("\"")) {
+                nombre = nombre.substring(1, nombre.length() - 1);
+            }
+            comboMundos.addItem(nombre);
+        }
+        
+        // Seleccionar el primer elemento si existe
+        if (!nombresMundos.isEmpty()) {
+            comboMundos.setSelectedIndex(0);
+        }
+    }
+}
     
     private void analizarArchivo() {
     // Obtenemos el texto actual del área de texto
@@ -227,6 +250,9 @@ public class InterfazGrafica extends javax.swing.JFrame {
             // Análisis sintáctico
             analizadorSintactico = new AnaSintactico(analizadorLexico.getTokens());
             analizadorSintactico.analizar();
+            
+            // Actualizar el combobox con los nombres de los mundos
+            actualizarComboBoxMundos();
             
             // Mostrar mensaje de éxito
             JOptionPane.showMessageDialog(this, 

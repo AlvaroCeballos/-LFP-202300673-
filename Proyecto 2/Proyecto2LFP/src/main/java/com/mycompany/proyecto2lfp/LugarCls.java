@@ -9,14 +9,14 @@ package com.mycompany.proyecto2lfp;
  * @author aceba
  */
 public class LugarCls {
-    String nombreLugar;
+    String identificador;
     String tipo; 
     String LposX;
     String LposY;
     
     
-    public LugarCls(String nombreLugar, String tipo, String LposX, String LposY){
-        this.nombreLugar = nombreLugar;
+    public LugarCls(String identificador, String tipo, String LposX, String LposY){
+        this.identificador = identificador;
         this.tipo = tipo;
         this.LposX = LposX;
         this.LposY = LposY;

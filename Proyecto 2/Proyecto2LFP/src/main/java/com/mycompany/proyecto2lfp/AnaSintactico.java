@@ -7,6 +7,7 @@ package com.mycompany.proyecto2lfp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -74,6 +75,7 @@ public class AnaSintactico {
             
             if(tokenTemporal.getTipoToken().equals("Cadena de texto")){
                 this.nombreMundoA = tokenTemporal.getLexema();
+                this.HMmundo.put(nombreMundoA, new MundoCls());
                 tokenTemporal = this.ListaTokens.removeFirst();
 
                 
@@ -150,7 +152,7 @@ public class AnaSintactico {
                                 tokenTemporal = this.ListaTokens.removeFirst();
 
                                 if (tokenTemporal.getTipoToken().equals("Numero")) {
-
+                                     LposX = tokenTemporal.getLexema();
                                     tokenTemporal = this.ListaTokens.removeFirst();
 
                                     if (tokenTemporal.getTipoToken().equals("Coma")) {
@@ -158,11 +160,13 @@ public class AnaSintactico {
                                         tokenTemporal = this.ListaTokens.removeFirst();
 
                                         if (tokenTemporal.getTipoToken().equals("Numero")) {
-
+                                            LposY = tokenTemporal.getLexema();
+                                            
                                             tokenTemporal = this.ListaTokens.removeFirst();
 
                                             if (tokenTemporal.getTipoToken().equals("ParentesisCerrar")) {
-
+                                               LugarCls lugar = new LugarCls(nombreLugar, tipo, LposX, LposY);
+                                               this.HMmundo.get(nombreMundoA).agregarPlace(nombreLugar, lugar);
                                                 return;
 
                                             } else {
@@ -366,4 +370,9 @@ public class AnaSintactico {
         // Error: se esperaba la palabra 'object'
     }
     }
+    
+    
+    public Set<String> getNombresMundos() {
+    return this.HMmundo.keySet();
+}
 }

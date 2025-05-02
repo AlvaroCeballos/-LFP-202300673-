@@ -14,7 +14,7 @@ object "Tesoro":tesoro at Cueva
 object "Llave":llave at (3,2)
 object "Libro":libro at Pueblo
 },
-world "Isla del Místico" {
+world "Isla 2" {
 place Playa:playa at (0,0)
 place Cueva:cueva at (2,1)
 place Templo:templo at (3,3)
