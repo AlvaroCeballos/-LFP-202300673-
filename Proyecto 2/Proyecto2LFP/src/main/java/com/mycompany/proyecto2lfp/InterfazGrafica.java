@@ -72,7 +72,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         comboMundos = new JComboBox<>(mundos);
         comboMundos.setPreferredSize(new Dimension(200, 30));
         panelSuperior.add(comboMundos, BorderLayout.EAST);
-        btnGenerarReportes = new JButton("Generar reportes");
+        btnGenerarReportes = new JButton("Graficar");
         btnGenerarReportes.setBackground(new Color (34, 139, 34));
         panelSuperior.add(btnGenerarReportes, BorderLayout.WEST);
         panelPrincipal.add(panelSuperior, BorderLayout.NORTH);
@@ -89,42 +89,35 @@ public class InterfazGrafica extends javax.swing.JFrame {
     }
  
  
-  private void configurarEventos() {
-        btnCargarArchivo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cargarArchivo();
-            }
-        });
-        
-        btnLimpiarArea.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                limpiarArea();
-            }
-        });
-        
-        btnAnalizarArchivo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                analizarArchivo();
-            }
-        });
-        
-        btnGenerarReportes.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                generarReportes();
-            }
-        });
-        
-        comboMundos.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        graficarMundoSeleccionado();
-    }
-});
-    }
+private void configurarEventos() {
+    btnCargarArchivo.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            cargarArchivo();
+        }
+    });
+    
+    btnLimpiarArea.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            limpiarArea();
+        }
+    });
+    
+    btnAnalizarArchivo.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            analizarArchivo();
+        }
+    });
+    
+    btnGenerarReportes.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            generarReportes();
+        }
+    });
+}
     
   
   private void graficarMundoSeleccionado() {
@@ -258,7 +251,7 @@ private void mostrarImagenGenerada() {
     }
 }
     
-    private void analizarArchivo() {
+   private void analizarArchivo() {
     String textoActual = txtAreaContenido.getText();
     
     if (textoActual != null && !textoActual.isEmpty()) {
@@ -273,7 +266,10 @@ private void mostrarImagenGenerada() {
             analizadorSintactico = new AnaSintactico(analizadorLexico.getTokens());
             analizadorSintactico.analizar();
             analizadorSintactico.generarReporteErroresHTML("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto 2\\reporteErroresBotonSintactico.html");
+            
+            // Actualizar combobox con los mundos encontrados
             actualizarComboBoxMundos();
+            
             JOptionPane.showMessageDialog(this, 
                     "Análisis completado exitosamente.",
                     "Análisis Completado", 
@@ -291,20 +287,43 @@ private void mostrarImagenGenerada() {
                 "Sin Contenido", 
                 JOptionPane.WARNING_MESSAGE);
     }
-    
-    if (comboMundos.getItemCount() > 0) {
-        graficarMundoSeleccionado();
-    }
-    
-    
-    actualizarComboBoxMundos();
 }
-    
 
-    private void generarReportes() {
-       
-        //
+// Método generarReportes - implementando la funcionalidad de graficación
+private void generarReportes() {
+    // Verificar si hay mundos disponibles para graficar
+    if (analizadorSintactico == null) {
+        JOptionPane.showMessageDialog(this, 
+                "No hay análisis realizado. Por favor analice un archivo primero.",
+                "Sin datos de análisis", 
+                JOptionPane.WARNING_MESSAGE);
+        return;
     }
+    
+    if (comboMundos.getItemCount() == 0) {
+        JOptionPane.showMessageDialog(this, 
+                "No se encontraron mundos para graficar.",
+                "Sin mundos", 
+                JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    try {
+        // Graficar el mundo seleccionado
+        graficarMundoSeleccionado();
+        
+        JOptionPane.showMessageDialog(this, 
+                "Gráfico generado exitosamente.",
+                "Gráfico generado", 
+                JOptionPane.INFORMATION_MESSAGE);
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, 
+                "Error al generar el gráfico: " + ex.getMessage(),
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+    }
+}
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
