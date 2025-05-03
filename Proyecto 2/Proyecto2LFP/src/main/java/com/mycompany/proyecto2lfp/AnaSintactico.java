@@ -56,7 +56,7 @@ public class AnaSintactico {
     public void analizar(){
         this.INICIO();
         
-        this.HMmundo.get(nombreMundoA).graficar();
+       this.HMmundo.get(nombreMundoA).graficar();
     }
     
     public void INICIO(){
@@ -104,13 +104,13 @@ public class AnaSintactico {
                 
                 if(tokenTemporal.getTipoToken().equals("LlaveAbrir")){
                     this.LPLACES();
-                    //this.LCONNECTS();
-                    //this.LOBJECTS();
+                    this.LCONNECTS();
+                    this.LOBJECTS();
                     
                     tokenTemporal = this.ListaTokens.removeFirst();
                     
                     if(tokenTemporal.getTipoToken().equals("LlaveCerrar")){
-                        //Continuo
+
                         return;
                     }else{
   
@@ -395,7 +395,6 @@ public class AnaSintactico {
                     tokenTemporal = this.ListaTokens.removeFirst();
                     
                     if (tokenTemporal.getTipoToken().equals("PRAt")) {
-                        // Ahora llama a POSCASE para manejar la alternativa
                         this.OBJECTCASE();
                         return;
                     } else {
@@ -432,11 +431,9 @@ public class AnaSintactico {
     if (!this.ListaTokens.isEmpty()) {
         return this.ListaTokens.getFirst();
     }
-    // Token ficticio para manejar el final del archivo
     return new Token("EOF", "FinDeArchivo", this.posX, this.posY);
 }
 
-// Método simplificado para agregar errores
 public void agregarErrorSintactico(String mensajeError) {
     Token tokenActual = getTokenActual();
     this.ListaErrores.add(new ErrorSintactico(

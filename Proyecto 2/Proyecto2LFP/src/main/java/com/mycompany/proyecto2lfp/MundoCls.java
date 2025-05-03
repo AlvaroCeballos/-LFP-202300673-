@@ -66,7 +66,7 @@ public class MundoCls {
          try{ 
              FileWriter writer = new FileWriter(archivodot);
              writer.write(dotContent);
-             writer.close(); // Muy importante
+             writer.close();
             }catch (IOException e) {
             System.out.println("Error al escribir el archivo.");
             e.printStackTrace();

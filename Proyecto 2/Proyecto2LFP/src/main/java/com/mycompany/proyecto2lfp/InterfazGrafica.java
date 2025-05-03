@@ -25,42 +25,28 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private JPanel panelImagen;
     private JComboBox<String> comboMundos;
     private JButton btnCargarArchivo, btnLimpiarArea, btnAnalizarArchivo, btnGenerarReportes;
-    
-    // Analizadores
     private AnaLexico analizadorLexico;
     private AnaSintactico analizadorSintactico;
-    
-    // Contenido del archivo
     private StringBuilder contenidoArchivo;
 
     /**
      * Creates new form InterfazGrafica
      */
     public InterfazGrafica() {
-        // Inicializar analizadores
         analizadorLexico = new AnaLexico();
-        
-        // Configurar ventana principal
-        setTitle("Acerca de");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
         setLocationRelativeTo(null);
-        
-        // Inicializar componentes
         initComponents();
         initComponents2();
     }
     
     
  private void initComponents2() {
-        // Crear panel principal con BorderLayout
         JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
         panelPrincipal.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
-        // Panel central con GridLayout para texto e imagen
+        panelPrincipal.setBackground(new Color(70, 130, 180));
         JPanel panelCentral = new JPanel(new GridLayout(1, 2, 10, 0));
-        
-        // Área de texto
         txtAreaContenido = new JTextArea();
         txtAreaContenido.setFont(new Font("Monospaced", Font.PLAIN, 12));
         JScrollPane scrollTexto = new JScrollPane(txtAreaContenido);
@@ -70,8 +56,6 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 TitledBorder.CENTER,
                 TitledBorder.TOP));
         panelCentral.add(scrollTexto);
-        
-        // Panel para imagen
         panelImagen = new JPanel();
         panelImagen.setLayout(new BorderLayout());
         panelImagen.setBorder(BorderFactory.createTitledBorder(
@@ -81,52 +65,30 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 TitledBorder.TOP));
         panelImagen.setBackground(Color.LIGHT_GRAY);
         panelCentral.add(panelImagen);
-        
-        // Añadir panel central a panel principal
         panelPrincipal.add(panelCentral, BorderLayout.CENTER);
-        
-        // Panel superior para combo box y botón de reportes
         JPanel panelSuperior = new JPanel(new BorderLayout());
-        
-        // ComboBox para mundos
         String[] mundos = {};
         comboMundos = new JComboBox<>(mundos);
         comboMundos.setPreferredSize(new Dimension(200, 30));
         panelSuperior.add(comboMundos, BorderLayout.EAST);
-        
-        // Botón para generar reportes
         btnGenerarReportes = new JButton("Generar reportes");
+        btnGenerarReportes.setBackground(new Color (34, 139, 34));
         panelSuperior.add(btnGenerarReportes, BorderLayout.WEST);
-        
-        // Añadir panel superior a panel principal
         panelPrincipal.add(panelSuperior, BorderLayout.NORTH);
-        
-        // Panel inferior para botones
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        
-        // Botones
         btnCargarArchivo = new JButton("Cargar archivo");
         btnLimpiarArea = new JButton("Limpiar área");
         btnAnalizarArchivo = new JButton("Analizar archivo");
-        
-        // Añadir botones al panel
         panelBotones.add(btnCargarArchivo);
         panelBotones.add(btnLimpiarArea);
         panelBotones.add(btnAnalizarArchivo);
-        
-        // Añadir panel de botones al panel principal
         panelPrincipal.add(panelBotones, BorderLayout.SOUTH);
-        
-        // Añadir panel principal al JFrame
         setContentPane(panelPrincipal);
-        
-        // Configurar eventos de botones
         configurarEventos();
     }
  
  
   private void configurarEventos() {
-        // Evento del botón Cargar Archivo
         btnCargarArchivo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -134,7 +96,6 @@ public class InterfazGrafica extends javax.swing.JFrame {
             }
         });
         
-        // Evento del botón Limpiar Área
         btnLimpiarArea.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -142,7 +103,6 @@ public class InterfazGrafica extends javax.swing.JFrame {
             }
         });
         
-        // Evento del botón Analizar Archivo
         btnAnalizarArchivo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -150,7 +110,6 @@ public class InterfazGrafica extends javax.swing.JFrame {
             }
         });
         
-        // Evento del botón Generar Reportes
         btnGenerarReportes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -159,9 +118,6 @@ public class InterfazGrafica extends javax.swing.JFrame {
         });
     }
     
-    /**
-     * Carga un archivo seleccionado por el usuario
-     */
     private void cargarArchivo() {
         JFileChooser fileChooser = new JFileChooser();
         int seleccion = fileChooser.showOpenDialog(this);
@@ -169,7 +125,6 @@ public class InterfazGrafica extends javax.swing.JFrame {
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             File archivo = fileChooser.getSelectedFile();
             try {
-                // Leer el contenido del archivo
                 contenidoArchivo = new StringBuilder();
                 BufferedReader br = new BufferedReader(new FileReader(archivo));
                 String linea;
@@ -177,11 +132,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
                     contenidoArchivo.append(linea).append("\n");
                 }
                 br.close();
-                
-                // Mostrar contenido en el área de texto
                 txtAreaContenido.setText(contenidoArchivo.toString());
-                
-                // Mensaje de éxito
                 JOptionPane.showMessageDialog(this, 
                         "Archivo cargado exitosamente: " + archivo.getName(),
                         "Archivo Cargado", 
@@ -196,9 +147,6 @@ public class InterfazGrafica extends javax.swing.JFrame {
         }
     }
     
-    /**
-     * Limpia el área de texto y la imagen
-     */
     private void limpiarArea() {
         txtAreaContenido.setText("");
         panelImagen.removeAll();
@@ -206,26 +154,18 @@ public class InterfazGrafica extends javax.swing.JFrame {
         contenidoArchivo = null;
     }
     
-    /**
-     * Analiza el archivo cargado
-     */
     private void actualizarComboBoxMundos() {
     if (analizadorSintactico != null) {
         Set<String> nombresMundos = analizadorSintactico.getNombresMundos();
-        
-        // Limpiar el combobox
         comboMundos.removeAllItems();
-        
-        // Añadir los nombres de mundos (quitando las comillas)
+       
         for (String nombre : nombresMundos) {
-            // Eliminar comillas si existen
             if (nombre.startsWith("\"") && nombre.endsWith("\"")) {
                 nombre = nombre.substring(1, nombre.length() - 1);
             }
             comboMundos.addItem(nombre);
         }
-        
-        // Seleccionar el primer elemento si existe
+       
         if (!nombresMundos.isEmpty()) {
             comboMundos.setSelectedIndex(0);
         }
@@ -233,30 +173,21 @@ public class InterfazGrafica extends javax.swing.JFrame {
 }
     
     private void analizarArchivo() {
-    // Obtenemos el texto actual del área de texto
     String textoActual = txtAreaContenido.getText();
     
     if (textoActual != null && !textoActual.isEmpty()) {
         try {
-            // Actualizamos el contenidoArchivo con el texto modificado
             contenidoArchivo = new StringBuilder(textoActual);
-            
-            // Análisis léxico con el texto actual
             analizadorLexico.analizarArchivo(contenidoArchivo);
             analizadorLexico.imprimirTokens();
             System.out.println("");
             analizadorLexico.imprimirErrores();
              analizadorLexico.generarReporteHTML("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto 2\\reporteTokensBoton.html");
             analizadorLexico.generarReporteErroresHTML("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto 2\\reporteErroresBoton.html");
-            // Análisis sintáctico
             analizadorSintactico = new AnaSintactico(analizadorLexico.getTokens());
             analizadorSintactico.analizar();
             analizadorSintactico.generarReporteErroresHTML("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto 2\\reporteErroresBotonSintactico.html");
-            
-            // Actualizar el combobox con los nombres de los mundos
             actualizarComboBoxMundos();
-            
-            // Mostrar mensaje de éxito
             JOptionPane.showMessageDialog(this, 
                     "Análisis completado exitosamente.",
                     "Análisis Completado", 
@@ -276,9 +207,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
     }
 }
     
-    /**
-     * Genera reportes HTML
-     */
+
     private void generarReportes() {
        
         //

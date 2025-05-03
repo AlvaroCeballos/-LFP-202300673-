@@ -164,7 +164,7 @@ public void q2(char caracter) {
                   this.buffer.equals("templo") || this.buffer.equals("jungla") || 
                   this.buffer.equals("montana") || this.buffer.equals("pueblo") || 
                   this.buffer.equals("isla") || this.buffer.equals("rio") || 
-                  this.buffer.equals("volcan") || this.buffer.equals("pantalla")) {
+                  this.buffer.equals("volcan") || this.buffer.equals("pantano")) {
             
             this.nuevoToken(this.buffer, "PRLugar", posX, posY); 
             this.estado = 0;
