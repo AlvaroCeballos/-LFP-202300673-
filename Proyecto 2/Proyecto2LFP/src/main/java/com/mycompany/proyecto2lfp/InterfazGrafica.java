@@ -25,7 +25,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
     private JTextArea txtAreaContenido;
     private JPanel panelImagen;
     private JComboBox<String> comboMundos;
-    private JButton btnCargarArchivo, btnLimpiarArea, btnAnalizarArchivo, btnGenerarReportes;
+    private JButton btnCargarArchivo, btnLimpiarArea, btnAnalizarArchivo, btnGenerarReportes, btnAcercaDe;
     private AnaLexico analizadorLexico;
     private AnaSintactico analizadorSintactico;
     private StringBuilder contenidoArchivo;
@@ -80,9 +80,15 @@ public class InterfazGrafica extends javax.swing.JFrame {
         btnCargarArchivo = new JButton("Cargar archivo");
         btnLimpiarArea = new JButton("Limpiar área");
         btnAnalizarArchivo = new JButton("Analizar archivo");
+        
+        btnAcercaDe = new JButton("Acerca de");
+    btnAcercaDe.setBackground(new Color(70, 130, 180));
+    
+    
         panelBotones.add(btnCargarArchivo);
         panelBotones.add(btnLimpiarArea);
         panelBotones.add(btnAnalizarArchivo);
+        panelBotones.add(btnAcercaDe);
         panelPrincipal.add(panelBotones, BorderLayout.SOUTH);
         setContentPane(panelPrincipal);
         configurarEventos();
@@ -117,29 +123,41 @@ private void configurarEventos() {
             generarReportes();
         }
     });
-}
     
+        btnCargarArchivo.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            cargarArchivo();
+        }
+    });
+    btnAcercaDe.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            mostrarAcercaDe();
+        }
+    });
+}
+    private void mostrarAcercaDe() {
+    JOptionPane.showMessageDialog(
+        this,
+        "Alvaro Gabriel Ceballos Gil\n202300673",
+        "Acerca de",
+        JOptionPane.INFORMATION_MESSAGE
+    );
+}
   
   private void graficarMundoSeleccionado() {
-    // Verificar si hay un analizador sintáctico y mundos disponibles
     if (analizadorSintactico == null || analizadorSintactico.getNombresMundos().isEmpty()) {
         return;
     }
-    
-    // Obtener el nombre del mundo seleccionado
     String mundoSeleccionado = (String) comboMundos.getSelectedItem();
     if (mundoSeleccionado == null) {
         return;
     }
-    
-    // Ajustar el nombre para buscar en el HashMap (con comillas)
     String nombreMundoKey = "\"" + mundoSeleccionado + "\"";
     
     try {
-        // Generar la gráfica para el mundo seleccionado
         analizadorSintactico.graficarMundo(nombreMundoKey);
-        
-        // Mostrar la imagen generada en el panel
         mostrarImagenGenerada();
         
     } catch (Exception ex) {
@@ -150,37 +168,25 @@ private void configurarEventos() {
     }
 }
 
-/**
- * Muestra la imagen generada en el panel de imagen
- */
 private void mostrarImagenGenerada() {
     try {
-        // Ruta de la imagen generada
         String rutaImagen = "C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto 2\\grafica.png";
         File archivo = new File(rutaImagen);
         
         if (archivo.exists()) {
-            // Cargar la imagen
+
             ImageIcon icono = new ImageIcon(rutaImagen);
-            
-            // Redimensionar la imagen para que se ajuste al panel
             Image imagen = icono.getImage();
             int anchoPanel = panelImagen.getWidth();
             int altoPanel = panelImagen.getHeight();
-            
-            // Solo redimensionar si el panel tiene dimensiones válidas
             if (anchoPanel > 0 && altoPanel > 0) {
                 Image imagenRedimensionada = imagen.getScaledInstance(
                         anchoPanel - 20, altoPanel - 20, Image.SCALE_SMOOTH);
                 icono = new ImageIcon(imagenRedimensionada);
             }
-            
-            // Limpiar el panel y mostrar la imagen
             panelImagen.removeAll();
             JLabel etiquetaImagen = new JLabel(icono);
             panelImagen.add(etiquetaImagen, BorderLayout.CENTER);
-            
-            // Actualizar el panel
             panelImagen.revalidate();
             panelImagen.repaint();
         } else {
@@ -266,10 +272,7 @@ private void mostrarImagenGenerada() {
             analizadorSintactico = new AnaSintactico(analizadorLexico.getTokens());
             analizadorSintactico.analizar();
             analizadorSintactico.generarReporteErroresHTML("C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto 2\\reporteErroresBotonSintactico.html");
-            
-            // Actualizar combobox con los mundos encontrados
             actualizarComboBoxMundos();
-            
             JOptionPane.showMessageDialog(this, 
                     "Análisis completado exitosamente.",
                     "Análisis Completado", 
@@ -288,10 +291,7 @@ private void mostrarImagenGenerada() {
                 JOptionPane.WARNING_MESSAGE);
     }
 }
-
-// Método generarReportes - implementando la funcionalidad de graficación
 private void generarReportes() {
-    // Verificar si hay mundos disponibles para graficar
     if (analizadorSintactico == null) {
         JOptionPane.showMessageDialog(this, 
                 "No hay análisis realizado. Por favor analice un archivo primero.",
@@ -309,7 +309,7 @@ private void generarReportes() {
     }
     
     try {
-        // Graficar el mundo seleccionado
+    
         graficarMundoSeleccionado();
         
         JOptionPane.showMessageDialog(this, 
