@@ -55,6 +55,8 @@ public class AnaSintactico {
  
     public void analizar(){
         this.INICIO();
+        
+        this.HMmundo.get(nombreMundoA).graficar();
     }
     
     public void INICIO(){
@@ -102,8 +104,8 @@ public class AnaSintactico {
                 
                 if(tokenTemporal.getTipoToken().equals("LlaveAbrir")){
                     this.LPLACES();
-                    this.LCONNECTS();
-                    this.LOBJECTS();
+                    //this.LCONNECTS();
+                    //this.LOBJECTS();
                     
                     tokenTemporal = this.ListaTokens.removeFirst();
                     
