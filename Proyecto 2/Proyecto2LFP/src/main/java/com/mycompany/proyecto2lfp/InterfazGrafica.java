@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.proyecto2lfp;
-
+import javax.swing.ImageIcon;
+import java.awt.Image;
 
 import javax.swing.*;
 import java.awt.*;
@@ -116,8 +117,93 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 generarReportes();
             }
         });
+        
+        comboMundos.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        graficarMundoSeleccionado();
+    }
+});
     }
     
+  
+  private void graficarMundoSeleccionado() {
+    // Verificar si hay un analizador sintáctico y mundos disponibles
+    if (analizadorSintactico == null || analizadorSintactico.getNombresMundos().isEmpty()) {
+        return;
+    }
+    
+    // Obtener el nombre del mundo seleccionado
+    String mundoSeleccionado = (String) comboMundos.getSelectedItem();
+    if (mundoSeleccionado == null) {
+        return;
+    }
+    
+    // Ajustar el nombre para buscar en el HashMap (con comillas)
+    String nombreMundoKey = "\"" + mundoSeleccionado + "\"";
+    
+    try {
+        // Generar la gráfica para el mundo seleccionado
+        analizadorSintactico.graficarMundo(nombreMundoKey);
+        
+        // Mostrar la imagen generada en el panel
+        mostrarImagenGenerada();
+        
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, 
+                "Error al graficar el mundo: " + ex.getMessage(),
+                "Error de Graficación", 
+                JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+/**
+ * Muestra la imagen generada en el panel de imagen
+ */
+private void mostrarImagenGenerada() {
+    try {
+        // Ruta de la imagen generada
+        String rutaImagen = "C:\\Users\\aceba\\OneDrive\\Desktop\\Practica1\\-LFP-202300673-\\Proyecto 2\\grafica.png";
+        File archivo = new File(rutaImagen);
+        
+        if (archivo.exists()) {
+            // Cargar la imagen
+            ImageIcon icono = new ImageIcon(rutaImagen);
+            
+            // Redimensionar la imagen para que se ajuste al panel
+            Image imagen = icono.getImage();
+            int anchoPanel = panelImagen.getWidth();
+            int altoPanel = panelImagen.getHeight();
+            
+            // Solo redimensionar si el panel tiene dimensiones válidas
+            if (anchoPanel > 0 && altoPanel > 0) {
+                Image imagenRedimensionada = imagen.getScaledInstance(
+                        anchoPanel - 20, altoPanel - 20, Image.SCALE_SMOOTH);
+                icono = new ImageIcon(imagenRedimensionada);
+            }
+            
+            // Limpiar el panel y mostrar la imagen
+            panelImagen.removeAll();
+            JLabel etiquetaImagen = new JLabel(icono);
+            panelImagen.add(etiquetaImagen, BorderLayout.CENTER);
+            
+            // Actualizar el panel
+            panelImagen.revalidate();
+            panelImagen.repaint();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "No se encontró el archivo de imagen generado.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this,
+                "Error al mostrar la imagen: " + ex.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+
+
     private void cargarArchivo() {
         JFileChooser fileChooser = new JFileChooser();
         int seleccion = fileChooser.showOpenDialog(this);
@@ -205,6 +291,13 @@ public class InterfazGrafica extends javax.swing.JFrame {
                 "Sin Contenido", 
                 JOptionPane.WARNING_MESSAGE);
     }
+    
+    if (comboMundos.getItemCount() > 0) {
+        graficarMundoSeleccionado();
+    }
+    
+    
+    actualizarComboBoxMundos();
 }
     
 

@@ -56,7 +56,6 @@ public class AnaSintactico {
     public void analizar(){
         this.INICIO();
         
-       this.HMmundo.get(nombreMundoA).graficar();
     }
     
     public void INICIO(){
@@ -500,5 +499,17 @@ public void agregarErrorSintactico(String mensajeError) {
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")
                 .replace("'", "&#39;");
+}
+    
+    public void graficarMundo(String nombreMundo) {
+    // Verificar si el mundo existe
+    if (this.HMmundo.containsKey(nombreMundo)) {
+        // Obtener el objeto MundoCls y llamar a su método graficar
+        MundoCls mundo = this.HMmundo.get(nombreMundo);
+        mundo.graficar();
+    } else {
+        // Si no existe, lanzar una excepción
+        throw new IllegalArgumentException("El mundo '" + nombreMundo + "' no existe");
+    }
 }
 }
